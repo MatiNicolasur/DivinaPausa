@@ -1,0 +1,841 @@
+---
+// Componente CTASection.astro
+// Sección de llamada a la acción con pasos y botones de contacto
+---
+
+<style>
+  /* CTA Section */
+  .cta {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    background-color: var(--color-white);
+  }
+
+  .head-cta {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 80px 80px 20px;
+  }
+
+  .head-cta h2 {
+    display: inline-block;
+    color: var(--color-light-pink);
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background-color: var(--color-primary);
+    padding: 5px 15px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  .head-cta h1 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 3.5rem;
+    color: var(--color-text);
+  }
+
+  .body-cta {
+    display: flex;
+    justify-content: center;
+    padding: 20px 80px 80px;
+    gap: 40px;
+  }
+
+  .body-cta-items {
+    flex: 2;
+    max-width: 600px;
+  }
+
+  .body-cta-item-1,
+  .body-cta-item-2,
+  .body-cta-item-3,
+  .body-cta-item-4 {
+    margin-bottom: 25px;
+  }
+
+  .body-cta-item-1-content-title,
+  .body-cta-item-2-content-title,
+  .body-cta-item-3-content-title,
+  .body-cta-item-4-content-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 2px solid var(--color-text-light);
+  }
+
+  .body-cta-item-1-content-title h4,
+  .body-cta-item-2-content-title h4,
+  .body-cta-item-3-content-title h4,
+  .body-cta-item-4-content-title h4 {
+    background-color: var(--color-primary);
+    color: var(--color-light-pink);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-family: var(--font-primary);
+  }
+
+  .body-cta-item-1-content-title h2,
+  .body-cta-item-2-content-title h2,
+  .body-cta-item-3-content-title h2,
+  .body-cta-item-4-content-title h2 {
+    font-family: var(--font-primary);
+    color: var(--color-text);
+    font-size: 1.5rem;
+  }
+
+  .body-cta-item-1-content-description p,
+  .body-cta-item-2-content-description p,
+  .body-cta-item-3-content-description p,
+  .body-cta-item-4-content-description p {
+    padding-left: 45px;
+    color: var(--color-text-light);
+    font-size: 0.95rem;
+  }
+
+  .body-cta-buttons {
+    flex: 1;
+    max-width: 600px;
+    background-image: url("/images/cocktail.jpg");
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .head-cta h1 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 3.5rem;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .body-cta {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0 80px;
+    gap: 40px;
+    position: relative;
+  }
+
+  .body-cta-items {
+    flex: 2;
+    max-width: 700px;
+    position: relative;
+  }
+  
+  /* Línea decorativa vertical */
+  .body-cta-items::before {
+    content: "";
+    position: absolute;
+    left: 79px;
+    top: 25px;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--color-primary), transparent);
+    z-index: 0;
+  }
+
+  .body-cta-item {
+    margin-bottom: 0px;
+    position: relative;
+    padding-left: 40px;
+    transition: transform 0.3s ease;
+  }
+
+  .body-cta-item-content-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    position: relative;
+  }
+
+
+  .body-cta-item-content-title h4 {
+    background-color: var(--color-primary);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+  }
+
+  .body-cta-item-content-title h2 {
+    font-family: var(--font-primary);
+    color: var(--color-text);
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
+  .body-cta-item-content-description p {
+    padding-left: 45px;
+    color: var(--color-text-light);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .body-cta-buttons {
+    flex: 1;
+    max-width: 600px;
+    background: #000;
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  /* Efecto de superposición */
+  .body-cta-buttons::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("/images/cocktail.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    z-index: 0;
+  }
+
+  .body-cta-buttons button {
+    background-color: var(--color-light-pink);
+    color: var(--color-dark);
+    border: none;
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    width: -webkit-fill-available;
+    cursor: pointer;
+    font-size: 1.05rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .body-cta-buttons button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    transition: transform 0.5s cubic-bezier(0.5, 1.6, 0.4, 0.7);
+  }
+
+  .body-cta-buttons button:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  .body-cta-buttons button i {
+    transition: transform 0.3s ease;
+  }
+  /* Estilo especial para el segundo botón */
+  .body-cta-buttons button:last-child {
+    background: var(--color-dark);
+    color: var(--color-white);
+    border: 2px solid var(--color-dark);
+  }
+  
+  .body-cta-buttons button:last-child:hover {
+    border-color: var(--color-primary);
+  }
+
+  /* Efecto de onda decorativa en la esquina superior derecha */
+  .cta-wave {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle at 100% 0%, var(--color-primary-light) 0%, transparent 70%);
+    opacity: 0.1;
+    z-index: -1;
+    border-radius: 50%;
+    transform: translate(30%, -30%);
+  }
+  /* Estilos para las alertas */
+  .cta-alert {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-primary);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-weight: 500;
+  }
+  
+  /* Efecto de clic en botones */
+  .cta-button-primary.clicked,
+  .cta-button-secondary.clicked {
+    transform: scale(0.95) !important;
+    opacity: 0.9;
+  }
+  
+  /* Estilos para el contenedor de botones */
+  .cta-buttons-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .cta-buttons-content h3 {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  
+  .cta-buttons-content > p {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 25px;
+    font-size: 1rem;
+  }
+  
+  .cta-buttons-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+
+  .cta-button-secondary {
+    background: var(--color-dark)!important;
+    color: var(--color-white);
+    border: 2px solid var(--color-dark);
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: all 1s ease;
+    width: 100%;
+  }
+  .cta-button-secondary:hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-light-pink);
+    color: var(--color-white);
+
+  }
+  
+  .cta-divider {
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 5px 0;
+  }
+  
+  .cta-divider::before,
+  .cta-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0 10px;
+  }
+  
+  .cta-contact-info {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .cta-contact-info p {
+    color: rgba(255, 255, 255, 0.7);
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .cta-contact-info i {
+    color: var(--color-primary);
+    width: 16px;
+    text-align: center;
+  }
+  
+  /* Efecto de hover mejorado para los ítems */
+  .body-cta-item {
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+  
+  
+  .body-cta-item-content {
+    border-radius: 12px;
+    padding: 20px 25px;
+    transition: all 0.3s ease;
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 1200px) {
+    .body-cta {
+      gap: 40px;
+    }
+    
+    .body-cta-items {
+      max-width: 600px;
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    .body-cta {
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 20px 60px;
+    }
+
+    .body-cta-items {
+      max-width: 100%;
+      margin-bottom: 30px;
+    }
+
+    .body-cta-buttons {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .body-cta {
+      flex-direction: column-reverse;
+      align-items: center;
+      gap: 40px;
+    }
+    .head-cta{
+      margin-bottom: 0px;
+    }
+    .body-cta-items{
+      display: none;
+    }
+    
+    .body-cta-buttons {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    .body-cta-items::before {
+      display: none;
+    }
+    
+    .body-cta-item {
+      padding-left: 0;
+    }
+    
+    .body-cta-item::before,
+    .body-cta-item:not(:last-child)::after {
+      display: none;
+    }
+    
+    .body-cta-item-content-title {
+      margin-bottom: 10px;
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .body-cta {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .body-cta-items,
+    .body-cta-buttons {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .head-cta {
+      padding: 40px 20px 20px;
+    }
+    
+    .body-cta {
+      padding: 20px 20px 60px;
+    }
+    
+    .head-cta h1 {
+      font-size: 2.5rem;
+    }
+    
+    .body-cta-item-1-content-title h2,
+    .body-cta-item-2-content-title h2,
+    .body-cta-item-3-content-title h2,
+    .body-cta-item-4-content-title h2 {
+      font-size: 1.3rem;
+    }
+
+    .head-cta h1 {
+      font-size: 2.2rem;
+    }
+    
+    .head-cta h2 {
+      font-size: 0.9rem;
+      padding: 4px 12px;
+    }
+
+    .body-cta-item-content-title h2 {
+      font-size: 1.25rem;
+    }
+    
+    .body-cta-item-content-title h4 {
+      width: 26px;
+      height: 26px;
+      font-size: 0.9rem;
+      margin-right: 12px;
+    }
+    
+    .body-cta-buttons {
+      padding: 30px 20px;
+    }
+    
+    .body-cta-buttons button {
+      padding: 14px 24px;
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .head-cta {
+      padding: 30px 15px 20px;
+    }
+
+    .head-cta h1 {
+      font-size: 1.8rem;
+    }
+
+    .head-cta h2 {
+      font-size: 0.85rem;
+      padding: 3px 12px;
+    }
+    
+    .head-cta::after {
+      width: 60px;
+      height: 2px;
+    }
+
+    .body-cta {
+      padding: 10px 0 30px;
+    }
+
+    .body-cta-item-content-title h2 {
+      font-size: 1.15rem;
+    }
+
+    .body-cta-item-content-title h4 {
+      width: 24px;
+      height: 24px;
+      font-size: 0.85rem;
+      margin-right: 10px;
+    }
+
+    .body-cta-item-content-description p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .body-cta-buttons {
+      padding: 25px 15px;
+      border-radius: 12px;
+    }
+
+    .body-cta-buttons button {
+      padding: 12px 20px;
+      font-size: 0.95rem;
+    }
+    
+    .cta-wave {
+      width: 150px;
+      height: 150px;
+    }
+  }
+</style>
+
+<div class="cta" id="ctaSection">
+  <!-- Onda decorativa -->
+  <div class="cta-wave"></div>
+  
+  <!-- Encabezado de la sección -->
+  <div class="head-cta" data-animate="fade-up">
+    <h2>¿Cómo lo contrato?</h2>
+    <h1>Hablemos de tu Próximo Evento</h1>
+  </div>
+  
+  <!-- Cuerpo principal -->
+  <div class="body-cta">
+    <!-- Lista de pasos -->
+    <div class="body-cta-items">
+      <!-- Paso 1 -->
+      <div class="body-cta-item" data-animate="fade-right" data-delay="0.1">
+        <div class="body-cta-item-content">
+          <div class="body-cta-item-content-title">
+            <h4>1</h4>
+            <h2>Revisa nuestros servicios</h2>
+          </div>
+          <div class="body-cta-item-content-description">
+            <p>
+              Explora nuestra amplia variedad de servicios de catering. 
+              Si no encuentras lo que buscas, creamos la experiencia que se ajuste a tus expectativas.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Paso 2 -->
+      <div class="body-cta-item" data-animate="fade-right" data-delay="0.2">
+        <div class="body-cta-item-content">
+          <div class="body-cta-item-content-title">
+            <h4>2</h4>
+            <h2>Agenda una reunión o envíanos un correo</h2>
+          </div>
+          <div class="body-cta-item-content-description">
+            <p>
+              Programa una reunión virtual o presencial para conocer tus necesidades y los detalles específicos de tu evento.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Paso 3 -->
+      <div class="body-cta-item" data-animate="fade-right" data-delay="0.3">
+        <div class="body-cta-item-content">
+          <div class="body-cta-item-content-title">
+            <h4>3</h4>
+            <h2>Confirma tu servicio</h2>
+          </div>
+          <div class="body-cta-item-content-description">
+            <p>
+              Con un simple depósito, podrás asegurar la fecha de tu evento y comenzaremos a 
+              preparar todo para que sea inolvidable.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Paso 4 -->
+      <div class="body-cta-item" data-animate="fade-right" data-delay="0.4">
+        <div class="body-cta-item-content">
+          <div class="body-cta-item-content-title">
+            <h4>4</h4>
+            <h2>Disfruta del evento</h2>
+          </div>
+          <div class="body-cta-item-content-description">
+            <p>
+              Relájate y disfruta de tu evento mientras nosotros nos encargamos de todo. 
+              Nuestro equipo de profesionales se asegurará de que todo salga a la perfección.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Sección de botones de acción -->
+    <div class="body-cta-buttons" data-animate="fade-left" data-delay="0.2">
+      <div class="cta-buttons-content">
+        <h3>¿Listo para comenzar?</h3>
+        <p>Elije la forma en que prefieras contactarnos</p>
+        
+        <div class="cta-buttons-wrapper">
+          <button id="scheduleMeeting" class="cta-button-primary"
+                  data-cal-link="divinapausa/asesoria-15min"
+                  data-cal-namespace="asesoria-15min"
+                  data-cal-config='{"layout":"month_view"}'>
+            <i class="fas fa-calendar-alt"></i>
+            <span>Agendar una reunión</span>
+          </button>
+          
+          <div class="cta-divider">
+            <span>o</span>
+          </div>
+          
+          <button id="sendEmail" class="cta-button-secondary">
+            <i class="fas fa-envelope"></i>
+            <span>Envíanos un correo</span>
+          </button>
+        </div>
+        
+        <div class="cta-contact-info">
+          <p>
+            <i class="fas fa-phone-alt"></i>
+            <span>+56 9 7689 7765</span>
+          </p>
+          <p>
+            <i class="fas fa-phone-alt"></i>
+            <span>+56 9 9419 7972</span>
+          </p>
+          <p>
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Santiago, Chile</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Script para manejar la interacción de la sección CTA
+  document.addEventListener('DOMContentLoaded', () => {
+    // TypeScript type definitions
+    interface HTMLElementWithStyle extends HTMLElement {
+      style: CSSStyleDeclaration;
+    }
+
+    // Referencias a los elementos del DOM
+    const scheduleBtn = document.getElementById('scheduleMeeting') as HTMLButtonElement | null;
+    const emailBtn = document.getElementById('sendEmail') as HTMLButtonElement | null;
+    const ctaSection = document.getElementById('ctaSection');
+    const animatedElements = ctaSection ? Array.from(ctaSection.querySelectorAll<HTMLElement>('[data-animate]')) : [];
+    
+    // Configuración de animaciones al hacer scroll
+    const setupAnimations = () => {
+      if (typeof window === 'undefined' || !window.IntersectionObserver) return;
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const element = entry.target as HTMLElementWithStyle;
+            const animationType = element.getAttribute('data-animate');
+            const delay = parseFloat(element.getAttribute('data-delay') || '0');
+            
+            // Aplicar la animación con el retraso correspondiente
+            setTimeout(() => {
+              if (element) {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+                element.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+              }
+            }, delay * 1000);
+            
+            // Dejar de observar el elemento una vez que se ha animado
+            observer.unobserve(element);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
+      
+      // Observar cada elemento animado
+      animatedElements.forEach((element) => {
+        // Configurar estado inicial
+        const animationType = element.getAttribute('data-animate');
+        let transform = '';
+        
+        switch(animationType) {
+          case 'fade-up':
+            transform = 'translateY(30px)';
+            break;
+          case 'fade-down':
+            transform = 'translateY(-30px)';
+            break;
+          case 'fade-left':
+            transform = 'translateX(30px)';
+            break;
+          case 'fade-right':
+            transform = 'translateX(-30px)';
+            break;
+          default:
+            transform = 'translateY(0)';
+        }
+        
+        element.style.opacity = '0';
+        element.style.transform = transform;
+        element.style.willChange = 'opacity, transform';
+        
+        // Comenzar a observar el elemento
+        observer.observe(element);
+      });
+    };
+    
+    // Inicializar animaciones
+    if (animatedElements.length > 0) {
+      // Usar requestAnimationFrame para asegurar que el DOM esté listo
+      requestAnimationFrame(() => {
+        setupAnimations();
+      });
+      
+      // Volver a ejecutar en caso de que se recargue el contenido dinámico
+      document.addEventListener('astro:after-swap', setupAnimations);
+    }
+    
+    // Manejar clic en el botón de agendar reunión
+    if (scheduleBtn) {
+      scheduleBtn.addEventListener('click', (e: MouseEvent) => {
+        e.preventDefault();
+        
+        // Cal.com will handle the click automatically via data attributes
+        console.log('Cal.com booking initialized...');
+      });
+    }
+    
+    // Manejar clic en el botón de enviar correo
+    if (emailBtn) {
+      emailBtn.addEventListener('click', (e: MouseEvent) => {
+        e.preventDefault();
+        
+        // Agregar clase de retroalimentación visual
+        emailBtn.classList.add('clicked');
+        setTimeout(() => {
+          emailBtn.classList.remove('clicked');
+        }, 300);
+        
+        // Abrir cliente de correo
+        window.location.href = 'mailto:contacto@divinapausa.cl?subject=Consulta%20sobre%20servicios&body=Hola%20Divina%20Pausa%2C%0D%0A%0D%0AMe%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n%20sobre...';
+      });
+    }
+  });
+</script>

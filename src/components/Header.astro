@@ -1,0 +1,410 @@
+---
+
+//Estilos
+import "../styles/global.css";
+
+// Navegación principal
+
+const navItems = [
+  { name: 'Inicio', href: '/' },
+  { name: 'Servicios', href: '/servicios' },
+  { name: 'Nosotros', href: '/nosotros' },
+  { name: 'Contacto', href: '/contacto' },
+];
+---
+
+<header class="header">
+  <div class="container-full">
+    <div class="header__inner">
+      <!-- Logo -->
+      <a href="/" class="logo">
+        <img src="/images/logos/Mesa de trabajo 5.svg" alt="Divina Pausa Logo" width="120" height="auto" />
+      </a>
+      
+      <!-- Navegación principal -->
+      <nav class="main-nav" id="main-nav">
+        <ul class="nav-list">
+          {navItems.slice(0, 3).map((item) => (
+            <li class="nav-item">
+              <a 
+                href={item.href}
+                class:list={[
+                  'nav-link',
+                  { 'is-active': Astro.url.pathname === item.href || (Astro.url.pathname.startsWith(item.href) && item.href !== '/') }
+                ]}
+              >
+                {item.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      
+      <!-- Navegación móvil -->
+      <button class="mobile-menu-button" id="mobile-menu-button" aria-label="Menú">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <!-- Botón de contacto -->
+      <div class="header-actions">
+        <button class="contacto-btn" id="contacto-popup-btn">Contacto</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Popup de contacto -->
+<div class="contact-popup-overlay" id="contact-popup-overlay">
+  <div class="contact-popup">
+    <button class="contact-popup-close" id="contact-popup-close" aria-label="Cerrar popup">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    
+    <div class="contact-popup-content">
+      <h3>Información de Contacto</h3>
+      
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 3H18L10 11L2 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M18 3V15C18 15.5304 17.7893 16.0391 17.4142 16.4142C17.0391 16.7893 16.5304 17 16 17H4C3.46957 17 2.96086 16.7893 2.58579 16.4142C2.21071 16.0391 2 15.5304 2 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="contact-details">
+            <span class="contact-label">Email</span>
+            <a href="mailto:contacto@divinapausa.cl" class="contact-value">contacto@divinapausa.cl</a>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17 10C17 13.866 13.866 17 10 17C6.134 17 3 13.866 3 10C3 6.134 6.134 3 10 3C13.866 3 17 6.134 17 10Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M10 7V10L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="contact-details">
+            <span class="contact-label">Teléfonos</span>
+            <div class="phone-numbers">
+              <a href="tel:+56976897765" class="contact-value">+56 9 7689 7765</a>
+              <a href="tel:+56994197972" class="contact-value">+56 9 9419 7972</a>
+            </div>
+            <div class="business-hours">
+              <div class="hours-item">
+                <span class="hours-days">Lunes a Viernes:</span>
+                <span class="hours-time">08:00 - 18:00</span>
+              </div>
+              <div class="hours-item">
+                <span class="hours-days">Sábados:</span>
+                <span class="hours-time">08:00 - 14:00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M8 10L10 12L12 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="contact-details">
+            <span class="contact-label">Ubicación</span>
+            <span class="contact-value">Santiago, Chile</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="contact-actions">
+        <a href="mailto:contacto@divinapausa.cl" class="contact-action-btn primary">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 3H14L8 8L2 3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 3V12C14 12.2652 13.8946 12.5196 13.7071 12.7071C13.5196 13.8946 13.2652 13 13 13H3C2.73478 13 2.48043 12.8946 2.29289 12.7071C2.10536 12.5196 2 12.2652 2 12V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Enviar Email
+        </a>
+        <a href="/contacto" class="contact-action-btn secondary">Ver más detalles</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+
+  /* Popup Styles */
+  .contact-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .contact-popup-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .contact-popup {
+    background: var(--color-light-pink);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    transform: scale(0.9) translateY(20px);
+    transition: all 0.3s ease;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+
+  .contact-popup-overlay.active .contact-popup {
+    transform: scale(1) translateY(0);
+  }
+
+  .contact-popup-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    color: var(--color-text);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contact-popup-close:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: rotate(90deg);
+  }
+
+  .contact-popup-content h3 {
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .contact-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-primary);
+    color: var(--color-light-pink);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contact-details {
+    flex: 1;
+  }
+
+  .contact-label {
+    display: block;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+  }
+
+  .contact-value {
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+  }
+
+  .contact-value:hover {
+    color: var(--color-primary);
+  }
+
+  .phone-numbers {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .business-hours {
+    margin-top: 1rem;
+  }
+
+  .hours-item {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .hours-days {
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  .hours-time {
+    color: var(--color-text);
+  }
+
+  .contact-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-action-btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 0.875rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .contact-action-btn.primary {
+    background-color: var(--color-primary);
+    color: var(--color-light-pink);
+    border: 2px solid var(--color-primary);
+  }
+
+  .contact-action-btn.primary:hover {
+    background-color: transparent;
+    color: var(--color-primary);
+    transform: translateY(-2px);
+  }
+
+  .contact-action-btn.secondary {
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+  }
+
+  .contact-action-btn.secondary:hover {
+    background-color: var(--color-primary);
+    color: var(--color-light-pink);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    .contact-popup {
+      padding: 1.5rem;
+      margin: 1rem;
+    }
+    
+    .contact-actions {
+      flex-direction: column;
+    }
+    
+    .contact-action-btn {
+      min-width: auto;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mainNav = document.getElementById('main-nav');
+    
+    if (mobileMenuButton && mainNav) {
+      mobileMenuButton.addEventListener('click', () => {
+        mainNav.classList.toggle('is-active');
+        mobileMenuButton.classList.toggle('is-active');
+        // Bloquear scroll del body cuando el menú está abierto
+        document.body.style.overflow = mainNav.classList.contains('is-active') ? 'hidden' : '';
+      });
+      
+      // Cerrar menú al hacer clic en un enlace (opcional, pero bueno para UX)
+      const navLinks = mainNav.querySelectorAll('.nav-link');
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          if (mainNav.classList.contains('is-active')) {
+            mainNav.classList.remove('is-active');
+            mobileMenuButton.classList.remove('is-active');
+            document.body.style.overflow = '';
+          }
+        });
+      });
+    }
+
+    // Contact popup functionality
+    const contactBtn = document.getElementById('contacto-popup-btn');
+    const contactPopupOverlay = document.getElementById('contact-popup-overlay');
+    const contactPopupClose = document.getElementById('contact-popup-close');
+    
+    if (contactBtn && contactPopupOverlay && contactPopupClose) {
+      // Open popup
+      contactBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        contactPopupOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+      
+      // Close popup - close button
+      contactPopupClose.addEventListener('click', () => {
+        contactPopupOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+      
+      // Close popup - overlay click
+      contactPopupOverlay.addEventListener('click', (e) => {
+        if (e.target === contactPopupOverlay) {
+          contactPopupOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+      
+      // Close popup - escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && contactPopupOverlay.classList.contains('active')) {
+          contactPopupOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+  });
+</script>

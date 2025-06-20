@@ -1,0 +1,147 @@
+/* src/styles/contacto.css */
+
+/* --- Banner Section --- */
+.banner-contacto {
+  background-color: var(--color-secondary);
+  color: var(--color-white);
+  padding: 5rem 1.5rem;
+  text-align: center;
+}
+
+.banner-contacto .banner-content h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 6vw, 4rem);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+}
+
+.banner-contacto .banner-content p {
+  font-family: var(--font-primary);
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* --- Form Section --- */
+.formulario-section {
+  padding: 4rem 1.5rem;
+  background-color: var(--color-light-pink);
+}
+
+.formulario-section .container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 3rem 2.5rem;
+  background-color: var(--color-white);
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.formulario-section h2 {
+  font-family: var(--font-display);
+  text-align: center;
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 700;
+  color: var(--color-secondary);
+  margin-bottom: 2.5rem;
+}
+
+/* --- Form Elements --- */
+.form-group {
+  margin-bottom: 2rem; /* Increased spacing */
+  position: relative; /* For potential floating label effects if desired later */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-family: var(--font-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  transition: all 0.3s ease;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group textarea {
+  width: 100%;
+  padding: 0.8rem 0.2rem; /* Reduced horizontal padding for underline style */
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  color: var(--color-text);
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid var(--color-text-light); /* Underline style */
+  border-radius: 0; /* No radius for underline style */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  -webkit-appearance: none; /* Removes default Safari styling */
+  appearance: none;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-bottom-color: var(--color-primary);
+  /* Optional: subtle glow for focus */
+  /* box-shadow: 0 2px 8px rgba(var(--color-primary-rgb, 229, 177, 174), 0.2); */ 
+  /* Note: --color-primary-rgb would need to be defined in global.css */
+}
+
+.form-group textarea {
+  min-height: 130px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Placeholder styling */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--color-text-light);
+  opacity: 0.8;
+}
+
+/* --- Submit Button --- */
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-secondary); /* Using dark text on pink button */
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-primary);
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0, 0.1);
+}
+
+.submit-button:hover,
+.submit-button:focus {
+  background-color: var(--color-secondary); /* Dark background on hover */
+  color: var(--color-white); /* White text on hover */
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0, 0.15);
+}
+
+.submit-button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0, 0.12);
+}
+
+/* --- CTA Section (Placeholder) --- */
+.cta-section {
+  padding: 4rem 1.5rem;
+  background-color: var(--color-light-pink);
+  /* Styles for the actual CTA component will be defined with it */
+}

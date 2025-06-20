@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CTASection from '../components/CTASection.astro';
+import TestimonialSection from '../components/TestimonialSection.astro';
+
+const pageTitle = "Nuestros Servicios de Catering de Lujo - Divina Pausa";
+const pageDescription = "Descubre cómo Divina Pausa transforma eventos con servicios de catering excepcionales: coffee breaks, almuerzos corporativos, cocktails y soluciones a medida.";
+const pageKeywords = "servicios catering, catering empresas, coffee break santiago, almuerzos corporativos, eventos catering, catering personalizado, divina pausa servicios";
+
+import { services, benefits } from '../data/servicesData';
+import type { Service } from '../data/servicesData';
+
+import '../styles/servicios.css';
+
+const heroBgImage = "/images/dp-cta-bg.jpg";
+
+// Function to map service titles to Cal.com event slugs
+const getCalEventSlug = (serviceTitle: string): string => {
+  const mapping: Record<string, string> = {
+    "Coffee Breaks Premium": "coffee-break-premium-15-minutos",
+    "After Office Dinámico": "after-office-dinamico", 
+    "Brunch & Almuerzos de Excelencia": "brunch-almuerzos-de-excelencia",
+    "Tablas & Cocktail Gourmet": "tablas-cocktail-gourmet-15-minutos",
+    "Auténtica Paella Española en Vivo": "autentica-paella-espanola-15-minutos",
+    "Bar Portátil y Mixología Creativa": "bar-portatil-15-minutos",
+    "Catering a Medida para Ocasiones Únicas": "asesoria-15min"
+  };
+  
+  return mapping[serviceTitle] || "asesoria-15min"; // Default to consultation
+};
+
+// The last service is the special CTA, the rest go into the grid.
+const customService: Service | undefined = services.at(-1);
+const gridServices: Service[] = customService ? services.slice(0, -1) : [...services];
+--- 
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  keywords={pageKeywords}
+>
+  <main class="servicios-page">
+    <!-- Hero Section -->
+    <section class="hero-servicios" style={`--hero-bg-image: url(${heroBgImage})`} data-animate="fade-in">
+      <div class="hero-overlay">
+        <div class="hero-content">
+          <h1>Servicios Exquisitos para Momentos Inolvidables</h1>
+          <p>En Divina Pausa, cada detalle cuenta. Transformamos tus eventos empresariales y celebraciones especiales con propuestas gastronómicas innovadoras y un servicio de excelencia.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Showcase Section -->
+    <section class="services-showcase-section" data-animate="fade-in-up">
+      <div class="container">
+        <div class="section-title" data-animate="fade-in-up">
+          <span class="subtitle">Catálogo</span>
+          <h2>Propuestas Gastronómicas</h2>
+        </div>
+        
+        {gridServices.length > 0 && (
+          <div class="services-custom-grid" data-animate-stagger="0.2">
+            {gridServices.map(service => (
+              <div class="service-item" data-animate="fade-in-up">
+                <div class="service-item-image-wrapper">
+                  <img src={service.imgSrc} alt={service.imgAlt} loading="lazy" decoding="async" />
+                  <h3>{service.title}</h3>
+                  <a 
+                    href="#" 
+                    class="service-item-button" 
+                    aria-label={`Agendar ${service.title}`}
+                    data-cal-link={`divinapausa/${getCalEventSlug(service.title)}`}
+                    data-cal-namespace={getCalEventSlug(service.title)}
+                    data-cal-config='{"layout":"month_view"}'
+                  >+</a>
+                </div>
+                <div class="service-item-text-content">
+                  <p>{service.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+    <TestimonialSection data-animate="fade-in-up" />
+    <CTASection data-animate="fade-in-up" />
+  </main>
+</BaseLayout>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  if (typeof document !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const ctx = gsap.context(() => {
+        // Animate the hero section first
+        gsap.from('[data-animate="fade-in"]', {
+          opacity: 0, 
+          duration: 1.2,
+          ease: 'power1.inOut'
+        });
+
+        // Simple and smooth 'appear' animation for services grid
+        gsap.utils.toArray<HTMLElement>('.services-custom-grid').forEach(grid => {
+          const items = gsap.utils.toArray<HTMLElement>('.service-item', grid);
+          
+          if (items.length > 0) {
+            gsap.from(items, {
+              opacity: 0,
+              y: 20, // Slight upward movement
+              duration: 0.5,
+              transition: 'ease', // Smooth duration
+              ease: 'power3.out',
+              stagger: 0.2, // User-specified stagger
+              scrollTrigger: {
+                trigger: grid, // Trigger when the grid itself is in view
+                start: 'top 85%', // Start animation when 85% of the grid is visible
+                toggleActions: 'play none none none',
+                once: true, // Animate only once
+              }
+            });
+          }
+        });
+
+      }); // end of gsap.context
+      
+      return () => ctx.revert(); // GSAP cleanup
+    });
+  }
+</script>
+
+</BaseLayout>

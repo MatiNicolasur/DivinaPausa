@@ -1,0 +1,400 @@
+/* Reset básico */
+/* Font imports */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap");
+
+/* Variables */
+:root {
+  --color-primary: #e5b1ae;
+  --color-secondary: #212121;
+  --color-white: #ffffff;
+  --color-light-pink: #ffe5e3;
+  --color-dark: #212121;
+  --color-text: #212121;
+  --color-text-light: #666666;
+  --font-primary: "Montserrat", sans-serif;
+  --font-secondary: "Cormorant Garamond", serif;
+  --font-display: "Playfair Display", serif;
+}
+
+/* Global Styles */
+body {
+  font-family: var(--font-primary);
+  color: var(--color-text);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  background-color: var(--color-white);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 700;
+}
+
+p {
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-primary);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: 'Poppins', sans-serif; /* Fuente principal por defecto */
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth; /* Desplazamiento suave */
+}
+
+body {
+  color: #333; /* Color de texto principal */
+  background-color: #fff; /* Color de fondo principal */
+  overflow-x: hidden; /* Evitar scroll horizontal accidental */
+}
+
+/* Títulos */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif; /* Fuente para títulos */
+  font-weight: 700;
+  line-height: 1.2;
+  color: #222; /* Color de títulos ligeramente más oscuro */
+  margin-bottom: 1rem;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+/* Párrafos */
+p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+  color: #555; /* Color de párrafo ligeramente más suave */
+}
+
+/* Enlaces */
+a {
+  color: var(--color-primary); /* Color de acento principal para enlaces */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-primary); /* Color de acento más oscuro al pasar el mouse */
+  text-decoration: underline;
+}
+
+/* Imágenes responsivas */
+img, video, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Contenedores */
+.container {
+  width: 100%;
+  max-width: -webkit-fill-available; /* Ancho máximo del contenido */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 80px;
+  padding-right: 80px;
+}
+
+/* Contenedor que ocupa todo el ancho de la página */
+.container-full {
+  width: 100%;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+/* Botones (estilo base) */
+.button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.button--primary {
+  background-color: #e5b1ae;
+  color: #212121;
+  border-color: #e5b1ae;
+}
+
+.button--primary:hover {
+  background-color: #ffe5e3;
+  border-color: #ffe5e3;
+  color: white;
+  text-decoration: none;
+}
+
+.button--secondary {
+  background-color: transparent;
+  color: #d4a76a;
+  border-color: #d4a76a;
+}
+
+.button--secondary:hover {
+  background-color: #d4a76a;
+  color: white;
+  text-decoration: none;
+}
+
+.button--outline {
+  background-color: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.button--outline:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+/* Utilidades */
+.text-center { text-align: center; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+/* Estilos para el Header */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--color-white); /* Fondo negro */
+  z-index: 1000;
+  height: auto;
+  display: flex;
+  align-items: center;
+}
+
+.header__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1.5rem 1rem;
+  color: var(--color-text);
+  height: auto;
+}
+
+.logo img {
+  height: 50px; /* Ajusta según sea necesario */
+  width: auto;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-list {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+}
+
+.nav-link {
+  position: relative;
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  padding: 0.5rem 0;
+  width: 100%;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-primary);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.is-active::after {
+  width: 100%;
+}
+
+.nav-link:hover,
+.nav-link.is-active {
+  color: #e5b1ae;
+  text-decoration: none;
+}
+
+.mobile-menu-button {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 1002; /* Asegurar que esté sobre el menú */
+}
+
+.mobile-menu-button span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background-color: #333;
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+/* Animación para el botón de menú (hamburguesa a X) */
+.mobile-menu-button.is-active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.mobile-menu-button.is-active span:nth-child(2) {
+  opacity: 0;
+}
+.mobile-menu-button.is-active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.contacto-btn {
+  padding: 0.5rem 1.5rem;
+  background-color: #000000;
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: 400;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.contacto-btn:hover {
+  background-color: #333333;
+  color: white;
+  text-decoration: none;
+}
+
+@media (max-width: 992px) {
+  body,
+  .container,
+  .container-full,
+  section {
+    text-align: center;
+  }
+
+  /* Ensure specific elements that need to be left-aligned can be overridden if necessary */
+  /* For example, if you have a list that should remain left-aligned: */
+  /* ul, ol, li { text-align: left; } */
+
+  .mobile-menu-button {
+    display: block;
+  }
+  
+  .main-nav {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Oculto por defecto */
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background-color: white;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease-in-out;
+    padding: 6rem 2rem 2rem; /* Espacio para el logo y botón de cierre */
+    flex-direction: column;
+    align-items: flex-start; /* Alinea items a la izquierda */
+    z-index: 1001;
+  }
+  
+  .container{
+    width: 100%;
+    padding: 0 2rem;
+  }
+
+  .main-nav.is-active {
+    right: 0; /* Mostrar menú */
+  }
+  
+  .nav-list {
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  .nav-link {
+    font-size: 1.2rem;
+  }
+  
+  .header-actions {
+    display: none; /* Ocultar botón de cotización en header en móvil, se puede añadir al menú si se desea */
+  }
+
+  .hero-servicios, .hero-nosotros{
+    margin: 20px !important;
+  }
+
+  .hero-content{
+    padding: 0px 20px !important;
+  }
+
+  .hero-content h1{
+    font-size: 2rem !important;
+  }
+
+  .hero-content p{
+    font-size: 1rem !important;
+  }
+  /* Overrides for elements that should NOT be centered, if any */
+  /* Example: elements that use flexbox for alignment might need text-align reset */
+  /* .flex-child-that-should-be-left { text-align: left; } */
+}
+/* Ajustes para el header fijo */
+/* La altura del header puede variar, BaseLayout.astro ya maneja un padding-top para main si es necesario. */
+/* Dejar body sin padding-top global para mayor flexibilidad. */

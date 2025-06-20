@@ -1,0 +1,474 @@
+---
+import CTASection from "../components/CTASection.astro";
+import TestimonialSection from "../components/TestimonialSection.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const pageTitle = "Sobre Nosotros - Divina Pausa";
+const pageDescription =
+  "Explora de dónde viene nuestra pasión. En Divina Pausa, somos artesanos de la experiencia, creando atmósferas de lujo y confort.";
+const pageKeywords =
+  "sobre nosotros, divina pausa, catering de lujo, experiencias culinarias, gastronomía empresarial, historia divina pausa, visión catering";
+
+// Placeholder for image paths - user should update these
+const heroBgImage = "/images/hero-nosotros.png";
+const quienesSomosImg = "/images/nosotros/us.jpeg";
+const nosotrosIcon = "/images/icon-catering-nosotros.svg";
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  keywords={pageKeywords}
+>
+  <main class="nosotros-page">
+    <!-- Hero Section -->
+    <section
+      class="hero-nosotros"
+      style={`background-image: url(${heroBgImage});`}
+    >
+      <div class="hero-nosotros-overlay">
+        <div class="hero-nosotros-content">
+          <h1>Explora de donde<br />viene nuestra pasión</h1>
+          <p>
+            Más que un servicio de catering, somos artesanos de la experiencia.
+            Creamos atmósferas de lujo y confort que invitan a detenerse,
+            disfrutar y compartir.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ¿Quienes somos? Section -->
+    <section class="quienes-somos-section">
+      <div class="container">
+        <h3 class="section-subtitle pink-subtitle">Quienes Somos</h3>
+        <h2>Un Legado de Pasión y Excelencia</h2> <!-- Changed H2 to be more descriptive -->
+        <div class="quienes-somos-grid">
+          <div class="quienes-somos-image-column">
+            <div class="image-container">
+              <img src={quienesSomosImg} alt="Divina Pausa Catering" />
+            </div>
+          </div>
+          <div class="quienes-somos-text-column">
+            <div class="info-card nosotros-card">
+              <h3>Nosotros</h3>
+              <p>
+                En Divina Pausa creemos que una experiencia culinaria
+                verdaderamente memorable va más allá de la buena mesa: es una
+                pausa sublime en el ritmo cotidiano, diseñada para deleitar los
+                sentidos y tocar el corazón. Nacimos del anhelo de crear
+                momentos únicos, donde cada detalle, desde la elección de
+                ingredientes hasta la atención personalizada, expresa
+                dedicación, pasión y excelencia.
+              </p>
+              <img
+                src={'/images/icons/VectorNosotros.svg'}
+                alt="Icono Catering"
+                class="nosotros-icon"
+              />
+            </div>
+            <div class="info-card vision-card">
+              <h3>Visión</h3>
+              <p>
+                En Divina Pausa, la calidad es un compromiso irrenunciable, y la
+                atención personalizada, un verdadero arte. Cada ingrediente que
+                seleccionamos, cada presentación que diseñamos y cada momento
+                que compartimos con nuestros clientes cuenta una historia de
+                dedicación.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ofrecemos Section -->
+    <section class="ofrecemos-section">
+      <div class="container">
+        <div class="ofrecemos-grid">
+          <div class="ofrecemos-text">
+            <span class="tagline">¿Qué ofrecemos?</span>
+            <h2>Ofrecemos más<br />que gastronomía</h2>
+            <p>
+              Diseñamos experiencias memorables que reflejan el alma de cada
+              celebración. Nuestro servicio de catering de lujo se adapta a tus
+              necesidades con elegancia, profesionalismo y un toque distintivo
+              que nos caracteriza.
+            </p>
+          </div>
+          <div class="ofrecemos-list">
+            <div class="ofrecemos-list-item">
+              <h3>Experiencias Personalizadas.</h3>
+            </div>
+            <div class="ofrecemos-list-item">
+              <h3>Presentaciones que inspiran.</h3>
+            </div>
+            <div class="ofrecemos-list-item">
+              <h3>Atencion dedicada en cada etapa.</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <CTASection />
+    <TestimonialSection />
+  </main>
+
+  <style>
+    /* General Page Styles */
+    .nosotros-page .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: var(
+        --font-primary,
+        "Playfair Display",
+        serif
+      ); /* Assuming primary is serif */
+      color: var(--color-dark, #333);
+    }
+
+    p,
+    span,
+    .ofrecemos-list-item h3 {
+      font-family: var(
+        --font-secondary,
+        "Montserrat",
+        sans-serif
+      ); /* Assuming secondary is sans-serif */
+      color: var(--color-text, #555);
+      line-height: 1.7;
+    }
+
+    /* Hero Section */
+    .hero-nosotros {
+      background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 8rem 1rem;
+    position: relative;
+    min-height: 60vh;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin: 80px;
+    }
+    .hero-nosotros-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+    }
+    .hero-nosotros-content {
+      max-width: 60%;
+      padding: 0 5%;
+      margin-left: 5%;
+    }
+    .hero-nosotros h1 {
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      color: var(--color-white, #fff);
+      font-family: var(--font-secondary);
+      margin-bottom: 1rem;
+      font-style: italic;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+    .hero-nosotros p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--color-light-gray, #f0f0f0);
+      line-height: 1.6;
+      font-weight: 500;
+      font-family: var(--font-primary);
+    }
+
+    /* ¿Quienes somos? Section */
+    .quienes-somos-section {
+      background-color: var(--color-dark-bg, #2d2d2d);
+      padding: 180px 0;
+      color: var(--color-white, #fff);
+    }
+    .quienes-somos-section .pink-subtitle {
+      display: block;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+      font-weight: 600;
+      color: var(--color-light-pink, #FADADD);
+      background-color: var(--color-primary, #D4A76A);
+      padding: var(--space-xs, 8px) var(--space-md, 20px);
+      border-radius: var(--border-radius-pill, 30px);
+      margin-bottom: var(--space-sm, 15px);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .quienes-somos-section h2 {
+      text-align: center;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 400;
+      color: var(--color-white);
+      font-style: italic;
+      font-family: var(--font-secondary);
+      margin-bottom: 60px;
+    }
+    .quienes-somos-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr; /* Adjusted for better image presence */
+      gap: 30px;
+      align-items: stretch; /* Make columns equal height */
+    }
+    .quienes-somos-image-column .image-container {
+      position: sticky;
+      top: 100px;
+      border-radius: var(--border-radius-lg, 12px);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg, 0 10px 20px rgba(0,0,0,0.15));
+      height: 100%; /* Make container fill the stretched column height */
+    }
+    .quienes-somos-image-column img {
+      width: 100%;
+      height: 100%; /* Make image fill its container */
+      object-fit: cover; /* Cover area without distortion */
+      display: block;
+    }
+    .quienes-somos-text-column {
+      display: flex;
+      flex-direction: column;
+      gap: 30px; /* Space between Nosotros and Vision cards */
+      justify-content: space-between; /* Distribute space if cards are shorter than image */
+    }
+    .info-card {
+      background-color: var(--color-primary-light, #f7e6e3);
+      padding: 30px;
+      border-radius: 15px;
+      color: var(--color-dark-text, #4a4a4a);
+    }
+    .info-card h3 {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-family: var(--font-secondary);
+      color: var(--color-primary);
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    .info-card p {
+      font-size: clamp(1rem, 1.5vw, 1.2rem);
+      font-weight: 500;
+      color: #6a3d4e;
+      font-family: var(--font-primary);
+      margin-bottom: 15px;
+    }
+    .nosotros-card {
+      position: relative;
+    }
+    .nosotros-icon {
+      display: block;
+      width: 60px;
+      height: auto;
+      margin: 30px auto 0;
+      opacity: 0.7;
+    }
+    .vision-card {
+      background-color: var(--color-primary);
+    }
+    .vision-card h3 {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-family: var(--font-secondary);
+      color: var(--color-light-pink);
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    .vision-card p {
+      font-size: clamp(1rem, 1.5vw, 1.2rem);
+      color: var(--color-light-pink);
+      font-family: var(--font-primary);
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+
+    /* Ofrecemos Section */
+    .ofrecemos-section {
+      padding: 80px 0;
+      background-color: var(--color-light-bg, #f9f9f9);
+    }
+    .ofrecemos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .ofrecemos-text .tagline {
+      display: block;
+      font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+      color: var(--color-primary, #d4a76a);
+      margin-bottom: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .ofrecemos-text h2 {
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      color: var(--color-dark, #333);
+      margin-bottom: 20px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .ofrecemos-text p {
+      font-size: clamp(0.9rem, 1.8vw, 1.2rem);
+      font-family: var(--font-primary);
+      color: var(--color-text, #555);
+    }
+    .ofrecemos-list-item {
+      margin-bottom: 25px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid var(--color-border, #e0e0e0);
+    }
+    .ofrecemos-list-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .ofrecemos-list-item h3 {
+      font-size: clamp(1.2rem, 2.2vw, 7rem);
+      color: var(--color-dark, #333);
+      font-family: var(--font-secondary, "Montserrat", sans-serif);
+      font-weight: 500;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+      .quienes-somos-grid {
+        grid-template-columns: 1fr; /* Stack on mobile */
+      }
+      .quienes-somos-image-column .image-container {
+        position: static; /* Disable sticky on mobile */
+        height: auto; /* Reset height for mobile stacking */
+      }
+      .quienes-somos-image-column img {
+        height: auto; /* Reset image height for mobile */
+        aspect-ratio: 4/3; /* Maintain a pleasant aspect ratio on mobile */
+      }
+      .quienes-somos-image-vision .image-container {
+        max-width: 500px;
+        margin: 0 auto 30px;
+      }
+      .ofrecemos-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .ofrecemos-text {
+        text-align: center;
+      }
+      .ofrecemos-list {
+        margin-top: 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-nosotros {
+        height: 60vh;
+        min-height: 350px;
+        padding: 60px 0;
+      }
+      .hero-nosotros-content {
+        margin-left: 0;
+        max-width: 100%;
+        padding: 0 20px;
+        text-align: center;
+      }
+      .quienes-somos-section,
+      .ofrecemos-section {
+        padding: 60px 0;
+      }
+      .quienes-somos-section h2 {
+        margin-bottom: 40px;
+      }
+      .info-card {
+        padding: 25px;
+      }
+    }
+  </style>
+  <script>
+    import { setupPageAnimations } from '../utils/animations';
+    import { gsap } from 'gsap';
+    
+    // Setup page animations with cleanup
+    const cleanup = setupPageAnimations(() => {
+      // Type assertion for GSAP elements
+      const toArray = <T extends Element = Element>(selector: string): T[] => {
+        return Array.from(document.querySelectorAll<T>(selector));
+      };
+
+      // Hero Section Animations
+      toArray<HTMLElement>('.hero-nosotros-content h1').forEach((el) => {
+        gsap.from(el, { y: 50, opacity: 0, duration: 1, delay: 0.2, scrollTrigger: { trigger: '.hero-nosotros', start: 'top 80%', toggleActions: 'play none none none' }});
+      });
+      
+      toArray<HTMLElement>('.hero-nosotros-content p').forEach((el) => {
+        gsap.from(el, { y: 50, opacity: 0, duration: 1, delay: 0.4, scrollTrigger: { trigger: '.hero-nosotros', start: 'top 80%', toggleActions: 'play none none none' }});
+      });
+
+      // ¿Quienes somos? Section Animations
+      toArray<HTMLElement>('.quienes-somos-section h2').forEach((el) => {
+        gsap.from(el, { y: 50, opacity: 0, delay: 0.1, scrollTrigger: { trigger: '.quienes-somos-section', start: 'top 80%', toggleActions: 'play none none none' }});
+      });
+      
+      toArray<HTMLElement>('.nosotros-card').forEach((el) => {
+        gsap.from(el, { y: 50, opacity: 0, delay: 0.2, scrollTrigger: { trigger: '.quienes-somos-section', start: 'top 80%', toggleActions: 'play none none none' }});
+      });
+      
+      toArray<HTMLImageElement>('.quienes-somos-image-vision .image-container img').forEach((el) => {
+        gsap.from(el, { y: 50, opacity: 0, delay: 0.3, scrollTrigger: { trigger: '.quienes-somos-section', start: 'top 80%', toggleActions: 'play none none none' }});
+      });
+      
+      toArray<HTMLElement>('.vision-card').forEach((el) => {
+        gsap.from(el, { y: 50, opacity: 0, delay: 0.4, scrollTrigger: { trigger: '.quienes-somos-section', start: 'top 80%', toggleActions: 'play none none none' }});
+      });
+
+      // Ofrecemos Section Animations
+      toArray<HTMLElement>('.ofrecemos-text .tagline').forEach((el) => {
+        gsap.from(el, { y: 40, opacity: 0, delay: 0.1, scrollTrigger: { trigger: '.ofrecemos-section', start: 'top 80%', toggleActions: 'play none none none' }});
+      });
+      
+      toArray<HTMLElement>('.ofrecemos-text h2').forEach((el) => {
+        gsap.from(el, { y: 40, opacity: 0, delay: 0.2, scrollTrigger: { trigger: '.ofrecemos-section', start: 'top 80%', toggleActions: 'play none none none' }});
+      });
+      
+      toArray<HTMLElement>('.ofrecemos-text p').forEach((el) => {
+        gsap.from(el, { y: 40, opacity: 0, delay: 0.3, scrollTrigger: { trigger: '.ofrecemos-section', start: 'top 80%', toggleActions: 'play none none none' }});
+      });
+      
+      // Stagger animation for list items
+      const listItems = toArray<HTMLElement>('.ofrecemos-list-item');
+      if (listItems.length > 0) {
+        gsap.from(listItems, {
+          y: 40,
+          opacity: 0,
+          stagger: 0.1,
+          delay: 0.4,
+          scrollTrigger: {
+            trigger: '.ofrecemos-list',
+            start: 'top 80%',
+            toggleActions: 'play none none none',
+          }
+        });
+      }
+    });
+
+    // Cleanup on component unmount
+    if (import.meta.hot) {
+      import.meta.hot.on('astro:before-swap', () => {
+        cleanup?.();
+      });
+    }
+  </script>
+</BaseLayout>

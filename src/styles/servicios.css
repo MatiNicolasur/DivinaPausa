@@ -1,0 +1,617 @@
+@import '../styles/global.css';
+
+/* General Page Styles */
+.services-showcase-section .section-title{
+  text-align: center;
+  margin-bottom: 3rem;
+  color: var(--color-white);
+}
+.servicios-page .section-title h2{
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 400;
+  font-style: italic;
+}
+.servicios-page .section-title p{
+  font-size: clamp(1rem, 2vw, 1.5rem);
+}
+
+.servicios-page .subtitle {
+  display: block;
+  font-size: 1rem;
+  width: fit-content;
+  justify-self: center;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  padding: 5px 15px;
+  border-radius: 20px;
+  background-color: var(--color-primary);
+  color: var(--color-light-pink);
+  letter-spacing: 1px;
+  
+}
+
+/* Hero Section */
+.hero-servicios {
+  background-image: var(--hero-bg-image);
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  padding: 8rem 1rem;
+  position: relative;
+  min-height: 60vh;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin: 80px;
+}
+
+.hero-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-content {
+  max-width: 800px;
+}
+
+.hero-content h1 {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  margin-bottom: 1rem;
+  color: var(--color-white);
+}
+
+/* Services Showcase Section */
+.services-showcase-section {
+  padding: 4rem 0;
+}
+
+/* Alternating Services Layout */
+.services-alternating-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.service-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  position: relative;
+}
+
+.service-image-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  aspect-ratio: 16/10;
+}
+
+.service-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.service-row:hover .service-image {
+  transform: scale(1.03);
+}
+
+.service-more-button {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 3rem;
+  height: 3rem;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 300;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.service-more-button:hover {
+  background-color: var(--color-white);
+  color: var(--color-primary);
+  transform: scale(1.1);
+}
+
+.service-content {
+  text-align: center;
+  max-width: 600px;
+}
+
+.service-title {
+  color: var(--color-primary);
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.service-description {
+  color: var(--color-text);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+/* Desktop Styles */
+@media (min-width: 992px) {
+  .service-row {
+    flex-direction: row;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .service-row--reverse {
+    flex-direction: row-reverse;
+  }
+
+  .service-image-container {
+    flex: 1;
+    max-width: 50%;
+  }
+
+  .service-content {
+    flex: 1;
+    text-align: left;
+    padding: 0 2rem;
+  }
+
+  .service-row--reverse .service-content {
+    text-align: right;
+  }
+}
+
+/* Animation */
+.service-row[data-animate="fade-in-up"] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transition-delay: var(--animation-delay, 0s);
+}
+
+.service-row.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Screen Reader Only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.service-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--shadow-medium);
+  color: white;
+  min-height: 400px; 
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-large);
+}
+
+.service-item-image-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.service-item-image-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0) 100%);
+  transition: background 0.4s ease;
+}
+
+.service-item:hover .service-item-image-wrapper::after {
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.1) 100%);
+}
+
+.service-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.service-item:hover img {
+  transform: scale(1.05);
+}
+
+.service-item-content {
+  position: relative;
+  z-index: 2;
+  padding: 1.5rem;
+  color: var(--color-white);
+  margin-top: auto; 
+  transition: transform 0.4s ease;
+}
+
+.service-item:hover .service-item-content {
+  transform: translateY(0);
+}
+
+.service-item-content h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.service-item-content p {
+  font-size: 0.95rem;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.4s ease, max-height 0.4s ease, margin-bottom 0.4s ease;
+  margin-bottom: 0;
+}
+
+.service-item:hover .service-item-content p {
+  opacity: 1;
+  max-height: 200px; /* Adjust as needed */
+  margin-bottom: 1rem;
+}
+
+.service-item-button {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: var(--color-primary);
+  color: var(--color-light-pink);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  text-decoration: none;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  transform: scale(0);
+  z-index: 3;
+}
+
+.service-item:hover .service-item-button {
+  transform: scale(1);
+  text-decoration: none;
+}
+
+/* Custom Service CTA Section */
+.custom-service-cta-section {
+  padding: 4rem 0;
+  background-color: var(--color-background-offset);
+}
+
+.custom-cta-content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.custom-cta-image img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--shadow-medium);
+}
+
+/* Benefits Section */
+.benefits-section {
+  padding: 4rem 0;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.benefit-item {
+  background-color: var(--color-background-offset);
+  padding: 2rem;
+  border-radius: var(--border-radius-medium);
+  text-align: center;
+  border: 1px solid var(--color-border);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .custom-cta-content-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Rogue CSS from lines 386-569 of servicios.astro */
+/* Assuming this was the intended selector for the first rule */
+.service-cards-container { 
+  display: flex;
+  flex-direction: column;
+  gap: 60px; /* Space between full-width service cards */
+}
+.service-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  align-items: center;
+  background-color: var(--color-white, #fff);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+}
+/* Alternating layout */
+.service-card-odd .service-card-image {
+  order: 2;
+}
+.service-card-odd .service-card-content {
+  order: 1;
+}
+.service-card-image {
+  overflow: hidden; /* To contain the image zoom */
+  height: 100%;
+  max-height: 400px; /* Ensure this matches image max-height if set */
+}
+.service-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease-out;
+}
+.service-card:hover .service-card-image img {
+  transform: scale(1.05);
+}
+.service-card-content {
+  padding: 40px;
+}
+.service-card-content h3 {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  color: var(--color-primary);
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+.service-card-content p {
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  color: var(--color-text, #555);
+}
+
+/* Benefits Section (appears to be a duplicate or alternative styling) */
+/* Note: This selector is duplicated. Will keep both for now, user can decide to merge/remove later */
+.benefits-section {
+  padding: 80px 0;
+  background-color: var(--color-light-bg, #F9F9F9);
+}
+/* Note: This selector is duplicated. Will keep both for now. */
+.benefits-grid { 
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  text-align: center;
+}
+/* Note: This selector is duplicated. Will keep both for now. */
+.benefit-item { 
+  padding: 30px;
+  background-color: var(--color-white, #fff);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+.benefit-icon-placeholder {
+  width: 80px; /* Increased size for background */
+  height: 80px;
+  background-color: var(--color-light-pink); /* Lighter primary or a distinct accent */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 25px auto; /* Centered and more margin */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+.benefit-icon-placeholder svg {
+  width: 40px; /* Adjusted SVG size */
+  height: 40px;
+  color: var(--color-dark); /* Darker primary for contrast */
+}
+/* Note: This selector is duplicated. Will keep both for now. */
+.benefit-item h3 { 
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  color: var(--color-dark, #333);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+/* Note: This selector is duplicated. Will keep both for now. */
+.benefit-item p { 
+  font-size: clamp(0.85rem, 1.4vw, 0.95rem);
+  color: var(--color-text-muted, #666);
+}
+
+/* Animation Keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* CTA Section */
+.cta-section-servicios {
+  padding: 80px 20px;
+  background-color: var(--color-dark); /* Example: darker primary */
+  text-align: center;
+  color: var(--color-white, #fff);
+}
+.cta-section-servicios h2 {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  color: var(--color-white, #fff);
+  margin-bottom: 15px;
+}
+.cta-section-servicios p {
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  color: var(--color-light-gray, #f0f0f0);
+  max-width: 600px;
+  margin: 0 auto 30px auto;
+}
+
+/* Responsive Adjustments */
+/* Custom Grid for Services (appears to be a duplicate or alternative styling for .services-custom-grid and .service-item) */
+/* Note: This selector is duplicated. Will keep both for now. */
+.services-custom-grid { 
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(470px, 1fr));
+  gap: var(--space-lg, 34px);
+  margin-bottom: var(--space-xl, 48px);
+  align-items: stretch; /* Stretch items to be equal height */
+}
+
+@media (max-width: 768px) {
+  .services-custom-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  .service-item-image-wrapper h3{
+    max-width: 100% !important  ;
+  }
+}
+.service-item {
+  background-color: var(--color-surface, #fff);
+  border-radius: var(--border-radius-lg, 12px);
+  box-shadow: var(--shadow-md, 0 4px 10px rgba(0,0,0,0.08));
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack children vertically */
+  justify-content: space-between; /* Push content apart */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  border: 1px solid #eeeeee; /* Subtle border for definition */
+}
+/* Note: This selector is duplicated. Will keep both for now. */
+.service-item-image-wrapper { 
+  width: 100%;
+  height: 205px;
+  overflow: hidden;
+  background-color: var(--color-background-muted, #f0f0f0); /* Fallback color */
+}
+/* Note: This selector is duplicated. Will keep both for now. */
+.service-item-image-wrapper img { 
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+/* Note: This selector is duplicated. Will keep both for now. */
+.service-item:hover .service-item-image-wrapper img { 
+  transform: scale(1.08);
+}
+/* Note: This selector is duplicated. Will keep both for now. */
+
+/* Title styling within the image wrapper */
+.service-item-image-wrapper h3 {
+  position: absolute;
+  bottom: var(--space-sm, 8px);
+  left: var(--space-md, 16px);
+  right: var(--space-md, 16px); /* Allow space for button */
+  color: var(--color-white, #fff);
+  padding: var(--space-xs, 6px) var(--space-sm, 10px);
+  border-radius: var(--border-radius-sm, 4px);
+  font-size: clamp(1.6rem, 1.5vw, 2rem); /* Responsive font size */
+  font-weight: 600;
+  margin: 0;
+  z-index: 2; /* Below button, above image */
+  line-height: 1.3;
+  max-width: calc(100% - 80px); /* Avoid overlapping with button, adjust as needed */
+}
+
+/* Text content area (white background) */
+.service-item-text-content {
+  background-color: var(--color-white, #fff);
+  padding: var(--space-md, 16px);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 205px;
+}
+
+.service-item-text-content p {
+  margin: 0;
+  color: var(--color-text-offset, #555);
+  font-size: var(--font-size-sm, 1.1rem);
+  line-height: 1.6;
+}
+.service-item-content { 
+  padding: clamp(12px, 2.5vw, 24px) clamp(20px, 4vw, var(--space-lg, 24px)); /* Reduced vertical padding */
+  flex-grow: 1;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+/* Note: This selector is duplicated. Will keep both for now. */
+.service-item-content h3 { 
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+  color: var(--color-white);
+  font-weight: 700; /* Consistent with global h3 */
+  margin-bottom: var(--space-sm, 12px);
+  line-height: 1.3;
+}
+/* Note: This selector is duplicated. Will keep both for now. */
+.service-item-content p { 
+  font-family: var(--font-primary, 'Montserrat', sans-serif);
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  color: var(--color-light-pink);
+  line-height: 1.7;
+  margin-bottom: var(--space-lg, 24px); /* More space before button */
+  flex-grow: 1;
+}
+.service-item-content .button {
+  margin-top: auto; /* Pushes button to the bottom */
+  align-self: flex-start;
+  color: var(--color-light-pink);
+  background-color: var(--color-primary);
+  border-radius: 50% !important;/* Fully rounded buttons */
+}

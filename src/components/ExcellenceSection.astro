@@ -1,0 +1,658 @@
+---
+---
+
+<style>
+  /* Excellence Section */
+  .container-full-b {
+    width: 100%;
+    padding: 0px;
+    margin: 0;
+    background-color: var(--color-dark);
+  }
+
+  .head-excelence {
+    text-align: center;
+    background-color: var(--color-dark);
+    color: var(--color-white);
+    padding: 80px 80px 0px;
+  }
+
+  .head-excelence h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: var(--font-primary);
+    margin-bottom: 20px;
+    background-color: var(--color-light-pink);
+    color: var(--color-primary);
+    padding: 5px 15px;
+    border-radius: 20px;
+    display: inline-block;
+    letter-spacing: 1px;
+  }
+
+  .head-excelence h1 {
+    font-size: 3.5rem;
+    font-weight: 400;
+    color: var(--color-white);
+    margin-bottom: 20px;
+  }
+  
+  .body-excelence {
+    padding: 80px 0px 80px;
+    background-color: var(--color-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 49px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .excelence-carousel-options {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 25px;
+    margin-bottom: 40px;
+    padding: 0 0 30px;
+  }
+
+  .excelence-carousel-options button {
+    padding: 10px 20px;
+    border: 2px solid var(--color-primary);
+    background-color: transparent;
+    color: var(--color-white);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    border-radius: 25px;
+  }
+
+  .excelence-carousel-options button.active,
+  .excelence-carousel-options button:hover {
+    background-color: var(--color-primary);
+    color: var(--color-text);
+    border-color: var(--color-primary);
+  }
+
+  .coffee-to-go,
+  .carousel,
+  .other-events {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .coffee-to-go.active,
+  .carousel.active,
+  .other-events.active {
+    display: flex;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+  }
+
+  .coffee-to-go {
+    display: flex;
+    width: 880px;
+    height: 320px;
+    gap: 25px;
+  }
+
+  .coffee-to-go-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .coffee-to-go-content-text {
+    flex: 1;
+  }
+
+  .coffee-to-go-content-text h2 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: var(--color-light-pink);
+  }
+
+  .coffee-to-go-content-text p {
+    line-height: 1.7;
+    color: var(--color-white);
+  }
+
+  .coffee-to-go-content-image {
+    flex: 1;
+  }
+
+  .coffee-to-go-content-image img {
+    border-radius: 10px;
+    width: 100%;
+  }
+
+  .carousel,
+  .other-events-carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px 0;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .carousel-item-1,
+  .carousel-item-2,
+  .carousel-item-3,
+  .other-events-carousel-item-1,
+  .other-events-carousel-item-2,
+  .other-events-carousel-item-3 {
+    flex: 0 0 calc(33.333% - 20px);
+    min-width: 280px;
+    height: 300px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    scroll-snap-align: start;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .carousel-item-2,
+  .other-events-carousel-item-2 {
+    transform: scale(1.05);
+    z-index: 1;
+  }
+
+  .carousel-item-1 {
+    background-image: url("/images/Card 2.jpg");
+    background-size: initial;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .carousel-item-2 {
+    background-image: url("/images/Card 1.jpg");
+    background-size: initial;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .carousel-item-3 {
+    background-image: url("/images/Card 3.jpg");
+    background-size: initial;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .other-events-carousel-item-1 {
+    background-image: url("/images/Image And Badge.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .other-events-carousel-item-2 {
+    background-image: url("/images/Image And Badge 2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .other-events-carousel-item-3 {
+    background-image: url("/images/Image.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .carousel-item-content,
+  .other-events-carousel-item-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    text-align: center;
+  }
+
+  .carousel-item-content h3,
+  .other-events-carousel-item-content h3 {
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
+    font-weight: 500;
+    width: 120px;
+    justify-self: anchor-center;
+    margin-bottom: 15px;
+    color: var(--color-white);
+  }
+
+  .carousel-item-content button,
+  .other-events-carousel-item-content button {
+    background-color: var(--color-dark);
+    color: var(--color-white);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .carousel-item-content button:hover,
+  .other-events-carousel-item-content button:hover {
+    background-color: var(--color-dark);
+    transform: translateY(-2px);
+  }
+
+  /* Responsividad */
+  @media (max-width: 992px) {
+    .body-excelence {
+      flex-direction: column; /* Stack .excelence-carousel-options and content sections vertically */
+      padding: 0px 20px 20px; /* Adjust padding for mobile */
+      gap: 0px;
+    }
+
+    .excelence-carousel-options {
+      flex-direction: row; /* Align buttons horizontally */
+      justify-content: flex-start; /* Align buttons to the start */
+      gap: 10px; /* Adjust gap for horizontal layout */
+      margin-bottom: 30px; /* Space below buttons */
+      order: -1; /* Move buttons to the top visually */
+      width: 100%;
+      overflow-x: auto; /* Allow horizontal scrolling for buttons if they overflow */
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 10px; /* Space for scrollbar if visible */
+      scrollbar-width: thin; /* For Firefox */
+    }
+    .excelence-carousel-options::-webkit-scrollbar {
+      height: 5px;
+    }
+    .excelence-carousel-options::-webkit-scrollbar-thumb {
+      background-color: var(--color-primary);
+      border-radius: 10px;
+    }
+
+    .excelence-carousel-options button {
+      padding: 6px 12px; /* Further reduce button padding */
+      font-size: 0.85rem; /* Further reduce font size */
+      white-space: nowrap; /* Prevent button text from wrapping */
+      flex-shrink: 0; /* Prevent buttons from shrinking */
+    }
+    .head-excelence {
+      text-align: center;
+      padding: 80px 40px 0;
+    }
+    .head-excelence h1{
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .head-excelence h2{
+      font-size: 0.85rem;
+    }
+    .coffee-to-go,
+    .carousel,
+    .other-events-carousel {
+      width: 100%; /* Make content sections full width */
+      flex-direction: column; /* Stack items vertically within these sections if they were rows */
+      gap: 20px; /* Adjust gap for vertical stacking */
+    }
+    
+    .coffee-to-go-content {
+      flex-direction: column; /* Stack text and image vertically */
+      align-items: center; /* Center items */
+      text-align: center;
+    }
+
+    .coffee-to-go-content-text h2,
+    .coffee-to-go-content-text p {
+      text-align: center;
+    }
+
+    .coffee-to-go-content-image {
+      order: -1; /* Optional: Move image above text in coffee-to-go on mobile */
+      margin-bottom: 20px;
+      width: 100%; /* Ensure image container takes full width */
+    }
+    .coffee-to-go-content-image img {
+      max-width: 100%; /* Ensure image is responsive within its container */
+      width: 100%; /* Ensure image tries to fill container width */
+      height: 100%; /* Ensure image tries to fill container height if aspect-ratio is on parent */
+      object-fit: cover; /* Make image cover the area, cropping if necessary */
+    }
+    
+    .carousel-item-1,
+    .carousel-item-2,
+    .carousel-item-3,
+    .other-events-carousel-item-1,
+    .other-events-carousel-item-2,
+    .other-events-carousel-item-3 {
+      min-width: 100%; /* Make carousel items full width */
+      flex: 0 0 100%; /* Ensure they take full width */
+      height: auto; /* Adjust height as needed, or set a specific mobile height */
+      aspect-ratio: 16/9; /* Maintain aspect ratio */
+      transform: scale(1); /* Reset desktop scaling for .carousel-item-2 */
+      background-size: cover; /* Ensure background images also cover */
+      background-position: center;
+      background-size: 120%;
+    }
+
+    .carousel,
+    .other-events-carousel {
+      overflow-x: visible; /* Disable horizontal scroll for items, as they stack now */
+    }
+
+    .carousel-item-content,
+    .other-events-carousel-item-content {
+      text-align: center; /* Center text within carousel items */
+    }
+
+    .carousel-item-content h3,
+    .other-events-carousel-item-content h3 {
+      margin-left: auto; /* Helps center block elements like h3 if they have fixed width or inline-block */
+      margin-right: auto;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .excelence-carousel-options {
+      position: sticky;
+      top: 0;
+      background: var(--color-dark);
+      z-index: 10;
+      padding: 10px 0 20px;
+    }
+
+    .coffee-to-go {
+      width: 100%;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .coffee-to-go-content {
+      flex-direction: column;
+      text-align: center;
+      gap: 20px;
+    }
+
+    .carousel,
+    .other-events-carousel {
+      gap: 15px;
+      padding: 10px;
+    }
+
+    .carousel-item-1,
+    .carousel-item-2,
+    .carousel-item-3,
+    .other-events-carousel-item-1,
+    .other-events-carousel-item-2,
+    .other-events-carousel-item-3 {
+      min-width: 240px;
+      flex: 0 0 calc(33.333% - 15px);
+      height: 260px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .excelence-carousel-options {
+      position: sticky;
+      top: 0;
+      background: var(--color-dark);
+      z-index: 10;
+      padding: 10px 0 20px;
+    }
+
+    .coffee-to-go {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .carousel,
+    .other-events-carousel {
+      gap: 10px;
+      padding: 10px;
+    }
+
+    .carousel-item-1,
+    .carousel-item-2,
+    .carousel-item-3,
+    .other-events-carousel-item-1,
+    .other-events-carousel-item-2,
+    .other-events-carousel-item-3 {
+      min-width: 200px;
+      flex: 0 0 calc(50% - 10px);
+      height: 220px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .excelence-carousel-options {
+      position: sticky;
+      top: 0;
+      background: var(--color-dark);
+      z-index: 10;
+      padding: 10px 0 20px;
+    }
+
+    .coffee-to-go {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .coffee-to-go-content {
+      flex-direction: column;
+      text-align: center;
+      gap: 20px;
+    }
+
+    .carousel,
+    .other-events-carousel {
+      gap: 10px;
+      padding: 10px;
+    }
+
+    .carousel-item-1,
+    .carousel-item-2,
+    .carousel-item-3,
+    .other-events-carousel-item-1,
+    .other-events-carousel-item-2,
+    .other-events-carousel-item-3 {
+      min-width: 100%;
+      flex: 0 0 100%;
+      height: 200px;
+    }
+  }
+</style>
+
+<script is:inline>
+  let activeTab = 1; // 0: Coffee To Go, 1: Corporate, 2: Otros eventos
+  const calLinks = {
+    'After office': 'https://cal.com/your-username/after-office',
+    'Coffee Breaks': 'https://cal.com/your-username/coffee-breaks',
+    'Brunch & Almuerzos': 'https://cal.com/your-username/brunch',
+    'Paella Española': 'https://cal.com/your-username/paella',
+    'Cocktails & Tablas': 'https://cal.com/your-username/cocktails',
+    'Barra Portatil': 'https://cal.com/your-username/barra-portatil',
+  };
+  function setTab(idx) {
+    activeTab = idx;
+    updateView();
+  }
+  function openCal(event, key) {
+    event.preventDefault();
+    window.open(calLinks[key], '_blank');
+  }
+  function updateView() {
+    document.querySelectorAll('.excelence-carousel-options button').forEach((btn, idx) => {
+      btn.classList.toggle('active', idx === activeTab);
+    });
+    document.querySelector('.coffee-to-go').style.display = activeTab === 0 ? 'flex' : 'none';
+    document.querySelector('.carousel').style.display = activeTab === 1 ? 'flex' : 'none';
+    document.querySelector('.other-events').style.display = activeTab === 2 ? 'flex' : 'none';
+  }
+  setTimeout(() => {
+    document.querySelectorAll('.excelence-carousel-options button').forEach((btn, idx) => {
+      btn.onclick = () => setTab(idx);
+    });
+    document.querySelectorAll('.carousel-item-content button').forEach((btn, idx) => {
+      const keys = ['After office','Coffee Breaks','Brunch & Almuerzos'];
+      btn.onclick = (e) => openCal(e, keys[idx]);
+    });
+    document.querySelectorAll('.other-events-carousel-item-content button').forEach((btn, idx) => {
+      const keys = ['Paella Española','Cocktails & Tablas','Barra Portatil'];
+      btn.onclick = (e) => openCal(e, keys[idx]);
+    });
+    updateView();
+  }, 1);
+</script>
+<div class="container-full-b">
+  <div class="head-excelence">
+    <h2>NUESTROS SERVICIOS</h2>
+    <h1>Catering Corporativo</h1>
+  </div>
+  <div class="body-excelence">
+    <div class="excelence-carousel-options">
+      <button class="active">Coffee To Go!</button>
+      <button>Corporate</button>
+      <button>Otros eventos</button>
+    </div>
+    <div class="coffee-to-go" style="display:none;">
+      <div class="coffee-to-go-content">
+        <div class="coffee-to-go-content-text">
+          <h2>Coffee To Go!</h2>
+          <p>
+            Nuestro servicio Coffee To Go! te permite disfrutar de una
+            experiencia culinaria de alta calidad en el lugar que prefieras.
+            Nuestros expertos chefs preparan deliciosos desayunos y comidas
+            para tu equipo, en tu oficina o en el lugar del evento. Nuestro
+            servicio de catering es personalizado y flexible para adaptarse a
+            tus necesidades.
+          </p>
+        </div>
+        <div class="coffee-to-go-content-image">
+          <img src="/images/Hero Header.jpg" alt="Coffee To Go" />
+        </div>
+      </div>
+    </div>
+    <div class="carousel" style="display:flex;">
+      <div class="carousel-item-1 animated-card">
+        <div class="carousel-item-content">
+          <h3>After office</h3>
+          <button>Más información <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+      <div class="carousel-item-2 animated-card">
+        <div class="carousel-item-content">
+          <h3>Coffee Breaks</h3>
+          <button>Más información <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+      <div class="carousel-item-3 animated-card">
+        <div class="carousel-item-content">
+          <h3>Brunch & Almuerzos</h3>
+          <button>Más información <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="other-events" style="display:none;">
+      <div class="other-events-carousel">
+        <div class="other-events-carousel-item-1">
+          <div class="other-events-carousel-item-content">
+            <h3>Paella Española</h3>
+            <button>Más información <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+        <div class="other-events-carousel-item-2">
+          <div class="other-events-carousel-item-content">
+            <h3>Cocktails & Tablas</h3>
+            <button>Más información <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+        <div class="other-events-carousel-item-3">
+          <div class="other-events-carousel-item-content">
+            <h3>Barra Portatil</h3>
+            <button>Más información <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Helper function para cambiar entre secciones
+  function fadeSwitch(showEl: HTMLElement | null, hideEls: HTMLElement[]) {
+    // Primero aseguramos que todos los elementos a ocultar tengan opacity: 0
+    hideEls.forEach((el) => {
+      if (el) {
+        el.style.opacity = "0";
+        el.style.transition = "opacity 0.6s ease";
+        setTimeout(() => {
+          el.classList.remove("active");
+        }, 600);
+      }
+    });
+
+    // Aseguramos que el elemento a mostrar tenga opacity: 0 inicialmente
+    if (showEl) {
+      showEl.style.opacity = "0";
+      showEl.style.transition = "opacity 0.6s ease";
+      showEl.classList.add("active");
+      // Pequeña pausa antes de mostrar para asegurar que la transición funcione
+      setTimeout(() => {
+        showEl.style.opacity = "1";
+      }, 50);
+    }
+  }
+
+  // Inicializar cuando el DOM esté listo
+  document.addEventListener("DOMContentLoaded", function () {
+    const tabButtons = document.querySelectorAll<HTMLElement>(
+      ".excelence-carousel-options button",
+    );
+    const coffeeToGo = document.querySelector<HTMLElement>(".coffee-to-go");
+    const carousel = document.querySelector<HTMLElement>(".carousel");
+    const otherEvents = document.querySelector<HTMLElement>(".other-events");
+
+    if (tabButtons.length > 1 && carousel) {
+      if (tabButtons[1]) tabButtons[1].classList.add("active");
+      if (carousel) {
+        carousel.classList.add("active");
+        carousel.style.opacity = "1";
+      }
+
+      tabButtons.forEach((button, index) => {
+        button.addEventListener("click", () => {
+          tabButtons.forEach((btn) => btn.classList.remove("active"));
+          button.classList.add("active");
+
+          let newlyVisibleContainer: HTMLElement | null = null;
+
+          if (index === 0 && coffeeToGo && carousel && otherEvents) {
+            fadeSwitch(coffeeToGo, [carousel, otherEvents]);
+            newlyVisibleContainer = coffeeToGo;
+          } else if (index === 1 && carousel && coffeeToGo && otherEvents) {
+            fadeSwitch(carousel, [coffeeToGo, otherEvents]);
+            newlyVisibleContainer = carousel;
+          } else if (index === 2 && otherEvents && coffeeToGo && carousel) {
+            fadeSwitch(otherEvents, [coffeeToGo, carousel]);
+            newlyVisibleContainer = otherEvents;
+          }
+        });
+      });
+    }
+
+    // Manejar botones de reserva
+    const bookingButtons = document.querySelectorAll<HTMLElement>(
+      ".carousel-item-content button, .other-events-carousel-item-content button",
+    );
+    bookingButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        console.log("Cal.com booking would open here");
+      });
+    });
+  });
+</script>

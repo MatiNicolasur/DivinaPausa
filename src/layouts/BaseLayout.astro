@@ -1,0 +1,163 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string;
+  ogImage?: string;
+}
+
+const {
+  title = "Divina Pausa",
+  description = "Catering para empresas y eventos. Ofrecemos servicios de catering para eventos y celebraciones en el lugar que prefieras. Contamos con un equipo de expertos en la preparación de comida gourmet y bebidas frescas.",
+  keywords = "catering, empresas, eventos, celebraciones, comida gourmet, bebidas frescas, servicio, santiago, chile",
+  ogImage = "/og-image.jpg"
+} = Astro.props;
+
+const siteName = "Divina Pausa";
+// Para que Astro.site funcione, debes configurarlo en astro.config.mjs
+// Ejemplo: export default defineConfig({ site: 'https://divinapausa.cl' });
+const baseSiteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : 'https://divinapausa.cl'; // Fallback y quitar slash final si existe
+const canonicalURL = new URL(Astro.url.pathname, baseSiteUrl).toString();
+const finalOgImage = new URL(ogImage, baseSiteUrl).toString();
+---
+
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{`${title} | ${siteName}`}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <link rel="canonical" href={canonicalURL} />
+
+    {/* Open Graph / Facebook */}
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={`${title} | ${siteName}`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={finalOgImage} />
+    <meta property="og:site_name" content={siteName} />
+
+    {/* Twitter */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={`${title} | ${siteName}`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={finalOgImage} />
+    {/* <meta name="twitter:site" content="@tuTwitterHandle"> Opcional */}
+
+    {/* Google Fonts */}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    {/* Estilos globales se importan en el frontmatter */}
+    <slot name="head-extra" />
+
+    {/* Cal.com embed script */}
+    <script type="text/javascript">
+      (function (C, A, L) { 
+        let p = function (a, ar) { a.q.push(ar); }; 
+        let d = C.document; 
+        C.Cal = C.Cal || function () { 
+          let cal = C.Cal; 
+          let ar = arguments; 
+          if (!cal.loaded) { 
+            cal.ns = {}; 
+            cal.q = cal.q || []; 
+            d.head.appendChild(d.createElement("script")).src = A; 
+            cal.loaded = true; 
+          } 
+          if (ar[0] === L) { 
+            const api = function () { p(api, arguments); }; 
+            const namespace = ar[1]; 
+            api.q = api.q || []; 
+            if(typeof namespace === "string"){
+              cal.ns[namespace] = cal.ns[namespace] || api;
+              p(cal.ns[namespace], ar);
+              p(cal, ["initNamespace", namespace]);
+            } else p(cal, ar); 
+            return;
+          } 
+          p(cal, ar); 
+        }; 
+      })(window, "https://app.cal.com/embed/embed.js", "init");
+
+      // Initialize all Cal.com event types
+      Cal("init", "autentica-paella-espanola-15-minutos", {origin:"https://cal.com"});
+      Cal("init", "tablas-cocktail-gourmet-15-minutos", {origin:"https://cal.com"});
+      Cal("init", "brunch-almuerzos-de-excelencia", {origin:"https://cal.com"});
+      Cal("init", "after-office-dinamico", {origin:"https://cal.com"});
+      Cal("init", "coffee-break-premium-15-minutos", {origin:"https://cal.com"});
+      Cal("init", "bar-portatil-15-minutos", {origin:"https://cal.com"});
+      Cal("init", "asesoria-15min", {origin:"https://cal.com"});
+
+      // Configure UI for each namespace
+      Cal.ns["autentica-paella-espanola-15-minutos"]("ui", {
+        "cssVarsPerTheme":{"dark":{"cal-brand":"#e5b1ae"}},
+        "hideEventTypeDetails":false,
+        "layout":"month_view"
+      });
+      Cal.ns["tablas-cocktail-gourmet-15-minutos"]("ui", {
+        "cssVarsPerTheme":{"dark":{"cal-brand":"#e5b1ae"}},
+        "hideEventTypeDetails":false,
+        "layout":"month_view"
+      });
+      Cal.ns["brunch-almuerzos-de-excelencia"]("ui", {
+        "cssVarsPerTheme":{"dark":{"cal-brand":"#e5b1ae"}},
+        "hideEventTypeDetails":false,
+        "layout":"month_view"
+      });
+      Cal.ns["after-office-dinamico"]("ui", {
+        "cssVarsPerTheme":{"dark":{"cal-brand":"#e5b1ae"}},
+        "hideEventTypeDetails":false,
+        "layout":"month_view"
+      });
+      Cal.ns["coffee-break-premium-15-minutos"]("ui", {
+        "cssVarsPerTheme":{"dark":{"cal-brand":"#e5b1ae"}},
+        "hideEventTypeDetails":false,
+        "layout":"month_view"
+      });
+      Cal.ns["bar-portatil-15-minutos"]("ui", {
+        "cssVarsPerTheme":{"dark":{"cal-brand":"#e5b1ae"}},
+        "hideEventTypeDetails":false,
+        "layout":"month_view"
+      });
+      Cal.ns["asesoria-15min"]("ui", {
+        "cssVarsPerTheme":{"dark":{"cal-brand":"#e5b1ae"}},
+        "hideEventTypeDetails":false,
+        "layout":"month_view"
+      });
+    </script>
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <Header />
+
+      <main id="main-content">
+        <slot />
+      </main>
+
+      <Footer />
+    </div>
+    <style is:global>
+      .page-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      main#main-content {
+        flex-grow: 1;
+        padding-top: 80px; /* Ajusta este valor según la altura de tu header fijo */
+      }
+    </style>
+  </body>
+</html>
