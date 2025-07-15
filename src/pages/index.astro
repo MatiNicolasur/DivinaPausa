@@ -1,26 +1,37 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ExcellenceSection from "../components/ExcellenceSection.astro";
-import "../styles/global.css";
 import CTASection from "../components/CTASection.astro";
 import TestimonialSection from "../components/TestimonialSection.astro";
 import StatsSection from "../components/StatsSection.astro";
-
 ---
 
 <style>
+  @font-face {
+  font-family: 'Yale';
+  src: url('/fonts/OPTIYale-ScriptSuppl.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Marlet';
+  src: url('/fonts/fonnts.com-PF_Marlet_Display_Italic (1).woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --font-secondary: 'Yale';
+  --font-display: 'Marlet';
+}
+
   /* Layout */
   .container-full {
     width: 100%;
     padding: 0px;
     margin: 0;
     background-color: var(--color-white);
-  }
-  .container-full-b {
-    width: 100%;
-    padding: 0px;
-    margin: 0;
-    background-color: var(--color-dark);
   }
 
   /* Banner Styles */
@@ -35,17 +46,21 @@ import StatsSection from "../components/StatsSection.astro";
 
   .banner {
     position: relative;
-    min-height: 67vh;
-    align-content: center;
+    min-height: 70vh;
     justify-content: center;
     text-align: center;
-    padding: 120px 0;
+    padding: 50px;
+    display: flex;
     overflow: hidden;
+    margin: 42px 80px 0px;
+    border-radius: 15px;
     background-color: #000000;
-    background-image: url("/images/Hero Header.jpg");
+    background-image: url(/images/Hero Header.jpg);
     background-size: cover;
     background-position: center;
     color: var(--color-light-pink);
+    flex-direction: column;
+    align-items: center;
   }
 
   .banner::before {
@@ -59,14 +74,26 @@ import StatsSection from "../components/StatsSection.astro";
   }
 
   .banner h1 {
-    font-size: 4rem;
-    font-weight: 500;
-    font-style: italic;
+    font-size: 5rem;
+    font-weight: lighter;
+    font-style: normal;
     line-height: 1.2;
-    max-width: 1200px;
-    margin: 0 auto 40px;
+    text-align: center;
+    max-width: 1010px;
+    margin-left: 10px;
     font-family: var(--font-display);
     color: var(--color-white);
+    position: relative;
+    z-index: 2;
+  }
+  .banner h1 span {
+    font-family: 'Yale';
+    font-size: 10rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: .8;
+    text-align: left;
+    color: var(--color-light-pink);
     position: relative;
     z-index: 2;
   }
@@ -74,7 +101,7 @@ import StatsSection from "../components/StatsSection.astro";
   .buttons-banner {
     display: flex;
     gap: 15px;
-    justify-content: center;
+    justify-content: flex-end;
     flex-wrap: wrap;
     position: relative;
     z-index: 2;
@@ -82,7 +109,7 @@ import StatsSection from "../components/StatsSection.astro";
 
   .buttons-banner a {
     display: inline-block;
-    padding: 8px 25px;
+    padding: 10px 25px;
     text-decoration: none;
     border: solid 2px var(--color-primary);
     font-weight: 600;
@@ -608,7 +635,6 @@ import StatsSection from "../components/StatsSection.astro";
 
   /* Responsive Styles for New Sections */
   @media (max-width: 992px) {
-
     .stats-promo-grid {
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: auto;
@@ -647,10 +673,17 @@ import StatsSection from "../components/StatsSection.astro";
   @media (max-width: 768px) {
     .banner {
       padding: 80px 20px;
+      margin: 18px 20px;
     }
 
     .banner h1 {
-      font-size: 2.2rem;
+      font-size: 3rem;
+        width: -webkit-fill-available;
+    }
+    .banner h1 span {
+      font-size: 5rem;
+      text-align: center;
+      padding-right: 16px;
     }
 
     .testimonials-grid {
@@ -709,11 +742,7 @@ import StatsSection from "../components/StatsSection.astro";
 >
   <div class="container-full">
     <div class="banner">
-      <h1>Experiencia premium de catering para empresas en Santiago.</h1>
-      <div class="buttons-banner">
-        <a href="#cta-section" class="button-agendar" id="scroll-to-cta">Agendar llamada</a>
-        <a href="/servicios" class="button-servicios">Ver servicios</a>
-      </div>
+      <h1>Experiencia premium de <br><span>Catering</span> <br>para empresas en Santiago.</h1>
     </div>
   </div>
   <!-- Contenedor -->
@@ -829,8 +858,8 @@ import StatsSection from "../components/StatsSection.astro";
       </div>
     </div>
   </div>
-  <div class="container-full-b">
-  <ExcellenceSection />
+  <div>
+    <ExcellenceSection />
   </div>
   <div class="container-full" id="cta-section">
     <CTASection />
@@ -844,9 +873,9 @@ import StatsSection from "../components/StatsSection.astro";
 </BaseLayout>
 
 <script>
-  import { setupPageAnimations } from '../utils/animations';
-  import { gsap } from 'gsap';
-  
+  import { setupPageAnimations } from "../utils/animations";
+  import { gsap } from "gsap";
+
   // Setup page animations with cleanup
   const cleanup = setupPageAnimations(() => {
     // Type assertion for GSAP elements
@@ -855,109 +884,113 @@ import StatsSection from "../components/StatsSection.astro";
     };
 
     // Banner Animations (on page load)
-    toArray('.banner h1').forEach((el) => {
-      gsap.from(el, {
-        opacity: 0,
-        y: 30, 
-        duration: 1.0, 
-        ease: "power3.out",
-        delay: 0.2 
-      });
-    });
-
-    toArray('.buttons-banner').forEach((el) => {
+    toArray(".banner h1").forEach((el) => {
       gsap.from(el, {
         opacity: 0,
         y: 30,
         duration: 1.0,
         ease: "power3.out",
-        delay: 0.5 
+        delay: 0.2,
+      });
+    });
+
+    toArray(".buttons-banner").forEach((el) => {
+      gsap.from(el, {
+        opacity: 0,
+        y: 30,
+        duration: 1.0,
+        ease: "power3.out",
+        delay: 0.5,
       });
     });
 
     // Services Section
-    toArray('.head-services-title').forEach((el) => {
+    toArray(".head-services-title").forEach((el) => {
       gsap.from(el, { x: -50, opacity: 0 });
     });
-    
-    toArray('.head-services-description').forEach((el) => {
+
+    toArray(".head-services-description").forEach((el) => {
       gsap.from(el, { x: 50, opacity: 0, delay: 0.15 });
     });
 
-    const serviceItems = toArray('.body-service-item');
+    const serviceItems = toArray(".body-service-item");
     if (serviceItems.length > 0) {
       gsap.from(serviceItems, {
         opacity: 0,
         duration: 1.2,
         stagger: 0.1,
-        ease: 'power3.out',
+        ease: "power3.out",
         scrollTrigger: {
-          trigger: '.body-services',
-          start: 'top 70%',
-          toggleActions: 'play none none none',
+          trigger: ".body-services",
+          start: "top 70%",
+          toggleActions: "play none none none",
           once: true,
-        }
+        },
       });
     }
 
     // ExcellenceSection
-    toArray('section[data-excellence-section]').forEach((el) => {
+    toArray("section[data-excellence-section]").forEach((el) => {
       gsap.from(el, { y: 50, opacity: 0 });
     });
 
     // CTASection
-    toArray('section[data-cta-section]').forEach((el) => {
+    toArray("section[data-cta-section]").forEach((el) => {
       gsap.from(el, { y: 50, opacity: 0 });
     });
 
     // TestimonialSection
-    toArray('.testimonials-section .section-title').forEach((el) => {
+    toArray(".testimonials-section .section-title").forEach((el) => {
       gsap.from(el, { y: 30, opacity: 0 });
     });
 
-    const testimonialCards = toArray('.testimonial-card');
+    const testimonialCards = toArray(".testimonial-card");
     if (testimonialCards.length > 0) {
       gsap.from(testimonialCards, {
         opacity: 0,
         y: 50,
         duration: 0.5,
         stagger: 0.1,
-        ease: 'power3.out',
+        ease: "power3.out",
         scrollTrigger: {
-          trigger: '.testimonials-grid',
-          start: 'top 80%',
-          toggleActions: 'play none none none',
+          trigger: ".testimonials-grid",
+          start: "top 80%",
+          toggleActions: "play none none none",
           once: true,
-        }
+        },
       });
     }
-    
+
     // StatsSection
-    toArray('section[data-stats-section]').forEach((el) => {
+    toArray("section[data-stats-section]").forEach((el) => {
       gsap.from(el, { y: 50, opacity: 0 });
     });
 
     // --- Button Event Listeners ---
-    toArray('.button-agendar, .carousel-item-content button, .other-events-carousel-item-content button').forEach((button) => {
-      button.addEventListener('click', () => {
-        console.log('Cal.com booking would open here (placeholder)');
+    toArray(
+      ".button-agendar, .carousel-item-content button, .other-events-carousel-item-content button",
+    ).forEach((button) => {
+      button.addEventListener("click", () => {
+        console.log("Cal.com booking would open here (placeholder)");
         // Example: window.open('https://cal.com/your-username/your-event-type', '_blank');
       });
     });
 
-    const emailButton = document.querySelector('.body-cta-buttons button:nth-child(2)');
+    const emailButton = document.querySelector(
+      ".body-cta-buttons button:nth-child(2)",
+    );
     if (emailButton) {
-      emailButton.addEventListener('click', () => {
-        window.location.href = 'mailto:contacto@divinapausa.cl';
+      emailButton.addEventListener("click", () => {
+        window.location.href = "mailto:contacto@divinapausa.cl";
       });
     }
 
-    const scrollButton = document.getElementById('scroll-to-cta');
+    const scrollButton = document.getElementById("scroll-to-cta");
     if (scrollButton) {
-      scrollButton.addEventListener('click', () => {
-        const ctaSection = document.querySelector('#cta-section');
+      scrollButton.addEventListener("click", () => {
+        const ctaSection = document.querySelector("#cta-section");
         if (ctaSection) {
-          ctaSection.scrollIntoView({ behavior: 'smooth' });
+          ctaSection.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       });
     }
@@ -965,11 +998,11 @@ import StatsSection from "../components/StatsSection.astro";
 
   // Cleanup on component unmount
   if (import.meta.hot) {
-    import.meta.hot.on('astro:before-swap', () => {
+    import.meta.hot.on("astro:before-swap", () => {
       cleanup?.();
       // Cleanup GSAP ScrollTriggers
       gsap.context(() => {
-        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+        ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
       });
     });
   }

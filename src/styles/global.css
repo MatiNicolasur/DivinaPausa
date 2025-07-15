@@ -1,8 +1,64 @@
 /* Reset básico */
 /* Font imports */
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap");
+
+/* PF Marlet Display Font Definitions */
+@font-face {
+  font-family: 'PF Marlet Display';
+  src: url('/fonts/fonnts.com-PF_Marlet_Display_Black_Italic (1).woff') format('woff');
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'PF Marlet Display';
+  src: url('/fonts/fonnts.com-PF_Marlet_Display_Italic (1).woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'PF Marlet Display';
+  src: url('/fonts/fonnts.com-PF_Marlet_Display_Light (1).woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PF Marlet Display';
+  src: url('/fonts/fonnts.com-PF_Marlet_Display_Light_Italic (1).woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'PF Marlet Display';
+  src: url('/fonts/fonnts.com-PF_Marlet_Display_Medium (1).woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PF Marlet Display';
+  src: url('/fonts/fonnts.com-PF_Marlet_Display_Medium_Italic (1).woff') format('woff');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'PF Marlet Display';
+  src: url('/fonts/fonnts.com-PF_Marlet_Display_Thin_Italic (1).woff') format('woff');
+  font-weight: 100;
+  font-style: italic;
+}
+
+/* Variables */
+@font-face {
+  font-family: 'Yale';
+  src: url('/fonts/OPTIYale-ScriptSuppl.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 
 /* Variables */
 :root {
@@ -14,8 +70,8 @@
   --color-text: #212121;
   --color-text-light: #666666;
   --font-primary: "Montserrat", sans-serif;
-  --font-secondary: "Cormorant Garamond", serif;
-  --font-display: "Playfair Display", serif;
+  --font-secondary: "Yale", serif;
+  --font-display: "PF Marlet Display", sans-serif;
 }
 
 /* Global Styles */
@@ -206,11 +262,12 @@ img, video, svg {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: var(--color-white); /* Fondo negro */
+  background-color: var(--color-dark); /* Fondo negro */
   z-index: 1000;
-  height: auto;
+  height: 98px;
   display: flex;
   align-items: center;
+  flex-direction: column;
 }
 
 .header__inner {
@@ -221,6 +278,8 @@ img, video, svg {
   padding: 1.5rem 1rem;
   color: var(--color-text);
   height: auto;
+  border-bottom: 1px solid var(--color-text-light);
+  box-shadow: 0 36px 30px -36px rgba(0, 0, 0, 0.3);
 }
 
 .logo img {
@@ -391,6 +450,7 @@ img, video, svg {
   .hero-content p{
     font-size: 1rem !important;
   }
+  
   /* Overrides for elements that should NOT be centered, if any */
   /* Example: elements that use flexbox for alignment might need text-align reset */
   /* .flex-child-that-should-be-left { text-align: left; } */

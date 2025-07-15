@@ -4,9 +4,11 @@
 <style>
   /* Excellence Section */
   .container-full-b {
-    width: 100%;
+    width: -webkit-fill-available;
     padding: 0px;
-    margin: 0;
+    margin: 0px 60px 0px;
+    overflow: hidden;
+    border-radius: 20px;
     background-color: var(--color-dark);
   }
 
@@ -23,7 +25,7 @@
     font-family: var(--font-primary);
     margin-bottom: 20px;
     background-color: var(--color-light-pink);
-    color: var(--color-primary);
+    color: var(--color-dark);
     padding: 5px 15px;
     border-radius: 20px;
     display: inline-block;
@@ -274,7 +276,7 @@
     }
 
     .excelence-carousel-options button {
-      padding: 6px 12px; /* Further reduce button padding */
+      padding: 5px 8px; /* Further reduce button padding */
       font-size: 0.85rem; /* Further reduce font size */
       white-space: nowrap; /* Prevent button text from wrapping */
       flex-shrink: 0; /* Prevent buttons from shrinking */
@@ -424,6 +426,9 @@
       min-width: 200px;
       flex: 0 0 calc(50% - 10px);
       height: 220px;
+    }
+    .container-full-b{
+      margin: 0px 18px 0px;
     }
   }
 

@@ -5,12 +5,6 @@
   margin: 0;
   background-color: var(--color-white);
 }
-.container-full-b {
-  width: 100%;
-  padding: 0px;
-  margin: 0;
-  background-color: var(--color-dark);
-}
 
 /* Banner Styles */
 .coffee-to-go {
