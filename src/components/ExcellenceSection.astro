@@ -1,4 +1,5 @@
 ---
+
 ---
 
 <style>
@@ -34,11 +35,12 @@
 
   .head-excelence h1 {
     font-size: 3.5rem;
-    font-weight: 400;
+    font-weight: 600;
     color: var(--color-white);
     margin-bottom: 20px;
+    font-family: var(--font-display);
   }
-  
+
   .body-excelence {
     padding: 80px 0px 80px;
     background-color: var(--color-dark);
@@ -167,45 +169,27 @@
   }
 
   .carousel-item-1 {
-    background-image: url("/images/Card 2.jpg");
+    background-image: url("/images/services/after.png");
     background-size: initial;
     background-position: center;
     background-repeat: no-repeat;
+    background-size: cover;
   }
 
   .carousel-item-2 {
-    background-image: url("/images/Card 1.jpg");
+    background-image: url("/images/services/coffee.png");
     background-size: initial;
     background-position: center;
     background-repeat: no-repeat;
+    background-size: cover;
   }
 
   .carousel-item-3 {
-    background-image: url("/images/Card 3.jpg");
+    background-image: url("/images/services/brunch.png");
     background-size: initial;
     background-position: center;
     background-repeat: no-repeat;
-  }
-
-  .other-events-carousel-item-1 {
-    background-image: url("/images/Image And Badge.jpg");
     background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-
-  .other-events-carousel-item-2 {
-    background-image: url("/images/Image And Badge 2.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-
-  .other-events-carousel-item-3 {
-    background-image: url("/images/Image.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
   }
 
   .carousel-item-content,
@@ -285,12 +269,12 @@
       text-align: center;
       padding: 80px 40px 0;
     }
-    .head-excelence h1{
+    .head-excelence h1 {
       font-size: 1.8rem;
       font-weight: 700;
     }
 
-    .head-excelence h2{
+    .head-excelence h2 {
       font-size: 0.85rem;
     }
     .coffee-to-go,
@@ -300,7 +284,7 @@
       flex-direction: column; /* Stack items vertically within these sections if they were rows */
       gap: 20px; /* Adjust gap for vertical stacking */
     }
-    
+
     .coffee-to-go-content {
       flex-direction: column; /* Stack text and image vertically */
       align-items: center; /* Center items */
@@ -323,7 +307,7 @@
       height: 100%; /* Ensure image tries to fill container height if aspect-ratio is on parent */
       object-fit: cover; /* Make image cover the area, cropping if necessary */
     }
-    
+
     .carousel-item-1,
     .carousel-item-2,
     .carousel-item-3,
@@ -427,8 +411,9 @@
       flex: 0 0 calc(50% - 10px);
       height: 220px;
     }
-    .container-full-b{
+    .container-full-b {
       margin: 0px 18px 0px;
+      height: 900px;
     }
   }
 
@@ -438,7 +423,7 @@
       top: 0;
       background: var(--color-dark);
       z-index: 10;
-      padding: 10px 0 20px;
+      padding: 10px 0 10px;
     }
 
     .coffee-to-go {
@@ -474,42 +459,46 @@
 
 <script is:inline>
   let activeTab = 1; // 0: Coffee To Go, 1: Corporate, 2: Otros eventos
-  const calLinks = {
-    'After office': 'https://cal.com/your-username/after-office',
-    'Coffee Breaks': 'https://cal.com/your-username/coffee-breaks',
-    'Brunch & Almuerzos': 'https://cal.com/your-username/brunch',
-    'Paella Española': 'https://cal.com/your-username/paella',
-    'Cocktails & Tablas': 'https://cal.com/your-username/cocktails',
-    'Barra Portatil': 'https://cal.com/your-username/barra-portatil',
-  };
   function setTab(idx) {
+    if (idx > 1) {
+      // Redirigir a servicios si se selecciona "Otros eventos"
+      window.location.href = "/servicios";
+      return;
+    }
     activeTab = idx;
     updateView();
   }
-  function openCal(event, key) {
-    event.preventDefault();
-    window.open(calLinks[key], '_blank');
+  function redirectToServices() {
+    window.location.href = "/servicios";
   }
   function updateView() {
-    document.querySelectorAll('.excelence-carousel-options button').forEach((btn, idx) => {
-      btn.classList.toggle('active', idx === activeTab);
-    });
-    document.querySelector('.coffee-to-go').style.display = activeTab === 0 ? 'flex' : 'none';
-    document.querySelector('.carousel').style.display = activeTab === 1 ? 'flex' : 'none';
-    document.querySelector('.other-events').style.display = activeTab === 2 ? 'flex' : 'none';
+    document
+      .querySelectorAll(".excelence-carousel-options button")
+      .forEach((btn, idx) => {
+        btn.classList.toggle("active", idx === activeTab);
+      });
+    document.querySelector(".coffee-to-go").style.display =
+      activeTab === 0 ? "flex" : "none";
+    document.querySelector(".carousel").style.display =
+      activeTab === 1 ? "flex" : "none";
+    document.querySelector(".other-events").style.display = "none"; // Siempre ocultar "Otros eventos"
   }
   setTimeout(() => {
-    document.querySelectorAll('.excelence-carousel-options button').forEach((btn, idx) => {
-      btn.onclick = () => setTab(idx);
-    });
-    document.querySelectorAll('.carousel-item-content button').forEach((btn, idx) => {
-      const keys = ['After office','Coffee Breaks','Brunch & Almuerzos'];
-      btn.onclick = (e) => openCal(e, keys[idx]);
-    });
-    document.querySelectorAll('.other-events-carousel-item-content button').forEach((btn, idx) => {
-      const keys = ['Paella Española','Cocktails & Tablas','Barra Portatil'];
-      btn.onclick = (e) => openCal(e, keys[idx]);
-    });
+    document
+      .querySelectorAll(".excelence-carousel-options button")
+      .forEach((btn, idx) => {
+        btn.onclick = () => setTab(idx);
+      });
+    document
+      .querySelectorAll(".carousel-item-content button")
+      .forEach((btn, idx) => {
+        btn.onclick = redirectToServices;
+      });
+    document
+      .querySelectorAll(".other-events-carousel-item-content button")
+      .forEach((btn, idx) => {
+        btn.onclick = redirectToServices;
+      });
     updateView();
   }, 1);
 </script>
@@ -529,16 +518,14 @@
         <div class="coffee-to-go-content-text">
           <h2>Coffee To Go!</h2>
           <p>
-            Nuestro servicio Coffee To Go! te permite disfrutar de una
-            experiencia culinaria de alta calidad en el lugar que prefieras.
-            Nuestros expertos chefs preparan deliciosos desayunos y comidas
-            para tu equipo, en tu oficina o en el lugar del evento. Nuestro
-            servicio de catering es personalizado y flexible para adaptarse a
-            tus necesidades.
+            Una opción ágil, diseñada para simplificar tu día: entregamos
+            diferentes opciones listas para servir. Cada elemento viene
+            empaquetado con cuidado en envases resistentes, manteniendo su
+            frescura y presentación. ¡Solo queda servir y disfrutar!
           </p>
         </div>
         <div class="coffee-to-go-content-image">
-          <img src="/images/Hero Header.jpg" alt="Coffee To Go" />
+          <img src="/images/services/go.png" alt="Coffee To Go" />
         </div>
       </div>
     </div>
@@ -546,19 +533,25 @@
       <div class="carousel-item-1 animated-card">
         <div class="carousel-item-content">
           <h3>After office</h3>
-          <button>Más información <i class="fa-solid fa-arrow-right"></i></button>
+          <button
+            >Más información <i class="fa-solid fa-arrow-right"></i></button
+          >
         </div>
       </div>
       <div class="carousel-item-2 animated-card">
         <div class="carousel-item-content">
           <h3>Coffee Breaks</h3>
-          <button>Más información <i class="fa-solid fa-arrow-right"></i></button>
+          <button
+            >Más información <i class="fa-solid fa-arrow-right"></i></button
+          >
         </div>
       </div>
       <div class="carousel-item-3 animated-card">
         <div class="carousel-item-content">
           <h3>Brunch & Almuerzos</h3>
-          <button>Más información <i class="fa-solid fa-arrow-right"></i></button>
+          <button
+            >Más información <i class="fa-solid fa-arrow-right"></i></button
+          >
         </div>
       </div>
     </div>
@@ -567,19 +560,25 @@
         <div class="other-events-carousel-item-1">
           <div class="other-events-carousel-item-content">
             <h3>Paella Española</h3>
-            <button>Más información <i class="fa-solid fa-arrow-right"></i></button>
+            <button
+              >Más información <i class="fa-solid fa-arrow-right"></i></button
+            >
           </div>
         </div>
         <div class="other-events-carousel-item-2">
           <div class="other-events-carousel-item-content">
             <h3>Cocktails & Tablas</h3>
-            <button>Más información <i class="fa-solid fa-arrow-right"></i></button>
+            <button
+              >Más información <i class="fa-solid fa-arrow-right"></i></button
+            >
           </div>
         </div>
         <div class="other-events-carousel-item-3">
           <div class="other-events-carousel-item-content">
             <h3>Barra Portatil</h3>
-            <button>Más información <i class="fa-solid fa-arrow-right"></i></button>
+            <button
+              >Más información <i class="fa-solid fa-arrow-right"></i></button
+            >
           </div>
         </div>
       </div>

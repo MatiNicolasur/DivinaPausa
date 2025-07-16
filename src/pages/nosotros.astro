@@ -2,6 +2,7 @@
 import CTASection from "../components/CTASection.astro";
 import TestimonialSection from "../components/TestimonialSection.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/global.css";
 
 const pageTitle = "Sobre Nosotros - Divina Pausa";
 const pageDescription =
@@ -42,7 +43,8 @@ const nosotrosIcon = "/images/icon-catering-nosotros.svg";
     <section class="quienes-somos-section">
       <div class="container">
         <h3 class="section-subtitle pink-subtitle">Quienes Somos</h3>
-        <h2>Un Legado de Pasión y Excelencia</h2> <!-- Changed H2 to be more descriptive -->
+        <h2>Un Legado de Pasión y Excelencia</h2>
+        <!-- Changed H2 to be more descriptive -->
         <div class="quienes-somos-grid">
           <div class="quienes-somos-image-column">
             <div class="image-container">
@@ -62,7 +64,7 @@ const nosotrosIcon = "/images/icon-catering-nosotros.svg";
                 dedicación, pasión y excelencia.
               </p>
               <img
-                src={'/images/icons/VectorNosotros.svg'}
+                src={"/images/icons/VectorNosotros.svg"}
                 alt="Icono Catering"
                 class="nosotros-icon"
               />
@@ -137,7 +139,7 @@ const nosotrosIcon = "/images/icon-catering-nosotros.svg";
     span,
     .ofrecemos-list-item h3 {
       font-family: var(
-        --font-secondary,
+        --font-display,
         "Montserrat",
         sans-serif
       ); /* Assuming secondary is sans-serif */
@@ -148,16 +150,16 @@ const nosotrosIcon = "/images/icon-catering-nosotros.svg";
     /* Hero Section */
     .hero-nosotros {
       background-size: cover;
-    background-position: center;
-    color: white;
-    text-align: center;
-    padding: 8rem 1rem;
-    position: relative;
-    min-height: 60vh;
-    overflow: hidden;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    margin: 80px;
+      background-position: center;
+      color: white;
+      text-align: center;
+      padding: 8rem 1rem;
+      position: relative;
+      min-height: 60vh;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      margin: 80px;
     }
     .hero-nosotros-overlay {
       position: absolute;
@@ -165,10 +167,11 @@ const nosotrosIcon = "/images/icon-catering-nosotros.svg";
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+      background-color: rgba(0, 0, 0, 0.5);
       border-radius: 30px;
       display: flex;
       align-items: center;
+      justify-content: center;
     }
     .hero-nosotros-content {
       max-width: 60%;
@@ -176,9 +179,9 @@ const nosotrosIcon = "/images/icon-catering-nosotros.svg";
       margin-left: 5%;
     }
     .hero-nosotros h1 {
-      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      font-size: clamp(2.5rem, 5vw, 5rem);
       color: var(--color-white, #fff);
-      font-family: var(--font-secondary);
+      font-family: var(--font-display);
       margin-bottom: 1rem;
       font-style: italic;
       font-weight: 600;
@@ -205,8 +208,8 @@ const nosotrosIcon = "/images/icon-catering-nosotros.svg";
       margin-right: auto;
       font-size: clamp(0.9rem, 1.5vw, 1.1rem);
       font-weight: 600;
-      color: var(--color-light-pink, #FADADD);
-      background-color: var(--color-primary, #D4A76A);
+      color: var(--color-light-pink, #fadadd);
+      background-color: var(--color-primary, #d4a76a);
       padding: var(--space-xs, 8px) var(--space-md, 20px);
       border-radius: var(--border-radius-pill, 30px);
       margin-bottom: var(--space-sm, 15px);
@@ -219,7 +222,7 @@ const nosotrosIcon = "/images/icon-catering-nosotros.svg";
       font-weight: 400;
       color: var(--color-white);
       font-style: italic;
-      font-family: var(--font-secondary);
+      font-family: var(--font-display);
       margin-bottom: 60px;
     }
     .quienes-somos-grid {
@@ -233,7 +236,7 @@ const nosotrosIcon = "/images/icon-catering-nosotros.svg";
       top: 100px;
       border-radius: var(--border-radius-lg, 12px);
       overflow: hidden;
-      box-shadow: var(--shadow-lg, 0 10px 20px rgba(0,0,0,0.15));
+      box-shadow: var(--shadow-lg, 0 10px 20px rgba(0, 0, 0, 0.15));
       height: 100%; /* Make container fill the stretched column height */
     }
     .quienes-somos-image-column img {
@@ -256,7 +259,7 @@ const nosotrosIcon = "/images/icon-catering-nosotros.svg";
     }
     .info-card h3 {
       font-size: clamp(1.8rem, 3vw, 2.5rem);
-      font-family: var(--font-secondary);
+      font-family: var(--font-display);
       color: var(--color-primary);
       margin-bottom: 20px;
       font-weight: 600;
@@ -283,7 +286,7 @@ const nosotrosIcon = "/images/icon-catering-nosotros.svg";
     }
     .vision-card h3 {
       font-size: clamp(1.8rem, 3vw, 2.5rem);
-      font-family: var(--font-secondary);
+      font-family: var(--font-display);
       color: var(--color-light-pink);
       margin-bottom: 20px;
       font-weight: 600;
@@ -340,7 +343,7 @@ const nosotrosIcon = "/images/icon-catering-nosotros.svg";
     .ofrecemos-list-item h3 {
       font-size: clamp(1.2rem, 2.2vw, 7rem);
       color: var(--color-dark, #333);
-      font-family: var(--font-secondary, "Montserrat", sans-serif);
+      font-family: var(--font-display, "Montserrat", sans-serif);
       font-weight: 500;
     }
 
@@ -398,9 +401,9 @@ const nosotrosIcon = "/images/icon-catering-nosotros.svg";
     }
   </style>
   <script>
-    import { setupPageAnimations } from '../utils/animations';
-    import { gsap } from 'gsap';
-    
+    import { setupPageAnimations } from "../utils/animations";
+    import { gsap } from "gsap";
+
     // Setup page animations with cleanup
     const cleanup = setupPageAnimations(() => {
       // Type assertion for GSAP elements
@@ -409,46 +412,131 @@ const nosotrosIcon = "/images/icon-catering-nosotros.svg";
       };
 
       // Hero Section Animations
-      toArray<HTMLElement>('.hero-nosotros-content h1').forEach((el) => {
-        gsap.from(el, { y: 50, opacity: 0, duration: 1, delay: 0.2, scrollTrigger: { trigger: '.hero-nosotros', start: 'top 80%', toggleActions: 'play none none none' }});
+      toArray<HTMLElement>(".hero-nosotros-content h1").forEach((el) => {
+        gsap.from(el, {
+          y: 50,
+          opacity: 0,
+          duration: 1,
+          delay: 0.2,
+          scrollTrigger: {
+            trigger: ".hero-nosotros",
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        });
       });
-      
-      toArray<HTMLElement>('.hero-nosotros-content p').forEach((el) => {
-        gsap.from(el, { y: 50, opacity: 0, duration: 1, delay: 0.4, scrollTrigger: { trigger: '.hero-nosotros', start: 'top 80%', toggleActions: 'play none none none' }});
+
+      toArray<HTMLElement>(".hero-nosotros-content p").forEach((el) => {
+        gsap.from(el, {
+          y: 50,
+          opacity: 0,
+          duration: 1,
+          delay: 0.4,
+          scrollTrigger: {
+            trigger: ".hero-nosotros",
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        });
       });
 
       // ¿Quienes somos? Section Animations
-      toArray<HTMLElement>('.quienes-somos-section h2').forEach((el) => {
-        gsap.from(el, { y: 50, opacity: 0, delay: 0.1, scrollTrigger: { trigger: '.quienes-somos-section', start: 'top 80%', toggleActions: 'play none none none' }});
+      toArray<HTMLElement>(".quienes-somos-section h2").forEach((el) => {
+        gsap.from(el, {
+          y: 50,
+          opacity: 0,
+          delay: 0.1,
+          scrollTrigger: {
+            trigger: ".quienes-somos-section",
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        });
       });
-      
-      toArray<HTMLElement>('.nosotros-card').forEach((el) => {
-        gsap.from(el, { y: 50, opacity: 0, delay: 0.2, scrollTrigger: { trigger: '.quienes-somos-section', start: 'top 80%', toggleActions: 'play none none none' }});
+
+      toArray<HTMLElement>(".nosotros-card").forEach((el) => {
+        gsap.from(el, {
+          y: 50,
+          opacity: 0,
+          delay: 0.2,
+          scrollTrigger: {
+            trigger: ".quienes-somos-section",
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        });
       });
-      
-      toArray<HTMLImageElement>('.quienes-somos-image-vision .image-container img').forEach((el) => {
-        gsap.from(el, { y: 50, opacity: 0, delay: 0.3, scrollTrigger: { trigger: '.quienes-somos-section', start: 'top 80%', toggleActions: 'play none none none' }});
+
+      toArray<HTMLImageElement>(
+        ".quienes-somos-image-vision .image-container img",
+      ).forEach((el) => {
+        gsap.from(el, {
+          y: 50,
+          opacity: 0,
+          delay: 0.3,
+          scrollTrigger: {
+            trigger: ".quienes-somos-section",
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        });
       });
-      
-      toArray<HTMLElement>('.vision-card').forEach((el) => {
-        gsap.from(el, { y: 50, opacity: 0, delay: 0.4, scrollTrigger: { trigger: '.quienes-somos-section', start: 'top 80%', toggleActions: 'play none none none' }});
+
+      toArray<HTMLElement>(".vision-card").forEach((el) => {
+        gsap.from(el, {
+          y: 50,
+          opacity: 0,
+          delay: 0.4,
+          scrollTrigger: {
+            trigger: ".quienes-somos-section",
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        });
       });
 
       // Ofrecemos Section Animations
-      toArray<HTMLElement>('.ofrecemos-text .tagline').forEach((el) => {
-        gsap.from(el, { y: 40, opacity: 0, delay: 0.1, scrollTrigger: { trigger: '.ofrecemos-section', start: 'top 80%', toggleActions: 'play none none none' }});
+      toArray<HTMLElement>(".ofrecemos-text .tagline").forEach((el) => {
+        gsap.from(el, {
+          y: 40,
+          opacity: 0,
+          delay: 0.1,
+          scrollTrigger: {
+            trigger: ".ofrecemos-section",
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        });
       });
-      
-      toArray<HTMLElement>('.ofrecemos-text h2').forEach((el) => {
-        gsap.from(el, { y: 40, opacity: 0, delay: 0.2, scrollTrigger: { trigger: '.ofrecemos-section', start: 'top 80%', toggleActions: 'play none none none' }});
+
+      toArray<HTMLElement>(".ofrecemos-text h2").forEach((el) => {
+        gsap.from(el, {
+          y: 40,
+          opacity: 0,
+          delay: 0.2,
+          scrollTrigger: {
+            trigger: ".ofrecemos-section",
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        });
       });
-      
-      toArray<HTMLElement>('.ofrecemos-text p').forEach((el) => {
-        gsap.from(el, { y: 40, opacity: 0, delay: 0.3, scrollTrigger: { trigger: '.ofrecemos-section', start: 'top 80%', toggleActions: 'play none none none' }});
+
+      toArray<HTMLElement>(".ofrecemos-text p").forEach((el) => {
+        gsap.from(el, {
+          y: 40,
+          opacity: 0,
+          delay: 0.3,
+          scrollTrigger: {
+            trigger: ".ofrecemos-section",
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        });
       });
-      
+
       // Stagger animation for list items
-      const listItems = toArray<HTMLElement>('.ofrecemos-list-item');
+      const listItems = toArray<HTMLElement>(".ofrecemos-list-item");
       if (listItems.length > 0) {
         gsap.from(listItems, {
           y: 40,
@@ -456,17 +544,17 @@ const nosotrosIcon = "/images/icon-catering-nosotros.svg";
           stagger: 0.1,
           delay: 0.4,
           scrollTrigger: {
-            trigger: '.ofrecemos-list',
-            start: 'top 80%',
-            toggleActions: 'play none none none',
-          }
+            trigger: ".ofrecemos-list",
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
         });
       }
     });
 
     // Cleanup on component unmount
     if (import.meta.hot) {
-      import.meta.hot.on('astro:before-swap', () => {
+      import.meta.hot.on("astro:before-swap", () => {
         cleanup?.();
       });
     }

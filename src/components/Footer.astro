@@ -1,5 +1,48 @@
 ---
 const currentYear = new Date().getFullYear();
+
+// FAQ modal functions
+const openFaqModal = (modalId: string) => {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'flex';
+    // Trigger reflow to apply display:flex before adding class
+    void modal.offsetWidth;
+    modal.style.opacity = '1';
+  }
+};
+
+const closeFaqModal = (modalId: string) => {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.opacity = '0';
+    setTimeout(() => {
+      modal.style.display = 'none';
+    }, 300); // Match this with the CSS transition duration
+  }
+};
+
+// Make functions globally available
+if (typeof window !== 'undefined') {
+  window.openFaqModal = openFaqModal;
+  window.closeFaqModal = closeFaqModal;
+}
+
+// FAQ data with questions and answers
+const faqs = [
+  {
+    question: "¿Qué es un evento de catering?",
+    answer: "¡Es una experiencia culinaria sin estrés! Nuestro servicio de catering premium se encarga de todo el proceso: desde el diseño de un menú personalizado según tus gustos y necesidades, pasando por la compra de ingredientes frescos y de primera calidad, hasta la preparación profesional, presentación impecable y servicio experto durante tu evento. Incluimos todo el equipamiento necesario (vajilla, cristalería, mantelería) y personal capacitado para que tú y tus invitados solo tengan que disfrutar de una experiencia gastronómica excepcional. ¡Nos encargamos de cada detalle para que tu evento sea inolvidable!"
+  },
+  {
+    question: "¿Puedo tener un menú con restricciones?",
+    answer: "¡Por supuesto! Nos especializamos en adaptarnos a todas las necesidades. Ya sea vegetariano, vegano, sin gluten, sin lácteos o cualquier otra restricción, crearemos un menú delicioso que todos puedan disfrutar. ¡La variedad es la sal de la vida!"
+  },
+  {
+    question: "¿Qué servicios ofrecen?",
+    answer: "Ofrecemos un servicio completo de catering que incluye desde cócteles elegantes hasta cenas formales. Nuestros servicios incluyen: diseño de menú personalizado, servicio de meseros profesionales, montaje de mobiliario, vajilla y cristalería, y limpieza post-evento. ¡Hacemos que cada detalle cuente!"
+  }
+];
 ---
 
 <footer class="footer-section">
@@ -34,25 +77,90 @@ const currentYear = new Date().getFullYear();
     </div>
     
     <div class="footer-faq">
-      <div class="faq-item">
-        <a href="/faq">
-          <h5>¿Qué es un evento de catering?</h5>
-          <i class="fa-solid fa-arrow-right"></i>
-        </a>
-      </div>
-      <div class="faq-item">
-        <a href="/faq">
-          <h5>¿Puedo tener un menú con restricciones?</h5>
-          <i class="fa-solid fa-arrow-right"></i>
-        </a>
-      </div>
-      <div class="faq-item">
-        <a href="/faq">
-          <h5>¿Qué servicios ofrecen?</h5>
-          <i class="fa-solid fa-arrow-right"></i>
-        </a>
-      </div>
+      {faqs.map((faq, index) => (
+        <div class="faq-item" data-faq-index={index}>
+          <div class="faq-question">
+            <h5>{faq.question}</h5>
+            <i class="fa-solid fa-arrow-right"></i>
+          </div>
+        </div>
+      ))}
+      
+      <script>
+        // Function to open FAQ modal
+        const openFaqModal = (modalId: string) => {
+          const modal = document.getElementById(modalId) as HTMLElement | null;
+          if (modal) {
+            modal.style.display = 'flex';
+            // Trigger reflow to apply display:flex before adding class
+            void modal.offsetWidth;
+            modal.style.opacity = '1';
+          }
+        };
+
+        // Function to close FAQ modal
+        const closeFaqModal = (modalId: string) => {
+          const modal = document.getElementById(modalId) as HTMLElement | null;
+          if (modal) {
+            modal.style.opacity = '0';
+            setTimeout(() => {
+              modal.style.display = 'none';
+            }, 300);
+          }
+        };
+
+        // Handle FAQ item clicks using event delegation
+        document.addEventListener('click', (event: MouseEvent) => {
+          const target = event.target as HTMLElement | null;
+          if (!target) return;
+          
+          // Handle FAQ item click to open modal
+          const faqItem = target.closest('.faq-item') as HTMLElement | null;
+          if (faqItem) {
+            const index = faqItem.getAttribute('data-faq-index');
+            if (index !== null) {
+              const modalId = `faqModal${index}`;
+              openFaqModal(modalId);
+            }
+            return;
+          }
+          
+          // Handle close button click
+          const closeButton = target.closest('.faq-close') as HTMLElement | null;
+          if (closeButton) {
+            const modal = closeButton.closest('.faq-modal') as HTMLElement | null;
+            if (modal) {
+              event.preventDefault();
+              closeFaqModal(modal.id);
+            }
+          }
+        });
+      </script>
     </div>
+    
+    <!-- FAQ Modals -->
+    {faqs.map((faq, index) => (
+      <div id={`faqModal${index}`} class="faq-modal">
+        <div class="faq-modal-content">
+          <span class="faq-close">&times;</span>
+          <h3>{faq.question}</h3>
+          <p>{faq.answer}</p>
+        </div>
+      </div>
+    ))}
+    
+    <script is:inline>
+      // Close when clicking outside modal content
+      document.addEventListener('click', function(event) {
+        const target = event.target as HTMLElement;
+        if (target.classList.contains('faq-modal')) {
+          target.style.opacity = '0';
+          setTimeout(() => {
+            target.style.display = 'none';
+          }, 300);
+        }
+      });
+    </script>
   </div>
   
   <div class="footer-bottom">
@@ -62,22 +170,6 @@ const currentYear = new Date().getFullYear();
 </footer>
 
 <style>
-  /* Font imports */
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
-  
-  /* Variables */
-  :root {
-    --color-primary: #e5b1ae;
-    --color-secondary: #212121;
-    --color-white: #ffffff;
-    --color-light-pink: #ffe5e3;
-    --color-dark: #212121;
-    --color-text: #212121;
-    --color-text-light: #666666;
-    --font-primary: 'Montserrat', sans-serif;
-    --font-secondary: 'PF Marlet', serif;
-    --font-display: 'OPTI Yale', serif;
-  }
 
   /* Footer Styles */
   .footer-section {
@@ -179,7 +271,11 @@ const currentYear = new Date().getFullYear();
     background-color: rgba(255, 255, 255, 0.1);
   }
 
-  .faq-item a {
+  .faq-item {
+    cursor: pointer;
+  }
+
+  .faq-question {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -205,7 +301,72 @@ const currentYear = new Date().getFullYear();
     transform: translateX(5px);
   }
   
-  .footer-bottom {
+    /* FAQ Modal Styles */
+  .faq-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .faq-modal.show {
+    display: flex;
+    opacity: 1;
+  }
+  
+  .faq-modal-content {
+    background-color: var(--color-dark);
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    color: white;
+    animation: modalFadeIn 0.3s ease-out;
+  }
+  
+  @keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .faq-close {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--color-primary);
+    transition: color 0.3s ease;
+  }
+  
+  .faq-close:hover {
+    color: white;
+  }
+  
+  .faq-modal h3 {
+    color: var(--color-primary);
+    margin-top: 0;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .faq-modal p {
+    line-height: 1.6;
+    margin-bottom: 0;
+    color: var(--color-light-pink);
+  }
+
+.footer-bottom {
     text-align: center;
     padding-top: 30px;
     margin-top: 30px;

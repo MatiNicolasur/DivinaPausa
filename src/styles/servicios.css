@@ -1,15 +1,16 @@
-@import '../styles/global.css';
 
 /* General Page Styles */
 .services-showcase-section .section-title{
   text-align: center;
   margin-bottom: 3rem;
   color: var(--color-white);
+  font-family: var(--font-display) !important;
 }
 .servicios-page .section-title h2{
   font-size: clamp(2.5rem, 5vw, 3.5rem);
   font-weight: 400;
   font-style: italic;
+  font-family: var(--font-display);
 }
 .servicios-page .section-title p{
   font-size: clamp(1rem, 2vw, 1.5rem);
@@ -65,9 +66,13 @@
 }
 
 .hero-content h1 {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-size: clamp(2.5rem, 5vw, 5rem);
   margin-bottom: 1rem;
   color: var(--color-white);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-style: italic;
+
 }
 
 /* Services Showcase Section */
@@ -146,6 +151,7 @@
 
 .service-title {
   color: var(--color-primary);
+  font-family: var(--font-display);
   font-size: 1.8rem;
   margin-bottom: 1rem;
   font-weight: 600;
@@ -516,6 +522,8 @@
   }
   .service-item-image-wrapper h3{
     max-width: 100% !important  ;
+    font-family: var(--font-display);
+    font-weight: 400;
   }
 }
 .service-item {
@@ -560,6 +568,7 @@
   border-radius: var(--border-radius-sm, 4px);
   font-size: clamp(1.6rem, 1.5vw, 2rem); /* Responsive font size */
   font-weight: 600;
+  font-family: var(--font-display);
   margin: 0;
   z-index: 2; /* Below button, above image */
   line-height: 1.3;

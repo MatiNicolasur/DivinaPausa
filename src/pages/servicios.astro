@@ -10,7 +10,9 @@ const pageKeywords = "servicios catering, catering empresas, coffee break santia
 import { services, benefits } from '../data/servicesData';
 import type { Service } from '../data/servicesData';
 
+
 import '../styles/servicios.css';
+import '../styles/global.css';
 
 const heroBgImage = "/images/dp-cta-bg.jpg";
 
@@ -45,7 +47,6 @@ const gridServices: Service[] = customService ? services.slice(0, -1) : [...serv
       <div class="hero-overlay">
         <div class="hero-content">
           <h1>Servicios Exquisitos para Momentos Inolvidables</h1>
-          <p>En Divina Pausa, cada detalle cuenta. Transformamos tus eventos empresariales y celebraciones especiales con propuestas gastronómicas innovadoras y un servicio de excelencia.</p>
         </div>
       </div>
     </section>
