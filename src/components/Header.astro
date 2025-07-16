@@ -432,20 +432,28 @@ const navItems = [
     const threshold = 50;
 
     // Manejar menú móvil
-    if (mobileMenuButton && mobileMenu && mobileMenuClose) {
+    const mainNav = document.getElementById("main-nav");
+
+    if (mobileMenuButton && mainNav) {
       mobileMenuButton.addEventListener("click", () => {
-        mobileMenu.classList.toggle("is-active");
+        mainNav.classList.toggle("is-active");
         mobileMenuButton.classList.toggle("is-active");
         // Bloquear scroll del body cuando el menú está abierto
-        document.body.style.overflow = mobileMenu.classList.contains("is-active")
+        document.body.style.overflow = mainNav.classList.contains("is-active")
           ? "hidden"
           : "";
       });
 
-      mobileMenuClose.addEventListener("click", () => {
-        mobileMenu.classList.remove("is-active");
-        mobileMenuButton.classList.remove("is-active");
-        document.body.style.overflow = "";
+      // Cerrar menú al hacer clic en un enlace (opcional, pero bueno para UX)
+      const navLinks = mainNav.querySelectorAll(".nav-link");
+      navLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          if (mainNav.classList.contains("is-active")) {
+            mainNav.classList.remove("is-active");
+            mobileMenuButton.classList.remove("is-active");
+            document.body.style.overflow = "";
+          }
+        });
       });
     }
 

@@ -152,8 +152,8 @@ const faqs = [
     <script is:inline>
       // Close when clicking outside modal content
       document.addEventListener('click', function(event) {
-        const target = event.target as HTMLElement;
-        if (target.classList.contains('faq-modal')) {
+        const target = event.target;
+        if (target && target.classList && target.classList.contains('faq-modal')) {
           target.style.opacity = '0';
           setTimeout(() => {
             target.style.display = 'none';
