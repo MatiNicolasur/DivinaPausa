@@ -22,7 +22,7 @@ const barPortatilImg = "/images/services/service-bar.jpg";
 
 export const services: Service[] = [
   {
-    title: "Coffee Breaks Premium",
+    title: "Coffee Break Premium",
     description: "Inicia tus mañanas o energiza tus pausas con nuestra selección de cafés de especialidad, tés aromáticos, bollería artesanal recién horneada, frutas frescas y bocados saludables. Creamos el ambiente perfecto para la productividad y el networking.",
     imgSrc: coffeeBreakImg,
     imgAlt: "Elegante coffee break con pastelería fina y café de especialidad"

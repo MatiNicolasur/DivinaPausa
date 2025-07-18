@@ -4,7 +4,7 @@ import CTASection from '../components/CTASection.astro';
 import TestimonialSection from '../components/TestimonialSection.astro';
 
 const pageTitle = "Nuestros Servicios de Catering de Lujo - Divina Pausa";
-const pageDescription = "Descubre cómo Divina Pausa transforma eventos con servicios de catering excepcionales: coffee breaks, almuerzos corporativos, cocktails y soluciones a medida.";
+const pageDescription = "Descubre cómo Divina Pausa transforma eventos con servicios de catering excepcionales: coffee Break, almuerzos corporativos, cocktails y soluciones a medida.";
 const pageKeywords = "servicios catering, catering empresas, coffee break santiago, almuerzos corporativos, eventos catering, catering personalizado, divina pausa servicios";
 
 import { services, benefits } from '../data/servicesData';
@@ -19,7 +19,7 @@ const heroBgImage = "/images/dp-cta-bg.jpg";
 // Function to map service titles to Cal.com event slugs
 const getCalEventSlug = (serviceTitle: string): string => {
   const mapping: Record<string, string> = {
-    "Coffee Breaks Premium": "coffee-break-premium-15-minutos",
+    "Coffee Break Premium": "coffee-break-premium-15-minutos",
     "After Office Dinámico": "after-office-dinamico", 
     "Brunch & Almuerzos de Excelencia": "brunch-almuerzos-de-excelencia",
     "Tablas & Cocktail Gourmet": "tablas-cocktail-gourmet-15-minutos",
@@ -55,8 +55,10 @@ const gridServices: Service[] = customService ? services.slice(0, -1) : [...serv
     <section class="services-showcase-section" data-animate="fade-in-up">
       <div class="container">
         <div class="section-title" data-animate="fade-in-up">
-          <span class="subtitle">Catálogo</span>
-          <h2>Propuestas Gastronómicas</h2>
+          <div class="mx-auto">
+            <span class="subtitle">Catálogo</span>
+            <h2>Propuestas Gastronómicas</h2>
+          </div>
         </div>
         
         {gridServices.length > 0 && (

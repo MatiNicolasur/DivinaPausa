@@ -75,6 +75,14 @@
 
 }
 
+.mx-auto{
+  margin-left: auto;
+  margin-right: auto ;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Services Showcase Section */
 .services-showcase-section {
   padding: 4rem 0;
