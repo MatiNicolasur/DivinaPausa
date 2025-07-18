@@ -11,14 +11,18 @@
       </div>
       <h3 class="section-title">Lo que dicen nuestros clientes</h3>
     </div>
-    
+
     <div class="testimonial-carousel testimonials-grid">
       <div class="testimonial-track">
         <!-- First set of testimonials -->
         <div class="testimonial-card">
           <div class="testimonial-content">
             <div class="quote-icon">"</div>
-            <p class="testimonial-text">Excelente servicio y atención. La comida estuvo deliciosa y todo estuvo impecable.</p>
+            <p class="testimonial-text">
+              La presentación impecable y los sabores exquisitos hicieron de
+              nuestro evento un éxito rotundo. Cada plato fue una experiencia
+              única que nuestros invitados no dejaron de elogiar.
+            </p>
             <div class="testimonial-author">
               <div class="author-info">
                 <h4>María González</h4>
@@ -27,11 +31,16 @@
             </div>
           </div>
         </div>
-        
+
         <div class="testimonial-card">
           <div class="testimonial-content">
             <div class="quote-icon">"</div>
-            <p class="testimonial-text">Quedamos encantados con el servicio de catering. Los invitados no pararon de elogiar los sabores.</p>
+            <p class="testimonial-text">
+              La combinación perfecta entre creatividad culinaria y atención
+              personalizada. Nuestro evento corporativo superó todas las
+              expectativas gracias a su profesionalismo y dedicación en cada
+              detalle.
+            </p>
             <div class="testimonial-author">
               <div class="author-info">
                 <h4>Carlos M.</h4>
@@ -40,11 +49,16 @@
             </div>
           </div>
         </div>
-        
+
         <div class="testimonial-card">
           <div class="testimonial-content">
             <div class="quote-icon">"</div>
-            <p class="testimonial-text">Profesionalismo absoluto. Se adaptaron a todas nuestras necesidades y el resultado fue espectacular.</p>
+            <p class="testimonial-text">
+              Su capacidad para entender nuestra visión y convertirla en una
+              experiencia gastronómica memorable fue excepcional. La
+              presentación de los platos y la calidad de los ingredientes
+              dejaron a todos sorprendidos.
+            </p>
             <div class="testimonial-author">
               <div class="author-info">
                 <h4>Ana R.</h4>
@@ -53,12 +67,16 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Duplicate for infinite scroll effect -->
         <div class="testimonial-card">
           <div class="testimonial-content">
             <div class="quote-icon">"</div>
-            <p class="testimonial-text">Excelente servicio y atención. La comida estuvo deliciosa y todo estuvo impecable.</p>
+            <p class="testimonial-text">
+              La atención personalizada y la calidad del servicio fueron
+              sobresalientes. Cada plato contaba una historia de pasión por la
+              gastronomía que cautivó a todos nuestros invitados.
+            </p>
             <div class="testimonial-author">
               <div class="author-info">
                 <h4>María González</h4>
@@ -67,11 +85,15 @@
             </div>
           </div>
         </div>
-        
+
         <div class="testimonial-card">
           <div class="testimonial-content">
             <div class="quote-icon">"</div>
-            <p class="testimonial-text">Quedamos encantados con el servicio de catering. Los invitados no pararon de elogiar los sabores.</p>
+            <p class="testimonial-text">
+              La combinación de sabores innovadores y presentación impecable
+              creó una experiencia gastronómica única. Nuestros clientes
+              quedaron impresionados con cada bocado.
+            </p>
             <div class="testimonial-author">
               <div class="author-info">
                 <h4>Macarena</h4>
@@ -80,11 +102,15 @@
             </div>
           </div>
         </div>
-        
+
         <div class="testimonial-card">
           <div class="testimonial-content">
             <div class="quote-icon">"</div>
-            <p class="testimonial-text">Profesionalismo absoluto. Se adaptaron a todas nuestras necesidades y el resultado fue espectacular.</p>
+            <p class="testimonial-text">
+              La atención meticulosa a los detalles y la calidad excepcional del
+              servicio transformaron nuestro evento en una experiencia
+              inolvidable. Superaron todas nuestras expectativas con creces.
+            </p>
             <div class="testimonial-author">
               <div class="author-info">
                 <h4>Joaquin A.</h4>
@@ -108,20 +134,20 @@
     width: -webkit-fill-available;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) inset;
   }
-  
+
   .container {
     max-width: -webkit-fill-available;
     margin: 0 auto;
     padding: 0;
   }
-  
+
   .section-header {
     text-align: center;
     margin-bottom: 50px;
   }
-  .mx-auto{
+  .mx-auto {
     margin-left: auto;
-    margin-right: auto ;
+    margin-right: auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -139,7 +165,7 @@
     text-transform: uppercase;
     letter-spacing: 2px;
   }
-  
+
   .section-title {
     font-size: 2.5rem;
     font-family: var(--font-display);
@@ -149,21 +175,21 @@
     position: relative;
     display: inline-block;
   }
-  
+
   .testimonial-carousel {
     position: relative;
     width: 100%;
     overflow: hidden;
     padding: 0px 0px 80px;
   }
-  
+
   .testimonial-track {
     display: flex;
     gap: 30px;
     animation: scroll 30s linear infinite;
     width: 100%;
   }
-  
+
   .testimonial-card {
     flex: 0 0 350px;
     background: white;
@@ -174,13 +200,12 @@
     position: relative;
     overflow: hidden;
   }
-  
-  
+
   .testimonial-content {
     position: relative;
     z-index: 1;
   }
-  
+
   .quote-icon {
     font-size: 4rem;
     color: var(--color-primary);
@@ -191,7 +216,7 @@
     height: 40px;
     line-height: 40px;
   }
-  
+
   .testimonial-text {
     font-size: 1rem;
     color: #555;
@@ -199,12 +224,12 @@
     margin-bottom: 25px;
     font-style: italic;
   }
-  
+
   .testimonial-author {
     display: flex;
     align-items: center;
   }
-  
+
   .author-avatar {
     width: 50px;
     height: 50px;
@@ -213,28 +238,28 @@
     margin-right: 15px;
     overflow: hidden;
   }
-  
+
   .author-avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  
+
   .author-info h4 {
     margin: 0;
     color: var(--color-text);
     font-size: 1.1rem;
     font-weight: 600;
   }
-  
+
   .author-info p {
     margin: 5px 0 0;
     color: #777;
     font-size: 0.9rem;
   }
-  
+
   /* Navigation controls removed as per request */
-  
+
   @keyframes scroll {
     0% {
       transform: translateX(0);
@@ -243,60 +268,67 @@
       transform: translateX(calc(-250px * 3));
     }
   }
-  
+
   @media (max-width: 992px) {
     .testimonial-track {
       animation: scroll 40s linear infinite;
     }
-    
+
     .testimonial-card {
       flex: 0 0 300px;
     }
   }
-  
+
   @media (max-width: 768px) {
     .section-title {
       font-size: 2rem;
     }
-    
+
     .testimonial-track {
       animation: scroll 90s linear infinite;
     }
-    
+
     .testimonial-card {
       flex: 0 0 280px;
       padding: 25px;
     }
-    
+
     .testimonial-text {
       font-size: 0.95rem;
     }
     .testimonial-section {
       margin: 0 20px 30px;
     }
+    .mx-auto {
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
-  
+
   @media (max-width: 576px) {
     .testimonial-section {
       padding: 60px 0;
     }
-    
+
     .section-header {
       margin-bottom: 30px;
     }
-    
+
     .section-title {
       font-size: 1.8rem;
       max-width: 60%;
     }
-    .section-subtitle{
-      font-size: .85rem;
+    .section-subtitle {
+      font-size: 0.85rem;
     }
-    
+
     .testimonial-track {
       gap: 20px;
     }
-    
+
     .testimonial-card {
       flex: 0 0 260px;
       padding: 20px;
