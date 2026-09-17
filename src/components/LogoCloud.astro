@@ -1,0 +1,131 @@
+---
+const logoModules = import.meta.glob<string>(
+  "../assets/clientes/*.{svg,png,jpg,jpeg,webp,avif}",
+  { eager: true, query: "?url", import: "default" },
+);
+
+// Visible artwork bounds: keep source files intact and exclude transparent margins.
+const artwork: Record<string, [number, number, number, number, number, number]> = {
+  siemens: [800, 800, 0, 336, 800, 128],
+  comevet: [200, 96, 3, 20, 195, 57],
+  trailstore: [480, 125, 26, 21, 427, 82],
+  uai: [640, 131, 19, 11, 439, 111],
+  paris: [400, 403, 20, 24, 356, 357],
+  logocamarachilenoargentina: [250, 123, 0, 0, 236, 118],
+  mrecic: [523, 151, 9, 9, 508, 132],
+  southbound: [250, 120, 1, 8, 248, 102],
+};
+const artworkStyle = (name: string) => {
+  const bounds = artwork[name.toLowerCase()];
+  if (!bounds) return "";
+  const [width, height, left, top, visibleWidth, visibleHeight] = bounds;
+  return `--art-ratio: ${visibleWidth / visibleHeight}; --art-width: ${width / visibleWidth * 100}%; --art-height: ${height / visibleHeight * 100}%; --art-left: ${-left / visibleWidth * 100}%; --art-top: ${-top / visibleHeight * 100}%;`;
+};
+
+const uniqueLogos = new Map<string, { src: string; name: string }>();
+Object.entries(logoModules)
+  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB))
+  .forEach(([path, src]) => {
+    const filename = path.split("/").pop()!;
+    const stem = filename.replace(/\.[^.]+$/, "");
+    const key = stem.toLocaleLowerCase();
+    if (!uniqueLogos.has(key)) {
+      uniqueLogos.set(key, { src, name: stem.replace(/[-_]+/g, " ") });
+    }
+  });
+
+const logos = Array.from(uniqueLogos.values());
+const firstLane = logos.filter((_, index) => index % 2 === 0);
+const secondLane = logos.filter((_, index) => index % 2 !== 0);
+const desktopDuration = Math.max(54, logos.length * 3.2);
+const mobileDuration = Math.max(38, firstLane.length * 4.2);
+---
+
+{logos.length > 0 && (
+  <section class="logo-marquee" aria-labelledby="logo-marquee-title">
+    <p id="logo-marquee-title">Empresas que han compartido una pausa con nosotros</p>
+
+    <div class="logo-marquee__desktop logo-marquee__viewport">
+      <div class="logo-marquee__track logo-marquee__track--left" style={`--duration: ${desktopDuration}s`}>
+        {[false, true].map((duplicate) => (
+          <div class="logo-marquee__group" aria-hidden={duplicate ? "true" : undefined}>
+            {logos.map((logo) => (
+              <figure class="logo-marquee__item" style={artworkStyle(logo.name)}><img src={logo.src} alt={duplicate ? "" : logo.name} loading="eager" decoding="async" /></figure>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="logo-marquee__mobile">
+      <div class="logo-marquee__viewport">
+        <div class="logo-marquee__track logo-marquee__track--left" style={`--duration: ${mobileDuration}s`}>
+          {[false, true].map((duplicate) => (
+            <div class="logo-marquee__group" aria-hidden={duplicate ? "true" : undefined}>
+              {firstLane.map((logo) => (
+                <figure class="logo-marquee__item" style={artworkStyle(logo.name)}><img src={logo.src} alt={duplicate ? "" : logo.name} loading="eager" decoding="async" /></figure>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="logo-marquee__viewport">
+        <div class="logo-marquee__track logo-marquee__track--right" style={`--duration: ${mobileDuration + 5}s`}>
+          {[false, true].map((duplicate) => (
+            <div class="logo-marquee__group" aria-hidden={duplicate ? "true" : undefined}>
+              {secondLane.map((logo) => (
+                <figure class="logo-marquee__item" style={artworkStyle(logo.name)}><img src={logo.src} alt={duplicate ? "" : logo.name} loading="eager" decoding="async" /></figure>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .logo-marquee { --gap: 48px; position: relative; z-index: 1; padding: 44px 0 48px; overflow: hidden; background: #191919; border-bottom: 1px solid #292929; }
+  .logo-marquee > p { margin: 0 24px 24px; color: #bababa; font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-align: center; text-transform: uppercase; }
+  .logo-marquee__viewport { overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%); }
+  .logo-marquee__track { display: flex; gap: var(--gap); width: max-content; animation-duration: var(--duration); animation-timing-function: linear; animation-iteration-count: infinite; }
+  .logo-marquee__track--left { animation-name: logo-scroll-left; }
+  .logo-marquee__track--right { transform: translateX(calc(-50% - var(--gap) / 2)); animation-name: logo-scroll-right; }
+  .logo-marquee__group { display: flex; align-items: center; gap: var(--gap); }
+  .logo-marquee__item { position: relative; flex: none; width: auto; height: 42px; margin: 0; overflow: hidden; }
+  .logo-marquee__item[style]:not([style=""]) { width: calc(42px * var(--art-ratio)); }
+  .logo-marquee__item img { display: block; width: auto; height: 42px; max-width: none; filter: grayscale(1) brightness(.4) invert(1) brightness(.8); }
+  .logo-marquee__item[style]:not([style=""]) img { position: absolute; width: var(--art-width); height: var(--art-height); left: var(--art-left); top: var(--art-top); }
+  .logo-marquee__mobile { display: none; }
+  .logo-marquee:where(:hover, :focus-within) .logo-marquee__track,
+  .logo-marquee:not(.is-visible) .logo-marquee__track { animation-play-state: paused; }
+  @keyframes logo-scroll-left { to { transform: translateX(calc(-50% - var(--gap) / 2)); } }
+  @keyframes logo-scroll-right { to { transform: translateX(0); } }
+
+  @media (max-width: 767px) {
+    .logo-marquee { --gap: 30px; padding: 36px 0 40px; }
+    .logo-marquee > p { margin-bottom: 22px; }
+    .logo-marquee__desktop { display: none; }
+    .logo-marquee__mobile { display: grid; gap: 10px; }
+    .logo-marquee__item { height: 32px; }
+    .logo-marquee__item img { height: 32px; }
+    .logo-marquee__item[style]:not([style=""]) { width: calc(32px * var(--art-ratio)); }
+    .logo-marquee__viewport { -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-marquee__track { animation: none; transform: none; }
+    .logo-marquee__group[aria-hidden="true"] { display: none; }
+    .logo-marquee__viewport { overflow-x: auto; mask-image: none; -webkit-mask-image: none; }
+  }
+</style>
+
+<script>
+  const logoSection = document.querySelector<HTMLElement>(".logo-marquee");
+  if (logoSection) {
+    const observer = new IntersectionObserver(([entry]) => {
+      logoSection.classList.toggle("is-visible", entry.isIntersecting);
+    });
+    observer.observe(logoSection);
+  }
+</script>

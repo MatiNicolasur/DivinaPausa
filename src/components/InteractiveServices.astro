@@ -1,0 +1,559 @@
+---
+// InteractiveServices — Grid interactivo de servicios con imágenes
+// Estilo editorial Awwwards: cards con background image + overlay
+// Hover: scale reveal, overlay shift, detail slide-up
+
+interface ServiceItem {
+  title: string;
+  description: string;
+  details: string;
+  image: string; // Ruta a la imagen representativa del servicio
+  icon: "corporate" | "coffee" | "menu";
+}
+
+const services: ServiceItem[] = [
+  {
+    title: "Catering Corporativo",
+    description: "Servicio profesional para reuniones, eventos, capacitaciones y más.",
+    details: "Menús personalizados con cocina en vivo. Desde coffee breaks hasta almuerzos ejecutivos. Atención impecable.",
+    image: "/images/services/after-office.jpg",
+    icon: "corporate",
+  },
+  {
+    title: "Coffee To Go!",
+    description: "Experiencias gastronómicas para tu equipo, en la puerta de tu oficina.",
+    details: "Desayunos, brunch y coffee breaks entregados con frescura impecable. Packaging sostenible.",
+    image: "/images/services/coffee-2.jpg",
+    icon: "coffee",
+  },
+  {
+    title: "Menú Personalizado",
+    description: "Diseñado a la medida de dietas, alergias y requisitos culturales.",
+    details: "Trabajamos con nutricionistas para crear menús inclusivos sin sacrificar sabor ni presentación.",
+    image: "/images/services/almuerzo-gourmet-2.jpg",
+    icon: "menu",
+  },
+];
+---
+
+<style>
+  /* ═══════════════════════════════════════════════════════════════
+     INTERACTIVE SERVICES GRID — EDITORIAL CARDS
+     ═══════════════════════════════════════════════════════════════ */
+
+  .services {
+    padding: 100px 80px;
+    background: var(--color-white);
+    position: relative;
+  }
+
+  /* ── Section header ── */
+  .services__header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .services__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-primary);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 16px;
+  }
+
+  .services__label-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    display: block;
+  }
+
+  .services__heading {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3vw, 3.2rem);
+    font-weight: 400;
+    color: var(--color-text);
+    margin: 0 0 16px;
+    line-height: 1.15;
+  }
+
+  .services__sub {
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color-text-light);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ── Service cards grid ── */
+  .services__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     SERVICE CARD — Editorial con imagen de fondo
+     ═══════════════════════════════════════════════════════════════ */
+  .service-card {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    min-height: 420px;
+    padding: 40px 36px;
+    isolation: isolate;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* ── Background image ── */
+  .service-card__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .service-card:hover .service-card__bg {
+    transform: scale(1.06);
+  }
+
+  /* ── Gradient overlay (dark -> transparent) ── */
+  .service-card__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      180deg,
+      rgba(10, 10, 10, 0.72) 0%,
+      rgba(10, 10, 10, 0.50) 40%,
+      rgba(10, 10, 10, 0.85) 85%
+    );
+    transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* On hover, overlay se aclara ligeramente para revelar más la imagen */
+  .service-card:hover .service-card__overlay {
+    opacity: 0.85;
+  }
+
+  /* ── Color accent overlay (sutil, cada card con tono) ── */
+  .service-card__accent-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none;
+  }
+
+  .service-card:hover .service-card__accent-overlay {
+    opacity: 1;
+  }
+
+  .service-card__accent-overlay--primary {
+    background: linear-gradient(180deg, rgba(229, 177, 174, 0.10) 0%, rgba(10, 10, 10, 0.70) 100%);
+  }
+
+  .service-card__accent-overlay--dark {
+    background: linear-gradient(180deg, rgba(33, 33, 33, 0.15) 0%, rgba(10, 10, 10, 0.70) 100%);
+  }
+
+  /* ── Card content (above all overlays) ── */
+  .service-card__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-top: auto;
+  }
+
+  /* ── Accent bar ── */
+  .service-card__bar {
+    width: 36px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--color-primary);
+    margin-bottom: 20px;
+    transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .service-card:hover .service-card__bar {
+    width: 64px;
+  }
+
+  /* ── Icon + title row ── */
+  .service-card__header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+
+  /* ── Icon circle (glassmorphism) ── */
+  .service-card__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .service-card:hover .service-card__icon {
+    background: var(--color-primary);
+  }
+
+  .service-card__icon svg {
+    width: 20px;
+    height: 20px;
+    color: #fff;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .service-card:hover .service-card__icon svg {
+    transform: rotate(-8deg) scale(1.1);
+  }
+
+  /* ── Title ── */
+  .service-card__title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.25;
+  }
+
+  /* ── Description ── */
+  .service-card__description {
+    font-family: var(--font-primary);
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.65;
+    margin: 0 0 16px;
+    max-width: 90%;
+  }
+
+  /* ── Details (hidden, revealed on hover) ── */
+  .service-card__details {
+    font-family: var(--font-primary);
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    margin: 0;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition-delay: 0s;
+  }
+
+  .service-card:hover .service-card__details {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.08s;
+  }
+
+  /* ── CTA link ── */
+  .services__cta {
+    text-align: center;
+    margin-top: 64px;
+    padding-bottom: 8px;
+  }
+
+  .services__cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-primary);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-light);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+    padding-bottom: 2px;
+  }
+
+  .services__cta-link:hover {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    gap: 14px;
+  }
+
+  .services__cta-link svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.3s ease;
+  }
+
+  .services__cta-link:hover svg {
+    transform: translateX(3px);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 992px) {
+    .services {
+      padding: 80px 40px;
+    }
+
+    .services__grid {
+      grid-template-columns: 1fr;
+      max-width: 500px;
+    }
+
+    .service-card {
+      min-height: 360px;
+      padding: 32px 28px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .services {
+      padding: 60px 24px;
+    }
+
+    .services__header {
+      margin-bottom: 40px;
+    }
+
+    .service-card {
+      min-height: 320px;
+      padding: 28px 24px;
+    }
+
+    .service-card__details {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .service-card__description {
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .services {
+      padding: 40px 20px;
+    }
+
+    .service-card {
+      min-height: 300px;
+      padding: 24px 20px;
+    }
+
+    .service-card__title {
+      font-size: 1.3rem;
+    }
+  }
+</style>
+
+<section class="services" aria-label="Servicios">
+  <div class="services__header">
+    <p class="services__label" data-animate="svc-label">
+      <span class="services__label-dot" aria-hidden="true"></span>
+      Nuestros servicios
+    </p>
+    <h2 class="services__heading" data-animate="svc-heading">
+      Excelencia & Calidad
+    </h2>
+    <p class="services__sub" data-animate="svc-sub">
+      Nos encargamos desde la personalización del menú hasta la cocina
+      y el servicio en zona.
+    </p>
+  </div>
+
+  <div class="services__grid" data-animate="svc-grid">
+    {
+      services.map((svc, i) => (
+        <article
+          class="service-card"
+          data-animate="svc-card"
+        >
+          <!-- Background image -->
+          <div
+            class="service-card__bg"
+            style={`background-image: url('${svc.image}')`}
+            aria-hidden="true"
+          ></div>
+
+          <!-- Dark gradient overlay -->
+          <div class="service-card__overlay" aria-hidden="true"></div>
+
+          <!-- Accent color overlay (alternates) -->
+          <div
+            class={`service-card__accent-overlay service-card__accent-overlay--${i % 2 === 0 ? 'primary' : 'dark'}`}
+            aria-hidden="true"
+          ></div>
+
+          <!-- Content -->
+          <div class="service-card__content">
+            <div class="service-card__bar" aria-hidden="true"></div>
+
+            <div class="service-card__header">
+              <div class="service-card__icon" aria-hidden="true">
+                {
+                  svc.icon === "corporate" && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M3 21h18" />
+                      <path d="M7 21V7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v14" />
+                      <path d="M7 10h10" />
+                      <path d="M7 14h10" />
+                      <path d="M7 18h10" />
+                      <circle cx="12" cy="7" r="1" fill="currentColor" />
+                    </svg>
+                  )
+                }
+                {
+                  svc.icon === "coffee" && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+                      <path d="M2 8h13v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+                      <path d="M6 2v4" />
+                      <path d="M10 2v4" />
+                      <path d="M14 2v4" />
+                    </svg>
+                  )
+                }
+                {
+                  svc.icon === "menu" && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                      <path d="M3 6h18" />
+                      <path d="M9 10h6" />
+                      <path d="M9 14h6" />
+                      <path d="M9 18h4" />
+                      <path d="M16 2v4H8V2" />
+                    </svg>
+                  )
+                }
+              </div>
+
+              <h3 class="service-card__title">{svc.title}</h3>
+            </div>
+
+            <p class="service-card__description">{svc.description}</p>
+            <p class="service-card__details">{svc.details}</p>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+
+  <div class="services__cta">
+    <a href="/#servicios-estandar" class="services__cta-link" data-animate="svc-cta">
+      Ver todos los servicios
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 8H15M15 8L8.5 1.5M15 8L8.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (prefersReducedMotion) return;
+
+    // ── Label ──
+    const label = document.querySelector("[data-animate='svc-label']");
+    if (label) {
+      gsap.from(label, {
+        y: 12,
+        opacity: 0,
+        duration: 0.5,
+        ease: "power3.out",
+        scrollTrigger: { trigger: label, start: "top 90%", once: true },
+      });
+    }
+
+    // ── Heading ──
+    const heading = document.querySelector("[data-animate='svc-heading']");
+    if (heading) {
+      gsap.from(heading, {
+        y: 20,
+        opacity: 0,
+        duration: 0.7,
+        ease: "power3.out",
+        scrollTrigger: { trigger: heading, start: "top 85%", once: true },
+      });
+    }
+
+    // ── Sub ──
+    const sub = document.querySelector("[data-animate='svc-sub']");
+    if (sub) {
+      gsap.from(sub, {
+        y: 15,
+        opacity: 0,
+        duration: 0.6,
+        ease: "power3.out",
+        delay: 0.1,
+        scrollTrigger: { trigger: sub, start: "top 85%", once: true },
+      });
+    }
+
+    // ── Cards stagger ──
+    const cards = gsap.utils.toArray<HTMLElement>(
+      "[data-animate='svc-card']",
+    );
+    if (cards.length > 0) {
+      gsap.from(cards, {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: "[data-animate='svc-grid']",
+          start: "top 75%",
+          once: true,
+        },
+      });
+    }
+
+    // ── CTA ──
+    const cta = document.querySelector("[data-animate='svc-cta']");
+    if (cta) {
+      gsap.from(cta, {
+        y: 15,
+        opacity: 0,
+        duration: 0.5,
+        ease: "power3.out",
+        scrollTrigger: { trigger: cta, start: "top 85%", once: true },
+      });
+    }
+  });
+</script>

@@ -1,561 +1,189 @@
 ---
-import CTASection from "../components/CTASection.astro";
-import TestimonialSection from "../components/TestimonialSection.astro";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import "../styles/global.css";
-
-const pageTitle = "Sobre Nosotros - Divina Pausa";
-const pageDescription =
-  "Explora de dónde viene nuestra pasión. En Divina Pausa, somos artesanos de la experiencia, creando atmósferas de lujo y confort.";
-const pageKeywords =
-  "sobre nosotros, divina pausa, catering de lujo, experiencias culinarias, gastronomía empresarial, historia divina pausa, visión catering";
-
-// Placeholder for image paths - user should update these
-const heroBgImage = "/images/hero-nosotros.png";
-const quienesSomosImg = "/images/nosotros/us.jpeg";
-const nosotrosIcon = "/images/icon-catering-nosotros.svg";
+import CTASection from '../components/CTASection.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+const founders = '/images/fundadores/ce29d03b-f3a9-4cbc-9fdc-65b965eedaf1.JPG';
+const chapters = [
+  { id: 'personas', label: 'Las personas', title: 'Detrás de cada pausa, hay alguien que la cuida.', text: 'Divina Pausa tiene un lado muy personal: sus fundadores, presentes en los detalles y en la preparación. Esta imagen cuenta algo de nuestra forma de trabajar: estar ahí, poner las manos y cuidar lo que llega a la mesa.', image: founders, alt: 'Los dos fundadores de Divina Pausa preparando una mesa para un evento', caption: 'Nuestros fundadores, en la preparación de un encuentro.' },
+  { id: 'cuidado', label: 'El cuidado', title: 'Lo pequeño también hace la diferencia.', text: 'Una mesa bien presentada, una pausa a tiempo, algo rico para compartir. Nuestra misión es transformar la pausa corporativa en un momento de bienestar y cercanía. Por eso conversamos contigo sobre tu equipo y lo que necesita antes de preparar una propuesta.', image: '/images/eventos/288e57d1-5ffc-4370-aa44-71ae84f87b60.JPG', alt: 'Garzones preparando el salón y las mesas para un evento de Divina Pausa', caption: 'Los detalles también son una forma de recibir.' },
+  { id: 'encuentro', label: 'El encuentro', title: 'La mesa está lista. El momento es de ustedes.', text: 'Hoy enfocamos nuestra propuesta en coffee break, brunch y almuerzos para empresas en Santiago. Queremos seguir creando momentos auténticos que hagan más amable la jornada y den a las personas una ocasión para encontrarse.', image: '/images/eventos/IMG_1287.jpeg', alt: 'Mesa preparada por Divina Pausa para compartir durante un evento', caption: 'Coffee break, brunch y almuerzos para compartir.' },
+];
 ---
+<BaseLayout title="Nosotros: las personas detrás de Divina Pausa" description="Conoce a los fundadores de Divina Pausa y nuestra manera de cuidar cada encuentro. Coffee break, brunch y almuerzos para empresas en Santiago." ogImage={founders}>
+  <div class="about">
+    <section class="about-hero" aria-labelledby="about-title">
+      <div class="hero-copy">
+        <p class="eyebrow">DIVINA PAUSA · NOSOTROS</p>
+        <h1 id="about-title">Una pausa.<br />Muchas formas de <em>conectar.</em></h1>
+        <div class="hero-bottom"><p>Nos gusta lo que sucede alrededor de una mesa: la conversación, las sonrisas y ese momento en que el trabajo deja espacio para compartir.</p><a class="text-link" href="#historia">Conoce nuestra historia <span aria-hidden="true">↓</span></a></div>
+      </div>
+      <figure class="founder-portrait">
+        <img src={founders} alt="Los fundadores de Divina Pausa preparando juntos el catering de un evento" width="1280" height="960" fetchpriority="high" />
+        <figcaption><span>Las personas detrás de la mesa</span><span aria-hidden="true">01 — DP</span></figcaption>
+      </figure>
+    </section>
 
-<BaseLayout
-  title={pageTitle}
-  description={pageDescription}
-  keywords={pageKeywords}
->
-  <main class="nosotros-page">
-    <!-- Hero Section -->
-    <section
-      class="hero-nosotros"
-      style={`background-image: url(${heroBgImage});`}
-    >
-      <div class="hero-nosotros-overlay">
-        <div class="hero-nosotros-content">
-          <h1>Explora de donde<br />viene nuestra pasión</h1>
-          <p>
-            Más que un servicio de catering, somos artesanos de la experiencia.
-            Creamos atmósferas de lujo y confort que invitan a detenerse,
-            disfrutar y compartir.
-          </p>
+    <section class="story" id="historia" aria-labelledby="story-title">
+      <header class="story-heading"><p class="eyebrow">NUESTRA HISTORIA, EN LOS DETALLES</p><h2 id="story-title">Primero las personas.<br /><em>Después, todo lo demás.</em></h2></header>
+      <div class="story-layout">
+        <aside class="story-visual" aria-label="Fotografías de nuestra historia">
+          <div class="photo-stack">
+            {chapters.map((chapter, i) => <figure class:list={['story-photo', {active: i === 0}]} data-photo={i} aria-hidden={i !== 0 ? 'true' : 'false'}><img src={chapter.image} alt={chapter.alt} width="1280" height="960" loading="lazy" /><figcaption>{chapter.caption}</figcaption></figure>)}
+          </div>
+          <nav class="chapter-links" aria-label="Capítulos de nuestra historia">{chapters.map((chapter, i) => <a href={`#${chapter.id}`} data-chapter-link={i} aria-current={i === 0 ? 'step' : undefined}><span>0{i + 1}</span>{chapter.label}</a>)}</nav>
+        </aside>
+        <div class="chapters">
+          <div class="story-track" aria-hidden="true"><span></span></div>
+          {chapters.map((chapter, i) => <article class="chapter" id={chapter.id} data-chapter={i}><span class="chapter-number">0{i + 1}</span><p class="eyebrow">{chapter.label}</p><h3>{chapter.title}</h3><p class="chapter-copy">{chapter.text}</p><figure class="mobile-photo"><img src={chapter.image} alt={chapter.alt} width="1280" height="960" loading="lazy" /><figcaption>{chapter.caption}</figcaption></figure></article>)}
         </div>
       </div>
     </section>
 
-    <!-- ¿Quienes somos? Section -->
-    <section class="quienes-somos-section">
-      <div class="container">
-        <h3 class="section-subtitle pink-subtitle">Quienes Somos</h3>
-        <h2>Un Legado de Pasión y Excelencia</h2>
-        <!-- Changed H2 to be more descriptive -->
-        <div class="quienes-somos-grid">
-          <div class="quienes-somos-image-column">
-            <div class="image-container">
-              <img src={quienesSomosImg} alt="Divina Pausa Catering" />
-            </div>
-          </div>
-          <div class="quienes-somos-text-column">
-            <div class="info-card nosotros-card">
-              <h3>Misión</h3>
-              <p>
-                En Divina Pausa nuestra misión es transformar cada pausa
-                corporativa en un instante de bienestar y cercanía, cuidando
-                cada detalle para que una simple taza de café o un bocado breve
-                se convierta en un momento reconfortante y memorable, capaz de
-                inspirar una sonrisa y recargar energías.
-              </p>
-              <img
-                src={"/images/icons/VectorNosotros.svg"}
-                alt="Icono Catering"
-                class="nosotros-icon"
-              />
-            </div>
-            <div class="info-card vision-card">
-              <h3>Visión</h3>
-              <p>
-                Aspiramos a convertirnos en el referente chileno en experiencias
-                de Coffee break y catering empresarial, destacando por nuestra
-                sensibilidad, cercanía y compromiso con la excelencia. Queremos
-                que cada pausa deje una huella amable y que Divina Pausa sea
-                sinónimo de momentos auténticos que enriquecen el día a día en
-                cada equipo de trabajo.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+    <section class="pause" aria-labelledby="pause-title">
+      <div class="pause-copy"><p class="eyebrow">ESTÁS AQUÍ. DATE UN MOMENTO.</p><h2 id="pause-title">Las buenas ideas<br />también necesitan<br /><em>una pausa.</em></h2><p>Antes de seguir, un pequeño respiro.</p><button type="button" class="pause-button">Haz una pausa <span aria-hidden="true">✳</span></button><p class="pause-status" role="status" aria-live="polite">Pulsa y mira cómo florece.</p></div>
+      <div class="bloom" aria-hidden="true"><div class="bloom-ring"></div>{Array.from({length: 8}, (_, i) => <div class="petal-arm" style={`transform: rotate(${i * 45}deg)`}><span class="petal"></span></div>)}<span class="bloom-center">DP</span></div>
     </section>
 
-    <!-- Ofrecemos Section -->
-    <section class="ofrecemos-section">
-      <div class="container">
-        <div class="ofrecemos-grid">
-          <div class="ofrecemos-text">
-            <span class="tagline">¿Qué ofrecemos?</span>
-            <h2>Ofrecemos más<br />que gastronomía</h2>
-            <p>
-              Diseñamos experiencias memorables que reflejan el alma de cada
-              celebración. Nuestro servicio de catering de lujo se adapta a tus
-              necesidades con elegancia, profesionalismo y un toque distintivo
-              que nos caracteriza.
-            </p>
-          </div>
-          <div class="ofrecemos-list">
-            <div class="ofrecemos-list-item">
-              <h3>Experiencias Personalizadas.</h3>
-            </div>
-            <div class="ofrecemos-list-item">
-              <h3>Presentaciones que inspiran.</h3>
-            </div>
-            <div class="ofrecemos-list-item">
-              <h3>Atencion dedicada en cada etapa.</h3>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <section class="principles" aria-labelledby="principles-title"><header><p class="eyebrow">NUESTRA MANERA DE HACER</p><h2 id="principles-title">Cercanía que se nota.<br /><em>Cuidado que se comparte.</em></h2></header><div class="principle-grid">
+      <article><span>01 / ESCUCHAR</span><h3>Tu evento empieza contigo.</h3><p>Nos cuentas la ocasión, las personas y tus preferencias. Desde ahí construimos la propuesta.</p></article>
+      <article><span>02 / PREPARAR</span><h3>Una mesa con intención.</h3><p>El menú y la presentación forman parte del mismo cuidado: que tu equipo se sienta bien recibido.</p></article>
+      <article><span>03 / COMPARTIR</span><h3>Espacio para encontrarse.</h3><p>Coffee break, brunch o almuerzo. Tres maneras de hacer una pausa y disfrutar juntos.</p></article>
+    </div></section>
     <CTASection />
-    <TestimonialSection />
-  </main>
-
-  <style>
-    /* General Page Styles */
-    .nosotros-page .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    h1,
-    h2,
-    h3 {
-      font-family: var(
-        --font-primary,
-        "Playfair Display",
-        serif
-      ); /* Assuming primary is serif */
-      color: var(--color-dark, #333);
-    }
-
-    p,
-    span,
-    .ofrecemos-list-item h3 {
-      font-family: var(
-        --font-display,
-        "Montserrat",
-        sans-serif
-      ); /* Assuming secondary is sans-serif */
-      color: var(--color-text, #555);
-      line-height: 1.7;
-    }
-
-    /* Hero Section */
-    .hero-nosotros {
-      background-size: cover;
-      background-position: center;
-      color: white;
-      text-align: center;
-      padding: 8rem 1rem;
-      position: relative;
-      min-height: 60vh;
-      overflow: hidden;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      margin: 80px;
-    }
-    .hero-nosotros-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      border-radius: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .hero-nosotros-content {
-      max-width: 60%;
-      padding: 0 5%;
-      margin-left: 5%;
-    }
-    .hero-nosotros h1 {
-      font-size: clamp(2.5rem, 5vw, 5rem);
-      color: var(--color-white, #fff);
-      font-family: var(--font-display);
-      margin-bottom: 1rem;
-      font-style: italic;
-      font-weight: 600;
-      line-height: 1.2;
-    }
-    .hero-nosotros p {
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      color: var(--color-light-gray, #f0f0f0);
-      line-height: 1.6;
-      font-weight: 500;
-      font-family: var(--font-primary);
-    }
-
-    /* ¿Quienes somos? Section */
-    .quienes-somos-section {
-      background-color: var(--color-dark-bg, #2d2d2d);
-      padding: 180px 0;
-      color: var(--color-white, #fff);
-    }
-    .quienes-somos-section .pink-subtitle {
-      display: block;
-      width: fit-content;
-      margin-left: auto;
-      margin-right: auto;
-      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-      font-weight: 600;
-      color: var(--color-light-pink, #fadadd);
-      background-color: var(--color-primary, #d4a76a);
-      padding: var(--space-xs, 8px) var(--space-md, 20px);
-      border-radius: var(--border-radius-pill, 30px);
-      margin-bottom: var(--space-sm, 15px);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .quienes-somos-section h2 {
-      text-align: center;
-      font-size: clamp(2.2rem, 4vw, 3.5rem);
-      font-weight: 400;
-      color: var(--color-white);
-      font-style: italic;
-      font-family: var(--font-display);
-      margin-bottom: 60px;
-    }
-    .quienes-somos-grid {
-      display: grid;
-      grid-template-columns: 0.9fr 1.1fr; /* Adjusted for better image presence */
-      gap: 30px;
-      align-items: stretch; /* Make columns equal height */
-    }
-    .quienes-somos-image-column .image-container {
-      position: sticky;
-      top: 100px;
-      border-radius: var(--border-radius-lg, 12px);
-      overflow: hidden;
-      box-shadow: var(--shadow-lg, 0 10px 20px rgba(0, 0, 0, 0.15));
-      height: 100%; /* Make container fill the stretched column height */
-    }
-    .quienes-somos-image-column img {
-      width: 100%;
-      height: 100%; /* Make image fill its container */
-      object-fit: cover; /* Cover area without distortion */
-      display: block;
-    }
-    .quienes-somos-text-column {
-      display: flex;
-      flex-direction: column;
-      gap: 30px; /* Space between Nosotros and Vision cards */
-      justify-content: space-between; /* Distribute space if cards are shorter than image */
-    }
-    .info-card {
-      background-color: var(--color-primary-light, #f7e6e3);
-      padding: 30px;
-      border-radius: 15px;
-      color: var(--color-dark-text, #4a4a4a);
-    }
-    .info-card h3 {
-      font-size: clamp(1.8rem, 3vw, 2.5rem);
-      font-family: var(--font-display);
-      color: var(--color-primary);
-      margin-bottom: 20px;
-      font-weight: 600;
-    }
-    .info-card p {
-      font-size: clamp(1rem, 1.5vw, 1.2rem);
-      font-weight: 500;
-      color: #6a3d4e;
-      font-family: var(--font-primary);
-      margin-bottom: 15px;
-    }
-    .nosotros-card {
-      position: relative;
-    }
-    .nosotros-icon {
-      display: block;
-      width: 60px;
-      height: auto;
-      margin: 30px auto 0;
-      opacity: 0.7;
-    }
-    .vision-card {
-      background-color: var(--color-primary);
-    }
-    .vision-card h3 {
-      font-size: clamp(1.8rem, 3vw, 2.5rem);
-      font-family: var(--font-display);
-      color: var(--color-light-pink);
-      margin-bottom: 20px;
-      font-weight: 600;
-    }
-    .vision-card p {
-      font-size: clamp(1rem, 1.5vw, 1.2rem);
-      color: var(--color-light-pink);
-      font-family: var(--font-primary);
-      margin-bottom: 15px;
-      font-weight: 500;
-    }
-
-    /* Ofrecemos Section */
-    .ofrecemos-section {
-      padding: 80px 0;
-      background-color: var(--color-light-bg, #f9f9f9);
-    }
-    .ofrecemos-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
-    }
-    .ofrecemos-text .tagline {
-      display: block;
-      font-size: clamp(0.9rem, 1.5vw, 1.2rem);
-      color: var(--color-primary, #d4a76a);
-      margin-bottom: 10px;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-    .ofrecemos-text h2 {
-      font-size: clamp(2.2rem, 4vw, 3.5rem);
-      color: var(--color-dark, #333);
-      margin-bottom: 20px;
-      font-weight: 700;
-      line-height: 1.2;
-    }
-    .ofrecemos-text p {
-      font-size: clamp(0.9rem, 1.8vw, 1.2rem);
-      font-family: var(--font-primary);
-      color: var(--color-text, #555);
-    }
-    .ofrecemos-list-item {
-      margin-bottom: 25px;
-      padding-bottom: 25px;
-      border-bottom: 1px solid var(--color-border, #e0e0e0);
-    }
-    .ofrecemos-list-item:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
-    }
-    .ofrecemos-list-item h3 {
-      font-size: clamp(1.2rem, 2.2vw, 7rem);
-      color: var(--color-dark, #333);
-      font-family: var(--font-display, "Montserrat", sans-serif);
-      font-weight: 500;
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 992px) {
-      .quienes-somos-grid {
-        grid-template-columns: 1fr; /* Stack on mobile */
-      }
-      .quienes-somos-image-column .image-container {
-        position: static; /* Disable sticky on mobile */
-        height: auto; /* Reset height for mobile stacking */
-      }
-      .quienes-somos-image-column img {
-        height: auto; /* Reset image height for mobile */
-        aspect-ratio: 4/3; /* Maintain a pleasant aspect ratio on mobile */
-      }
-      .quienes-somos-image-vision .image-container {
-        max-width: 500px;
-        margin: 0 auto 30px;
-      }
-      .ofrecemos-grid {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-      .ofrecemos-text {
-        text-align: center;
-      }
-      .ofrecemos-list {
-        margin-top: 30px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .hero-nosotros {
-        height: 60vh;
-        min-height: 350px;
-        padding: 60px 0;
-      }
-      .hero-nosotros-content {
-        margin-left: 0;
-        max-width: 100%;
-        padding: 0 20px;
-        text-align: center;
-      }
-      .quienes-somos-section,
-      .ofrecemos-section {
-        padding: 60px 0;
-      }
-      .quienes-somos-section h2 {
-        margin-bottom: 40px;
-      }
-      .info-card {
-        padding: 25px;
-      }
-    }
-  </style>
-  <script>
-    import { setupPageAnimations } from "../utils/animations";
-    import { gsap } from "gsap";
-
-    // Setup page animations with cleanup
-    const cleanup = setupPageAnimations(() => {
-      // Type assertion for GSAP elements
-      const toArray = <T extends Element = Element>(selector: string): T[] => {
-        return Array.from(document.querySelectorAll<T>(selector));
-      };
-
-      // Hero Section Animations
-      toArray<HTMLElement>(".hero-nosotros-content h1").forEach((el) => {
-        gsap.from(el, {
-          y: 50,
-          opacity: 0,
-          duration: 1,
-          delay: 0.2,
-          scrollTrigger: {
-            trigger: ".hero-nosotros",
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        });
-      });
-
-      toArray<HTMLElement>(".hero-nosotros-content p").forEach((el) => {
-        gsap.from(el, {
-          y: 50,
-          opacity: 0,
-          duration: 1,
-          delay: 0.4,
-          scrollTrigger: {
-            trigger: ".hero-nosotros",
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        });
-      });
-
-      // ¿Quienes somos? Section Animations
-      toArray<HTMLElement>(".quienes-somos-section h2").forEach((el) => {
-        gsap.from(el, {
-          y: 50,
-          opacity: 0,
-          delay: 0.1,
-          scrollTrigger: {
-            trigger: ".quienes-somos-section",
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        });
-      });
-
-      toArray<HTMLElement>(".nosotros-card").forEach((el) => {
-        gsap.from(el, {
-          y: 50,
-          opacity: 0,
-          delay: 0.2,
-          scrollTrigger: {
-            trigger: ".quienes-somos-section",
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        });
-      });
-
-      toArray<HTMLImageElement>(
-        ".quienes-somos-image-vision .image-container img",
-      ).forEach((el) => {
-        gsap.from(el, {
-          y: 50,
-          opacity: 0,
-          delay: 0.3,
-          scrollTrigger: {
-            trigger: ".quienes-somos-section",
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        });
-      });
-
-      toArray<HTMLElement>(".vision-card").forEach((el) => {
-        gsap.from(el, {
-          y: 50,
-          opacity: 0,
-          delay: 0.4,
-          scrollTrigger: {
-            trigger: ".quienes-somos-section",
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        });
-      });
-
-      // Ofrecemos Section Animations
-      toArray<HTMLElement>(".ofrecemos-text .tagline").forEach((el) => {
-        gsap.from(el, {
-          y: 40,
-          opacity: 0,
-          delay: 0.1,
-          scrollTrigger: {
-            trigger: ".ofrecemos-section",
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        });
-      });
-
-      toArray<HTMLElement>(".ofrecemos-text h2").forEach((el) => {
-        gsap.from(el, {
-          y: 40,
-          opacity: 0,
-          delay: 0.2,
-          scrollTrigger: {
-            trigger: ".ofrecemos-section",
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        });
-      });
-
-      toArray<HTMLElement>(".ofrecemos-text p").forEach((el) => {
-        gsap.from(el, {
-          y: 40,
-          opacity: 0,
-          delay: 0.3,
-          scrollTrigger: {
-            trigger: ".ofrecemos-section",
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        });
-      });
-
-      // Stagger animation for list items
-      const listItems = toArray<HTMLElement>(".ofrecemos-list-item");
-      if (listItems.length > 0) {
-        gsap.from(listItems, {
-          y: 40,
-          opacity: 0,
-          stagger: 0.1,
-          delay: 0.4,
-          scrollTrigger: {
-            trigger: ".ofrecemos-list",
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        });
-      }
-    });
-
-    // Cleanup on component unmount
-    if (import.meta.hot) {
-      import.meta.hot.on("astro:before-swap", () => {
-        cleanup?.();
-      });
-    }
-  </script>
+  </div>
 </BaseLayout>
+<style>
+  .about { --paper: #f7f3ee; --ink: #212121; --rose: #e5b1ae; color: var(--ink); background: var(--paper); position: relative; }
+  .about h1,.about h2,.about h3 { font-family: var(--font-display); font-weight: 400; letter-spacing: -.025em; }
+  .about em { font-weight: 400; }
+  .about p { line-height: 1.8; }
+  .eyebrow { font-family: var(--font-primary); font-size: .68rem; font-weight: 500; letter-spacing: .15em; text-transform: uppercase; margin: 0 0 24px; }
+  .about-hero { padding: 72px clamp(28px,5vw,80px) 80px; display: grid; grid-template-columns: 1.05fr 1fr; gap: 6vw; align-items: center; }
+  h1 { font-size: clamp(3.4rem,5.8vw,6.5rem); line-height: .98; margin: 0 0 36px; }
+  h1 em { color: #995751; }
+  .hero-bottom p { max-width: 40ch; font-size: .92rem; margin-bottom: 26px; }
+  .text-link { display: inline-flex; gap: 28px; align-items: center; color: var(--ink); text-decoration: none; border-bottom: 1px solid #21212160; padding: 12px 0; font-size: .8rem; }
+  .founder-portrait { margin: 0; position: relative; padding: 12px; border: 1px solid #b38c833f; border-radius: 180px 180px 24px 24px; }
+  .founder-portrait img { width: 100%; height: clamp(380px,43vw,620px); object-fit: cover; object-position: 62% center; border-radius: 170px 170px 15px 15px; display: block; }
+  .founder-portrait figcaption { display: flex; justify-content: space-between; gap: 14px; font-size: .62rem; padding: 16px 8px 5px; }
+  .story { padding: 88px clamp(28px,5vw,80px); background: var(--ink); color: var(--paper); scroll-margin-top: 150px; }
+  .story-heading { margin-bottom: 60px; }
+  .story h2,.story h3 { color: var(--paper); }
+  .story-heading .eyebrow { color: #d6c1b9; }
+  .story h2,.principles h2 { font-size: clamp(2.5rem,4.5vw,5rem); line-height: 1.12; margin: 0; }
+  .story h2 em { color: var(--rose); }
+  .story-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; align-items: start; }
+  .story-visual { position: sticky; top: 165px; }
+  .photo-stack { position: relative; aspect-ratio: 1.12; }
+  .story-photo { position: absolute; inset: 0; margin: 0; opacity: 0; visibility: hidden; }
+  .story-photo.active { opacity: 1; visibility: visible; }
+  .story-photo img { width: 100%; height: calc(100% - 42px); object-fit: cover; object-position: 62% center; border-radius: 22px; }
+  .story-photo figcaption,.mobile-photo figcaption { color: #d9c7bf; font-size: .72rem; margin-top: 12px; }
+  .chapter-links { display: flex; gap: 20px; margin-top: 18px; border-top: 1px solid #ffffff25; padding-top: 20px; }
+  .chapter-links a { display: flex; flex-direction: column; gap: 8px; color: #ccc; font-size: .7rem; text-decoration: none; flex: 1; }
+  .chapter-links span { font-size: .6rem; }
+  .chapter-links a[aria-current] { color: var(--rose); }
+  .chapters { position: relative; padding-left: 34px; }
+  .story-track { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: #ffffff20; }
+  .story-track span { display: block; width: 100%; height: 100%; background: var(--rose); transform-origin: top; }
+  .chapter { min-height: 65svh; display: flex; flex-direction: column; justify-content: center; padding: 50px 0 100px; scroll-margin-top: 165px; }
+  .chapter-number { color: var(--rose); font-family: var(--font-display); font-size: 4rem; line-height: 1; margin-bottom: 28px; }
+  .chapter .eyebrow { margin-bottom: 16px; color: #d6c1b9; }
+  .chapter h3 { font-size: clamp(2rem,3.2vw,3.8rem); line-height: 1.12; margin: 0 0 24px; }
+  .chapter-copy { max-width: 45ch; font-size: .9rem; color: #e2ddd9; margin: 0; }
+  .mobile-photo { display: none; }
+  .pause { overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 50px; padding: 100px clamp(28px,8vw,130px); background: var(--rose); }
+  .pause h2 { font-size: clamp(3rem,5vw,5.8rem); line-height: 1.02; margin: 0 0 24px; }
+  .pause-copy > p:not(.eyebrow) { font-size: .85rem; }
+  .pause-button { padding: 15px 24px; background: var(--ink); color: var(--paper); border: 1px solid var(--ink); border-radius: 50px; font: inherit; font-size: .82rem; cursor: pointer; display: inline-flex; align-items: center; gap: 28px; margin-top: 12px; }
+  .pause-button span { font-size: 1.4rem; }
+  .pause-status { min-height: 3.6em; max-width: 35ch; }
+  .bloom { width: min(100%,420px); aspect-ratio: 1; position: relative; justify-self: center; }
+  .bloom-ring { position: absolute; inset: 0; border: 1px solid #21212140; border-radius: 50%; }
+  .petal-arm { position: absolute; inset: 0; }
+  .petal { position: absolute; width: 27%; height: 46%; left: 36.5%; top: 4%; background: #212121; border: 1px solid #e5b1ae; border-radius: 50%; transform-origin: 50% 100%; transform: scale(.7); }
+  .bloom-center { position: absolute; inset: 39%; display: grid; place-items: center; background: var(--paper); border-radius: 50%; font-family: var(--font-display); font-size: 1.7rem; }
+  .principles { padding: 100px clamp(28px,5vw,80px); }
+  .principles header { margin-bottom: 54px; }
+  .principle-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 36px; }
+  .principle-grid article { border-top: 1px solid #21212150; padding-top: 25px; }
+  .principle-grid span { font-size: .62rem; letter-spacing: .13em; }
+  .principle-grid h3 { font-size: 2rem; line-height: 1.16; margin: 24px 0 16px; }
+  .principle-grid p { font-size: .85rem; max-width: 40ch; }
+  a:focus-visible,button:focus-visible { outline: 3px solid #995751; outline-offset: 6px; }
+  @media(max-width: 900px) {
+    .about-hero { gap: 30px; padding-top: 45px; }
+    .story-layout { gap: 35px; }
+    .chapter-links { gap: 10px; }
+    .pause { gap: 24px; padding-inline: 28px; }
+  }
+  @media(max-width: 700px) {
+    .about-hero { grid-template-columns: 1fr; padding: 45px 24px 50px; }
+    h1 { font-size: clamp(3.3rem,12vw,5rem); margin-bottom: 24px; }
+    .eyebrow { font-size: .6rem; }
+    .founder-portrait { border-radius: 100px 100px 22px 22px; }
+    .founder-portrait img { border-radius: 90px 90px 14px 14px; height: auto; aspect-ratio: 1.1; object-position: 62% center; }
+    .story { padding: 60px 24px; }
+    .story-heading { margin-bottom: 38px; }
+    .story-layout { display: block; }
+    .story-visual { display: none; }
+    .chapter { min-height: 0; padding: 14px 0 60px; }
+    .chapter:last-child { padding-bottom: 0; }
+    .chapters { padding-left: 22px; }
+    .chapter h3 { font-size: 2.25rem; }
+    .chapter-number { font-size: 3rem; margin-bottom: 18px; }
+    .mobile-photo { display: block; margin: 24px 0 0; }
+    .mobile-photo img { width: 100%; height: auto; aspect-ratio: 1.1; object-fit: cover; border-radius: 18px; }
+    .pause { grid-template-columns: 1fr; padding: 60px 28px; gap: 16px; }
+    .bloom { width: min(80%,290px); }
+    .pause h2 { font-size: 3.4rem; }
+    .principles { padding: 60px 28px; }
+    .principle-grid { grid-template-columns: 1fr; gap: 30px; }
+    .principles header { margin-bottom: 32px; }
+    .principle-grid h3 { margin-top: 16px; }
+  }
+</style>
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+  const root = document.querySelector<HTMLElement>('.about')!;
+  const motion = gsap.matchMedia();
+  const button = root.querySelector<HTMLButtonElement>('.pause-button')!;
+  const status = root.querySelector<HTMLElement>('.pause-status')!;
+  let bloomAnimation: gsap.core.Timeline | undefined;
+  const bloom = (event: MouseEvent) => {
+    bloomAnimation?.kill();
+    status.textContent = 'Un respiro. Y seguimos compartiendo.';
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || event.detail === 0) return;
+    bloomAnimation = gsap.timeline();
+    bloomAnimation.to('.petal', {scale:1, duration: .8, stagger: .035, ease:'power3.out'})
+      .to('.bloom-ring', {scale:1.12, opacity:0, duration:.9, ease:'power2.out'},0)
+      .to('.bloom-center', {rotation:180, duration:1.2, ease:'power2.inOut'},0)
+      .to('.petal', {scale:.7, duration:1.3, stagger:.025, ease:'sine.inOut'},1.5)
+      .to('.bloom-ring', {scale:1, opacity:1, duration:1},1.5)
+      .to('.bloom-center', {rotation:0, duration:1.2,ease:'power2.inOut'},1.5);
+  };
+  button.addEventListener('click', bloom);
+  motion.add({ reduced:'(prefers-reduced-motion: reduce)', desktop:'(min-width: 701px)' }, context => {
+    const {reduced,desktop} = context.conditions!;
+    const photos = [...root.querySelectorAll<HTMLElement>('.story-photo')];
+    const links = [...root.querySelectorAll<HTMLAnchorElement>('[data-chapter-link]')];
+    const activate = (index: number) => {
+      photos.forEach((photo,i) => { photo.classList.toggle('active', i===index); photo.setAttribute('aria-hidden',String(i!==index)); });
+      links.forEach((link,i) => { if(i===index) link.setAttribute('aria-current','step'); else link.removeAttribute('aria-current'); });
+      if (!reduced) gsap.fromTo(photos[index], {opacity:0,y:12}, {opacity:1,y:0,duration:.45,overwrite:true,ease:'power2.out'});
+    };
+    if (desktop) root.querySelectorAll<HTMLElement>('.chapter').forEach((chapter,i) => ScrollTrigger.create({trigger:chapter,start:'top 55%',end:'bottom 55%',onEnter:()=>activate(i),onEnterBack:()=>activate(i)}));
+    if (reduced) return;
+    gsap.from('.founder-portrait', {y:24,rotation:2,opacity:0,duration:.8,ease:'power3.out'});
+    root.querySelectorAll<HTMLElement>('.chapter, .principle-grid article').forEach(element => gsap.from(element,{y:30,opacity:0,duration:.65,ease:'power3.out',scrollTrigger:{trigger:element,start:'top 88%',once:true}}));
+    gsap.fromTo('.story-track span',{scaleY:0},{scaleY:1,ease:'none',scrollTrigger:{trigger:'.chapters',start:'top 65%',end:'bottom 75%',scrub:true}});
+    gsap.fromTo('.bloom',{rotation:-25},{rotation:25,ease:'none',scrollTrigger:{trigger:'.pause',start:'top bottom',end:'bottom top',scrub:1}});
+  });
+  const refresh = () => ScrollTrigger.refresh();
+  document.fonts.ready.then(refresh);
+  window.addEventListener('load',refresh,{once:true});
+  const cleanup = () => { motion.revert(); bloomAnimation?.kill(); button.removeEventListener('click',bloom); window.removeEventListener('load',refresh); };
+  document.addEventListener('astro:before-swap',cleanup,{once:true});
+  if(import.meta.hot) import.meta.hot.dispose(cleanup);
+</script>

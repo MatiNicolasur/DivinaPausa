@@ -1,0 +1,118 @@
+---
+const eventPhotos = [
+  { src: "/images/eventos/288e57d1-5ffc-4370-aa44-71ae84f87b60.JPG", alt: "Equipo de Divina Pausa preparando un evento corporativo", size: "tall" },
+  { src: "/images/eventos/IMG_1225.jpeg", alt: "Mesa de coffee break con frutas, pastelería y sándwiches", size: "wide" },
+  { src: "/images/eventos/IMG_1287.jpeg", alt: "Montaje de coffee break con flores y bocados dulces", size: "standard" },
+  { src: "/images/eventos/IMG_1315.jpeg", alt: "Coffee break corporativo con vista panorámica de Santiago", size: "standard" },
+  { src: "/images/eventos/WhatsApp Image 2024-11-06 at 19.25.11 - copia.jpg", alt: "Mesa de brunch con mini sándwiches, postres y flores", size: "wide" },
+  { src: "/images/eventos/WhatsApp Image 2024-12-12 at 15.11.15 (2).jpg", alt: "Selección de postres individuales preparada para un evento", size: "standard" },
+];
+
+const firstLane = eventPhotos.filter((_, index) => index % 2 === 0);
+const secondLane = eventPhotos.filter((_, index) => index % 2 !== 0);
+---
+
+<section class="event-gallery" aria-labelledby="event-gallery-title">
+  <header class="event-gallery__header">
+    <p>Eventos Divina Pausa</p>
+    <h2 id="event-gallery-title">Pausas que se viven y se comparten</h2>
+    <span>Una mirada a los montajes, sabores y encuentros que hemos preparado.</span>
+  </header>
+
+  <div class="event-gallery__desktop" aria-label="Galería de eventos">
+    {eventPhotos.map((photo) => (
+      <figure class:list={["event-gallery__item", `event-gallery__item--${photo.size}`]}>
+        <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
+      </figure>
+    ))}
+  </div>
+
+  <div class="event-gallery__mobile" aria-label="Galería móvil de eventos">
+    <div class="event-gallery__lane">
+      <div class="event-gallery__track event-gallery__track--left">
+        {[false, true].map((duplicate) => (
+          <div class="event-gallery__group" aria-hidden={duplicate ? "true" : undefined}>
+            {firstLane.map((photo) => (
+              <figure class="event-gallery__mobile-item"><img src={photo.src} alt={duplicate ? "" : photo.alt} loading="lazy" decoding="async" /></figure>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="event-gallery__lane">
+      <div class="event-gallery__track event-gallery__track--right">
+        {[false, true].map((duplicate) => (
+          <div class="event-gallery__group" aria-hidden={duplicate ? "true" : undefined}>
+            {secondLane.map((photo) => (
+              <figure class="event-gallery__mobile-item"><img src={photo.src} alt={duplicate ? "" : photo.alt} loading="lazy" decoding="async" /></figure>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .event-gallery { --gallery-gap: 0px; position: relative; z-index: 1; padding: clamp(40px, 5vw, 64px) 0 0; width: 100%; overflow: hidden; background: var(--color-white); }
+  .event-gallery__header { max-width: 720px; padding-inline: 24px; margin: 0 auto 32px; text-align: center; }
+  .event-gallery__header p { margin: 0 0 14px; color: var(--color-primary-dark); font-size: .76rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; }
+  .event-gallery__header h2 { margin: 0 0 16px; color: var(--color-text); font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 4rem); font-style: italic; font-weight: 400; line-height: 1.05; }
+  .event-gallery__header span { color: #5f5955; line-height: 1.7; }
+  .event-gallery__desktop { width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gallery-gap); }
+  .event-gallery__item { min-width: 0; aspect-ratio: 1.65; margin: 0; overflow: hidden; background: #ded6d2; }
+  .event-gallery__item img,
+  .event-gallery__mobile-item img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 700ms cubic-bezier(.25, 1, .5, 1); }
+  .event-gallery__mobile { display: none; }
+  @media (hover: hover) and (pointer: fine) { .event-gallery__item:hover img { transform: scale(1.06); } }
+
+  @media (max-width: 767px) {
+    .event-gallery { --gallery-gap: 0px; padding-inline: 0; }
+    .event-gallery__header { padding: 0 24px; margin-bottom: 32px; }
+    .event-gallery__desktop { display: none; }
+    .event-gallery__mobile { display: grid; gap: var(--gallery-gap); }
+    .event-gallery__lane { overflow: hidden; }
+    .event-gallery__track { display: flex; gap: var(--gallery-gap); width: max-content; animation-duration: 38s; animation-timing-function: linear; animation-iteration-count: infinite; }
+    .event-gallery__track--left { animation-name: event-scroll-left; }
+    .event-gallery__track--right { transform: translateX(calc(-50% - var(--gallery-gap) / 2)); animation-name: event-scroll-right; animation-duration: 43s; }
+    .event-gallery__group { display: flex; gap: var(--gallery-gap); }
+    .event-gallery__mobile-item { width: 52vw; height: clamp(130px, 34vw, 240px); flex: 0 0 auto; margin: 0; overflow: hidden; background: #ded6d2; }
+    .event-gallery:not(.is-visible) .event-gallery__track { animation-play-state: paused; }
+  }
+
+  @keyframes event-scroll-left { to { transform: translateX(calc(-50% - var(--gallery-gap) / 2)); } }
+  @keyframes event-scroll-right { to { transform: translateX(0); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .event-gallery__item img,
+    .event-gallery__mobile-item img { transition: none; }
+    .event-gallery__lane { overflow-x: auto; mask-image: none; -webkit-mask-image: none; }
+    .event-gallery__track { animation: none; transform: none; }
+    .event-gallery__group[aria-hidden="true"] { display: none; }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  const gallery = document.querySelector<HTMLElement>(".event-gallery");
+  if (gallery) {
+    const observer = new IntersectionObserver(([entry]) => {
+      gallery.classList.toggle("is-visible", entry.isIntersecting);
+    });
+    observer.observe(gallery);
+  }
+
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.from(".event-gallery__header > *", { y: 24, opacity: 0, duration: .7, stagger: .05, ease: "power3.out", scrollTrigger: { trigger: ".event-gallery__header", start: "top 85%", once: true } });
+    gsap.matchMedia().add("(min-width: 768px)", () => {
+      gsap.from(".event-gallery__desktop .event-gallery__item img", {
+        scale: 1.12, duration: 1.1, stagger: .04, ease: "power3.out",
+        clearProps: "transform",
+        scrollTrigger: { trigger: ".event-gallery__desktop", start: "top 85%", once: true }
+      });
+    });
+  }
+</script>

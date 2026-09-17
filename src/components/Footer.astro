@@ -1,33 +1,6 @@
 ---
 const currentYear = new Date().getFullYear();
 
-// FAQ modal functions
-const openFaqModal = (modalId: string) => {
-  const modal = document.getElementById(modalId);
-  if (modal) {
-    modal.style.display = 'flex';
-    // Trigger reflow to apply display:flex before adding class
-    void modal.offsetWidth;
-    modal.style.opacity = '1';
-  }
-};
-
-const closeFaqModal = (modalId: string) => {
-  const modal = document.getElementById(modalId);
-  if (modal) {
-    modal.style.opacity = '0';
-    setTimeout(() => {
-      modal.style.display = 'none';
-    }, 300); // Match this with the CSS transition duration
-  }
-};
-
-// Make functions globally available
-if (typeof window !== 'undefined') {
-  window.openFaqModal = openFaqModal;
-  window.closeFaqModal = closeFaqModal;
-}
-
 // FAQ data with questions and answers
 const faqs = [
   {
@@ -40,7 +13,7 @@ const faqs = [
   },
   {
     question: "¿Qué servicios ofrecen?",
-    answer: "Ofrecemos un servicio completo de catering que incluye desde cócteles elegantes hasta cenas formales. Nuestros servicios incluyen: diseño de menú personalizado, servicio de meseros profesionales, montaje de mobiliario, vajilla y cristalería, y limpieza post-evento. ¡Hacemos que cada detalle cuente!"
+    answer: "Ofrecemos Coffee Break, Almuerzo y Brunch para empresas y eventos en Santiago. Cuéntanos cuántas personas asistirán y qué estás organizando para preparar una propuesta y acordar contigo el menú y los detalles del servicio."
   }
 ];
 ---
@@ -56,16 +29,16 @@ const faqs = [
         <a href="https://www.instagram.com/divinapausa.cl/" aria-label="Instagram"><i class="dp-instagram"></i></a>
       </div>
     </div>
-    
+
     <div class="footer-menu">
-      <h4>Menu</h4>
+      <h2>Menú</h2>
       <ul>
         <li><a href="/">Inicio</a></li>
         <li><a href="/nosotros">Nosotros</a></li>
-        <li><a href="/servicios">Servicios</a></li>
+        <li><a href="/#servicios-estandar">Servicios</a></li>
       </ul>
     </div>
-    
+
     <div class="footer-resources">
       <!--<h4>Recursos</h4>
       <ul>
@@ -75,108 +48,38 @@ const faqs = [
         <li><a href="/faq">FAQ</a></li>
       </ul>-->
     </div>
-    
+
     <div class="footer-faq">
-      {faqs.map((faq, index) => (
-        <div class="faq-item" data-faq-index={index}>
-          <div class="faq-question">
-            <h5>{faq.question}</h5>
-            <i class="fa-solid fa-arrow-right"></i>
-          </div>
-        </div>
+      {faqs.map(faq => (
+        <details class="faq-item">
+          <summary class="faq-question">{faq.question}</summary>
+          <p class="faq-answer">{faq.answer}</p>
+        </details>
       ))}
-      
-      <script>
-        // Function to open FAQ modal
-        const openFaqModal = (modalId: string) => {
-          const modal = document.getElementById(modalId) as HTMLElement | null;
-          if (modal) {
-            modal.style.display = 'flex';
-            // Trigger reflow to apply display:flex before adding class
-            void modal.offsetWidth;
-            modal.style.opacity = '1';
-          }
-        };
-
-        // Function to close FAQ modal
-        const closeFaqModal = (modalId: string) => {
-          const modal = document.getElementById(modalId) as HTMLElement | null;
-          if (modal) {
-            modal.style.opacity = '0';
-            setTimeout(() => {
-              modal.style.display = 'none';
-            }, 300);
-          }
-        };
-
-        // Handle FAQ item clicks using event delegation
-        document.addEventListener('click', (event: MouseEvent) => {
-          const target = event.target as HTMLElement | null;
-          if (!target) return;
-          
-          // Handle FAQ item click to open modal
-          const faqItem = target.closest('.faq-item') as HTMLElement | null;
-          if (faqItem) {
-            const index = faqItem.getAttribute('data-faq-index');
-            if (index !== null) {
-              const modalId = `faqModal${index}`;
-              openFaqModal(modalId);
-            }
-            return;
-          }
-          
-          // Handle close button click
-          const closeButton = target.closest('.faq-close') as HTMLElement | null;
-          if (closeButton) {
-            const modal = closeButton.closest('.faq-modal') as HTMLElement | null;
-            if (modal) {
-              event.preventDefault();
-              closeFaqModal(modal.id);
-            }
-          }
-        });
-      </script>
     </div>
-    
-    <!-- FAQ Modals -->
-    {faqs.map((faq, index) => (
-      <div id={`faqModal${index}`} class="faq-modal">
-        <div class="faq-modal-content">
-          <span class="faq-close">&times;</span>
-          <h3>{faq.question}</h3>
-          <p>{faq.answer}</p>
-        </div>
-      </div>
-    ))}
-    
-    <script is:inline>
-      // Close when clicking outside modal content
-      document.addEventListener('click', function(event) {
-        const target = event.target;
-        if (target && target.classList && target.classList.contains('faq-modal')) {
-          target.style.opacity = '0';
-          setTimeout(() => {
-            target.style.display = 'none';
-          }, 300);
-        }
-      });
-    </script>
   </div>
-  
+
   <div class="footer-bottom">
     <p>&copy; {currentYear} Divina Pausa. Todos los derechos reservados.</p>
-    <p>Diseñado con ❤️</a></p>
+    <p>Diseñado con ❤️</p>
   </div>
 </footer>
 
 <style>
 
+  .faq-question::after { content: '+'; margin-left: 12px; font-size: 1.3rem; }
+  details[open] > .faq-question::after { content: '−'; }
+  .faq-question { cursor: pointer; color: #fff; font-size: .95rem; min-height: 48px; }
+  .faq-answer { padding: 0 15px 18px; color: #e0d8d4; line-height: 1.7; font-size: .9rem; }
+  .footer-bottom p { color: #c6bfbb; }
   /* Footer Styles */
   .footer-section {
     margin: 0;
     padding: 40px 5%;
     background-color: var(--color-dark);
     color: var(--color-white);
+    position: relative;
+    z-index: 1;
   }
 
   .footer-grid {
@@ -214,7 +117,7 @@ const faqs = [
     background-color: rgba(255, 255, 255, 0.1);
     color: var(--color-white);
     font-size: 1rem;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
   }
 
   .social-links a:hover {
@@ -223,7 +126,7 @@ const faqs = [
     transform: translateY(-3px);
   }
 
-  .footer-menu h4, .footer-resources h4 {
+  .footer-menu h2, .footer-resources h4 {
     font-family: var(--font-primary);
     font-size: 1rem;
     margin-bottom: 20px;
@@ -300,7 +203,7 @@ const faqs = [
   .faq-item:hover i {
     transform: translateX(5px);
   }
-  
+
     /* FAQ Modal Styles */
   .faq-modal {
     display: none;
@@ -316,12 +219,12 @@ const faqs = [
     opacity: 0;
     transition: opacity 0.3s ease;
   }
-  
+
   .faq-modal.show {
     display: flex;
     opacity: 1;
   }
-  
+
   .faq-modal-content {
     background-color: var(--color-dark);
     padding: 30px;
@@ -332,12 +235,12 @@ const faqs = [
     color: white;
     animation: modalFadeIn 0.3s ease-out;
   }
-  
+
   @keyframes modalFadeIn {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  
+
   .faq-close {
     position: absolute;
     top: 15px;
@@ -348,18 +251,18 @@ const faqs = [
     color: var(--color-primary);
     transition: color 0.3s ease;
   }
-  
+
   .faq-close:hover {
     color: white;
   }
-  
+
   .faq-modal h3 {
     color: var(--color-primary);
     margin-top: 0;
     font-size: 1.5rem;
     margin-bottom: 20px;
   }
-  
+
   .faq-modal p {
     line-height: 1.6;
     margin-bottom: 0;
@@ -377,9 +280,10 @@ const faqs = [
     margin-left: auto;
     margin-right: auto;
   }
-  
+
   .footer-bottom p {
     margin: 5px 0;
+    color: #cfcfcf;
   }
 
   .footer-bottom a {
@@ -398,7 +302,7 @@ const faqs = [
     background-repeat: no-repeat;
     width: 16px;
     height: 16px;
-    
+
   }
   .dp-whatsapp{
     background-image: url('/images/icons/wsp.png');
@@ -443,15 +347,14 @@ const faqs = [
     .footer-faq {
       grid-column: 1 / 2;
     }
-    
-    .footer-menu, 
+
+    .footer-menu,
     .footer-resources {
       display: flex;
       flex-direction: column;
-      display: none;
     }
-    
-    .footer-menu h4, 
+
+    .footer-menu h2,
     .footer-resources h4 {
       margin-bottom: 15px;
     }

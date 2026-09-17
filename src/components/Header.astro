@@ -1,28 +1,10 @@
 ---
-// Global type declarations
-declare global {
-  interface Window {
-    scrollToCTA: () => void;
-  }
-}
-
-//Estilos
-import "../styles/global.css";
-
-// Global type declarations
-declare global {
-  interface Window {
-    scrollToCTA: () => void;
-  }
-}
-
 // Navegación principal
 
 const navItems = [
   { name: "Inicio", href: "/" },
-  { name: "Servicios", href: "/servicios" },
+  { name: "Servicios", href: "/#servicios-estandar" },
   { name: "Nosotros", href: "/nosotros" },
-  { name: "Contacto", href: "/contacto" },
 ];
 ---
 
@@ -57,7 +39,7 @@ const navItems = [
           src="/images/logos/Mesa de trabajo 5.svg"
           alt="Divina Pausa Logo"
           width="120"
-          height="auto"
+          height="80"
         />
       </a>
 
@@ -65,7 +47,7 @@ const navItems = [
       <nav class="main-nav" id="main-nav">
         <ul class="nav-list">
           {
-            navItems.slice(0, 3).map((item) => (
+            navItems.map((item) => (
               <li class="nav-item">
                 <a
                   href={item.href}
@@ -91,7 +73,9 @@ const navItems = [
       <button
         class="mobile-menu-button"
         id="mobile-menu-button"
-        aria-label="Menú"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="main-nav"
       >
         <span></span>
         <span></span>
@@ -100,7 +84,7 @@ const navItems = [
 
       <!-- Botón de contacto -->
       <div class="header-actions">
-        <button class="contacto-btn" onclick="scrollToCTA()">Contacto</button>
+        <a class="contacto-btn" href="#contacto">Cotizar</a>
       </div>
     </div>
   </div>
@@ -128,8 +112,8 @@ const navItems = [
     position: relative;
     z-index: 10; /* Encima del dark */
     border-radius: 20px 20px 0 0;
-    transform: translateY(48px);
     transition: transform 0.3s ease;
+    transform: translateY(48px);
   }
 
   .white-header.overlap {
@@ -150,7 +134,7 @@ const navItems = [
   .dark-header-contact p {
     margin-bottom: 0;
     font-size: 0.8rem;
-    color: var(--color-text-light);
+    color: #e5d8d4;
   }
 
   /* Popup Styles */
@@ -422,81 +406,35 @@ const navItems = [
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const mobileMenuButton = document.getElementById("mobile-menu-button");
-    const mobileMenu = document.getElementById("mobile-menu");
-    const mobileMenuClose = document.getElementById("mobile-menu-close");
-    const whiteHeader = document.querySelector(".white-header");
-    let lastScrollY = window.scrollY;
-    let accumulated = 0;
-    const threshold = 50;
-
-    // Manejar menú móvil
-    const mainNav = document.getElementById("main-nav");
-
-    if (mobileMenuButton && mainNav) {
-      mobileMenuButton.addEventListener("click", () => {
-        mainNav.classList.toggle("is-active");
-        mobileMenuButton.classList.toggle("is-active");
-        // Bloquear scroll del body cuando el menú está abierto
-        document.body.style.overflow = mainNav.classList.contains("is-active")
-          ? "hidden"
-          : "";
-      });
-
-      // Cerrar menú al hacer clic en un enlace (opcional, pero bueno para UX)
-      const navLinks = mainNav.querySelectorAll(".nav-link");
-      navLinks.forEach((link) => {
-        link.addEventListener("click", () => {
-          if (mainNav.classList.contains("is-active")) {
-            mainNav.classList.remove("is-active");
-            mobileMenuButton.classList.remove("is-active");
-            document.body.style.overflow = "";
-          }
-        });
-      });
+  const menuButton = document.getElementById('mobile-menu-button');
+  const nav = document.getElementById('main-nav');
+  const whiteHeader = document.querySelector('.white-header');
+  const mobile = window.matchMedia('(max-width: 992px)');
+  function setMenu(open: boolean) {
+    nav?.classList.toggle('is-active', open);
+    menuButton?.classList.toggle('is-active', open);
+    menuButton?.setAttribute('aria-expanded', String(open));
+    menuButton?.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+  }
+  menuButton?.addEventListener('click', () => setMenu(menuButton.getAttribute('aria-expanded') !== 'true'));
+  nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && menuButton?.getAttribute('aria-expanded') === 'true') {
+      setMenu(false);
+      menuButton.focus();
     }
-
-    // Manejar scroll suave
-    const navLinks = document.querySelectorAll(".nav-link");
-    // Only add smooth scroll behavior for in-page navigation
-    navLinks.forEach((link) => {
-      const href = link.getAttribute("href");
-      if (href && href.startsWith('#')) {
-        link.addEventListener("click", (e) => {
-          e.preventDefault();
-          const target = document.querySelector(href);
-          if (target) {
-            target.scrollIntoView({ behavior: "smooth" });
-          }
-        });
-      }
-    });
-
-    // Función para desplazarse suavemente a la sección CTA
-    window.scrollToCTA = function() {
-      const ctaSection = document.getElementById("ctaSection");
-      if (ctaSection) {
-        ctaSection.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-
-    // Manejar scroll para el efecto de header
-    window.addEventListener("scroll", () => {
-      const currentScrollY = window.scrollY;
-      const delta = currentScrollY - lastScrollY;
-
-      accumulated += delta;
-
-      if (accumulated > threshold) {
-        whiteHeader?.classList.add("overlap");
-        accumulated = 0;
-      } else if (accumulated < -threshold) {
-        whiteHeader?.classList.remove("overlap");
-        accumulated = 0;
-      }
-
-      lastScrollY = currentScrollY;
-    });
   });
+  document.addEventListener('click', event => {
+    if (event.target instanceof Node && !nav?.contains(event.target) && !menuButton?.contains(event.target)) setMenu(false);
+  });
+  mobile.addEventListener('change', () => setMenu(false));
+  let lastScrollY = window.scrollY;
+  let accumulated = 0;
+  window.addEventListener('scroll', () => {
+    const current = window.scrollY;
+    accumulated += current - lastScrollY;
+    if (accumulated > 50) { whiteHeader?.classList.add('overlap'); accumulated = 0; }
+    else if (accumulated < -50 || current <= 0) { whiteHeader?.classList.remove('overlap'); accumulated = 0; }
+    lastScrollY = current;
+  }, { passive: true });
 </script>

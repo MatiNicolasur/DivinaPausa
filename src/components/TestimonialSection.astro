@@ -1,323 +1,90 @@
 ---
-// TestimonialSection.astro
-// Componente para mostrar testimonios con animación de carrusel
+const testimonials = [
+  { quote: "Trabajamos con Divina Pausa para el lanzamiento de un producto y la experiencia fue impecable. El coffee break personalizado con opciones sin gluten y veganas fue todo un acierto: nuestros invitados destacaron la calidad y la presentación.", name: "Valentina Muñoz", role: "Directora de Marketing — Cornershop", initials: "VM" },
+  { quote: "Necesitábamos catering para una capacitación de tres días con 80 personas. El equipo cumplió con los horarios y respondió bien incluso cuando tuvimos cambios de último minuto.", name: "Rodrigo Álvarez", role: "HR Business Partner — Mercado Libre", initials: "RA" },
+  { quote: "Entendieron el tono de nuestra celebración de fin de año y armaron una propuesta de cocina en vivo que se convirtió en el centro del encuentro. Valoramos mucho su profesionalismo y cercanía.", name: "Carolina Sepúlveda", role: "Jefa de Cultura — WOM", initials: "CS" },
+  { quote: "Contratamos coffee breaks semanales para el equipo. Llegaban puntuales, con opciones distintas, frescas y bien presentadas. La coordinación fue clara durante todo el servicio.", name: "Felipe González", role: "Head of Operations — Buk", initials: "FG" },
+  { quote: "Organicé un after office para 50 personas y todo fluyó desde la cotización hasta el servicio en terreno. Las tablas, los bocados y la barra ayudaron a crear el ambiente que buscábamos.", name: "Javiera Pizarro", role: "Eventos Corporativos — Entel", initials: "JP" },
+];
+
 ---
 
-<div class="testimonial-section">
-  <div class="container">
-    <div class="section-header">
-      <div class="mx-auto">
-        <h2 class="section-subtitle">Testimonios</h2>
-      </div>
-      <h3 class="section-title">Lo que dicen nuestros clientes</h3>
-    </div>
-
-    <div class="testimonial-carousel testimonials-grid">
-      <div class="testimonial-track">
-        <!-- First set of testimonials -->
-        <div class="testimonial-card">
-          <div class="testimonial-content">
-            <div class="quote-icon">"</div>
-            <p class="testimonial-text">
-              Excelente servicio de catering. La presentación y los sabores estuvieron muy bien logrados. Nuestros invitados quedaron satisfechos con la experiencia gastronómica.
-            </p>
-            <div class="testimonial-author">
-              <div class="author-info">
-                <h4>María González</h4>
-                <p>Cruce Andino</p>
+<section class="testimonial-section" aria-labelledby="testimonial-title">
+  <header class="testimonial-header">
+    <p class="testimonial-label"><span aria-hidden="true"></span>Testimonios</p>
+    <h2 id="testimonial-title">Lo que dicen nuestros clientes</h2>
+  </header>
+  <div class="testimonial-viewport">
+    <div class="testimonial-track">
+      {[false, true].map((duplicate) => (
+        <div class="testimonial-group" aria-hidden={duplicate ? "true" : undefined}>
+          {testimonials.map((testimonial) => (
+            <article class="testimonial-card">
+              <div class="testimonial-stars" role="img" aria-label="5 estrellas">
+                {Array.from({ length: 5 }).map(() => (
+                  <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.62l5.34-.78L10 1z" /></svg>
+                ))}
               </div>
-            </div>
-          </div>
+              <blockquote>{testimonial.quote}</blockquote>
+              <footer>
+                <span class="testimonial-avatar" aria-hidden="true">{testimonial.initials}</span>
+                <div>
+                  <h3>{testimonial.name}</h3>
+                  <p>{testimonial.role}</p>
+                </div>
+              </footer>
+            </article>
+          ))}
         </div>
-
-        <div class="testimonial-card">
-          <div class="testimonial-content">
-            <div class="quote-icon">"</div>
-            <p class="testimonial-text">
-              Buena combinación de creatividad y atención al cliente. El servicio para nuestro evento corporativo cumplió con lo esperado en términos de profesionalismo y calidad.
-            </p>
-            <div class="testimonial-author">
-              <div class="author-info">
-                <h4>Carlos M.</h4>
-                <p>NTT DATA</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="testimonial-content">
-            <div class="quote-icon">"</div>
-            <p class="testimonial-text">
-              Entendieron bien nuestros requerimientos y los tradujeron en un menú apropiado. La presentación de los platos y la calidad de los ingredientes fueron destacables.
-            </p>
-            <div class="testimonial-author">
-              <div class="author-info">
-                <h4>Ana R.</h4>
-                <p>Globant</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Duplicate for infinite scroll effect -->
-        <div class="testimonial-card">
-          <div class="testimonial-content">
-            <div class="quote-icon">"</div>
-            <p class="testimonial-text">
-              Buena atención personalizada y servicio de calidad. Los platos mostraron dedicación y buen gusto, lo que fue apreciado por nuestros invitados.
-            </p>
-            <div class="testimonial-author">
-              <div class="author-info">
-                <h4>María González</h4>
-                <p>Claro</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="testimonial-content">
-            <div class="quote-icon">"</div>
-            <p class="testimonial-text">
-              Buena combinación de sabores y presentación cuidada. Nuestros clientes valoraron positivamente la propuesta gastronómica ofrecida.
-            </p>
-            <div class="testimonial-author">
-              <div class="author-info">
-                <h4>Macarena</h4>
-                <p>Trail Store</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="testimonial-content">
-            <div class="quote-icon">"</div>
-            <p class="testimonial-text">
-              Buena atención al detalle y servicio de calidad. El catering cumplió con lo acordado y el resultado final fue satisfactorio para nuestro evento.
-            </p>
-            <div class="testimonial-author">
-              <div class="author-info">
-                <h4>Joaquin A.</h4>
-                <p>Zoetis</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   </div>
-</div>
+</section>
 
 <style>
-  .testimonial-section {
-    margin: 0 80px 60px;
-    border-radius: 20px;
-    padding: 80px 0;
-    background-color: #f9f9f9;
-    overflow: hidden;
-    width: -webkit-fill-available;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) inset;
+  .testimonial-section { position: relative; z-index: 1; padding: clamp(64px, 8vw, 100px) 0; overflow: hidden; background: var(--color-dark); }
+  .testimonial-header { margin: 0 auto 52px; padding: 0 24px; text-align: center; }
+  .testimonial-label { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 16px; color: var(--color-primary); font-size: .7rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; }
+  .testimonial-label span { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+  .testimonial-header h2 { margin: 0; color: #fff; font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 400; line-height: 1.15; }
+  .testimonial-viewport { overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent); }
+  .testimonial-track { display: flex; gap: 24px; width: max-content; animation: testimonial-loop 58s linear infinite; }
+  .testimonial-group { display: flex; gap: 24px; }
+  .testimonial-card { width: 380px; padding: 36px 32px 28px; display: flex; flex-direction: column; border-radius: 16px; background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,.15); }
+  .testimonial-stars { display: flex; gap: 3px; margin-bottom: 20px; color: var(--color-primary); }
+  .testimonial-stars svg { width: 18px; height: 18px; }
+  .testimonial-card blockquote { flex: 1; margin: 0 0 24px; color: #444; font-size: .9rem; line-height: 1.7; }
+  .testimonial-card footer { display: flex; align-items: center; gap: 14px; padding-top: 20px; border-top: 1px solid rgba(0,0,0,.06); }
+  .testimonial-avatar { width: 44px; height: 44px; flex: 0 0 44px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: linear-gradient(135deg, var(--color-primary), #c99592); font-size: .9rem; font-weight: 700; }
+  .testimonial-card h3 { margin: 0; color: var(--color-text); font-size: .95rem; font-weight: 600; line-height: 1.3; }
+  .testimonial-card footer p { margin: 2px 0 0; color: #616161; font-size: .78rem; line-height: 1.3; }
+  .testimonial-section:where(:hover, :focus-within) .testimonial-track,
+  .testimonial-section:not(.is-visible) .testimonial-track { animation-play-state: paused; }
+  @keyframes testimonial-loop { to { transform: translateX(calc(-50% - 12px)); } }
+
+  @media (max-width: 767px) {
+    .testimonial-header { margin-bottom: 36px; }
+    .testimonial-viewport { overflow-x: auto; padding: 0 24px 12px; scroll-padding-inline: 24px; scroll-snap-type: x mandatory; scrollbar-width: none; mask-image: none; -webkit-mask-image: none; }
+    .testimonial-viewport::-webkit-scrollbar { display: none; }
+    .testimonial-track { animation: none; transform: none; }
+    .testimonial-group { gap: 14px; }
+    .testimonial-group[aria-hidden="true"] { display: none; }
+    .testimonial-card { width: min(78vw, 310px); padding: 26px 22px 22px; scroll-snap-align: center; }
   }
 
-  .container {
-    max-width: -webkit-fill-available;
-    margin: 0 auto;
-    padding: 0;
-  }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: 50px;
-  }
-  .mx-auto {
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .section-subtitle {
-    color: var(--color-light-pink);
-    background-color: var(--color-primary);
-    padding: 5px 15px;
-    border-radius: 20px;
-    max-width: fit-content;
-    font-family: var(--font-primary);
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
-
-  .section-title {
-    font-size: 2.5rem;
-    font-family: var(--font-display);
-    color: var(--color-text);
-    margin: 0;
-    font-weight: 700;
-    position: relative;
-    display: inline-block;
-  }
-
-  .testimonial-carousel {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    padding: 0px 0px 80px;
-  }
-
-  .testimonial-track {
-    display: flex;
-    gap: 30px;
-    animation: scroll 30s linear infinite;
-    width: 100%;
-  }
-
-  .testimonial-card {
-    flex: 0 0 350px;
-    background: white;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    transition: box-shadow 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .testimonial-content {
-    position: relative;
-    z-index: 1;
-  }
-
-  .quote-icon {
-    font-size: 4rem;
-    color: var(--color-primary);
-    line-height: 1;
-    margin-bottom: 20px;
-    opacity: 0.2;
-    font-family: Georgia, serif;
-    height: 40px;
-    line-height: 40px;
-  }
-
-  .testimonial-text {
-    font-size: 1rem;
-    color: #555;
-    line-height: 1.7;
-    margin-bottom: 25px;
-    font-style: italic;
-  }
-
-  .testimonial-author {
-    display: flex;
-    align-items: center;
-  }
-
-  .author-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #f0f0f0;
-    margin-right: 15px;
-    overflow: hidden;
-  }
-
-  .author-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .author-info h4 {
-    margin: 0;
-    color: var(--color-text);
-    font-size: 1.1rem;
-    font-weight: 600;
-  }
-
-  .author-info p {
-    margin: 5px 0 0;
-    color: #777;
-    font-size: 0.9rem;
-  }
-
-  /* Navigation controls removed as per request */
-
-  @keyframes scroll {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(calc(-250px * 3));
-    }
-  }
-
-  @media (max-width: 992px) {
-    .testimonial-track {
-      animation: scroll 40s linear infinite;
-    }
-
-    .testimonial-card {
-      flex: 0 0 300px;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .section-title {
-      font-size: 2rem;
-    }
-
-    .testimonial-track {
-      animation: scroll 90s linear infinite;
-    }
-
-    .testimonial-card {
-      flex: 0 0 280px;
-      padding: 25px;
-    }
-
-    .testimonial-text {
-      font-size: 0.95rem;
-    }
-    .testimonial-section {
-      margin: 0 20px 30px;
-    }
-    .mx-auto {
-      margin-left: auto;
-      margin-right: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
-
-  @media (max-width: 576px) {
-    .testimonial-section {
-      padding: 60px 0;
-    }
-
-    .section-header {
-      margin-bottom: 30px;
-    }
-
-    .section-title {
-      font-size: 1.8rem;
-      max-width: 60%;
-    }
-    .section-subtitle {
-      font-size: 0.85rem;
-    }
-
-    .testimonial-track {
-      gap: 20px;
-    }
-
-    .testimonial-card {
-      flex: 0 0 260px;
-      padding: 20px;
-    }
+  @media (prefers-reduced-motion: reduce) {
+    .testimonial-viewport { overflow-x: auto; mask-image: none; -webkit-mask-image: none; }
+    .testimonial-track { animation: none; transform: none; }
+    .testimonial-group[aria-hidden="true"] { display: none; }
   }
 </style>
+
+<script>
+  const testimonialSection = document.querySelector<HTMLElement>(".testimonial-section");
+  if (testimonialSection) {
+    const observer = new IntersectionObserver(([entry]) => {
+      testimonialSection.classList.toggle("is-visible", entry.isIntersecting);
+    });
+    observer.observe(testimonialSection);
+  }
+</script>

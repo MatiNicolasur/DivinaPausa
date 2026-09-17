@@ -1,0 +1,205 @@
+---
+import { customServices } from '../data/pricingData';
+
+const whatsappBase = "https://wa.me/56976897765?text=";
+---
+
+<section class="custom-services" id="servicios-personalizados">
+  <div class="custom-services__inner">
+
+    <div class="custom-services__divider">
+      <div class="custom-services__divider-line"></div>
+      <span class="custom-services__divider-text">Servicios Personalizados</span>
+      <div class="custom-services__divider-line"></div>
+    </div>
+
+    <p class="custom-services__desc">
+      ¿Buscas algo más exclusivo? Estos servicios se diseñan especialmente para tu evento y requieren una cotización personalizada.
+    </p>
+
+    <div class="custom-services__grid">
+      {customServices.map((svc) => (
+        <article class="custom-services__card">
+          <div class="custom-services__card-icon">
+            <img src={svc.icon} alt="" loading="lazy" decoding="async" />
+          </div>
+          <div class="custom-services__card-body">
+            <h3 class="custom-services__card-title">{svc.title}</h3>
+            <p class="custom-services__card-desc">{svc.description}</p>
+            <a
+              class="custom-services__card-link"
+              href={`${whatsappBase}${svc.whatsappMessage}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Solicitar cotización
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+/* ============================================================
+   SERVICIOS PERSONALIZADOS
+   Light section — follows the calculator on both pages
+   ============================================================ */
+
+.custom-services {
+  position: relative;
+  background-color: var(--color-white);
+  padding: var(--space-2xl) var(--space-lg);
+}
+
+.custom-services__inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.custom-services__divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.custom-services__divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-border) 50%,
+    transparent
+  );
+}
+
+.custom-services__divider-text {
+  font-family: var(--font-primary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--color-primary-dark);
+  white-space: nowrap;
+}
+
+.custom-services__desc {
+  font-family: var(--font-primary);
+  font-size: 0.92rem;
+  color: var(--color-text-light);
+  line-height: 1.6;
+  text-align: center;
+  margin-bottom: var(--space-xl);
+  max-width: 550px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.custom-services__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+}
+
+.custom-services__card {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background: var(--color-background-offset);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.custom-services__card:hover {
+  background: var(--color-white);
+  border-color: rgba(229, 177, 174, 0.4);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+.custom-services__card-icon {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--color-light-pink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-services__card-icon img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(0.5);
+}
+
+.custom-services__card-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.custom-services__card-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 4px;
+}
+
+.custom-services__card-desc {
+  font-family: var(--font-primary);
+  font-size: 0.84rem;
+  color: var(--color-text-light);
+  line-height: 1.55;
+  margin-bottom: var(--space-sm);
+}
+
+.custom-services__card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-primary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  text-decoration: none;
+  transition: gap 0.3s ease, color 0.3s ease;
+}
+
+.custom-services__card-link:hover {
+  gap: 10px;
+  color: var(--color-primary);
+}
+
+.custom-services__card-link svg {
+  width: 14px;
+  height: 14px;
+}
+
+@media (min-width: 600px) {
+  .custom-services__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .custom-services {
+    padding: var(--space-2xl) var(--space-xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .custom-services__card {
+    transition: none;
+  }
+}
+</style>
