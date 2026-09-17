@@ -2,6 +2,7 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
+import { contact } from '../data/contactData';
 
 interface Props {
   title?: string;
@@ -14,7 +15,7 @@ const {
   title = "Divina Pausa",
   description = "Catering para empresas y eventos. Ofrecemos servicios de catering para eventos y celebraciones en el lugar que prefieras. Contamos con un equipo de expertos en la preparación de comida gourmet y bebidas frescas.",
   keywords = "catering, empresas, eventos, celebraciones, comida gourmet, bebidas frescas, servicio, santiago, chile",
-  ogImage = "/og-image.jpg"
+  ogImage = "/images/Hero Header.jpg"
 } = Astro.props;
 
 const siteName = "Divina Pausa";
@@ -23,6 +24,13 @@ const siteName = "Divina Pausa";
 const baseSiteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : 'https://divinapausa.cl'; // Fallback y quitar slash final si existe
 const canonicalURL = new URL(Astro.url.pathname, baseSiteUrl).toString();
 const finalOgImage = new URL(ogImage, baseSiteUrl).toString();
+const business = {
+  '@context': 'https://schema.org', '@type': 'Organization',
+  name: siteName, url: baseSiteUrl,
+  logo: new URL('/images/logos/Mesa de trabajo 5.svg', baseSiteUrl).toString(),
+  email: contact.email, telephone: contact.phones[0].number,
+  sameAs: ['https://www.instagram.com/divinapausa.cl/', 'https://www.linkedin.com/company/divinapausa/'],
+};
 ---
 
 <!DOCTYPE html>
@@ -31,6 +39,7 @@ const finalOgImage = new URL(ogImage, baseSiteUrl).toString();
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script is:inline>document.documentElement.classList.add('js')</script>
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#151515">
 
@@ -38,6 +47,8 @@ const finalOgImage = new URL(ogImage, baseSiteUrl).toString();
     <meta name="description" content={description} />
     <meta name="keywords" content={keywords} />
     <link rel="canonical" href={canonicalURL} />
+    <meta property="og:locale" content="es_CL" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(business).replace(/</g, '\\u003c')} />
 
     {/* Open Graph / Facebook */}
     <meta property="og:type" content="website" />
@@ -63,87 +74,14 @@ const finalOgImage = new URL(ogImage, baseSiteUrl).toString();
     {/* Estilos globales se importan en el frontmatter */}
     <slot name="head-extra" />
 
-    {/* Cal.com embed script */}
-    <script type="text/javascript">
-      (function (C, A, L) { 
-        let p = function (a, ar) { a.q.push(ar); }; 
-        let d = C.document; 
-        C.Cal = C.Cal || function () { 
-          let cal = C.Cal; 
-          let ar = arguments; 
-          if (!cal.loaded) { 
-            cal.ns = {}; 
-            cal.q = cal.q || []; 
-            d.head.appendChild(d.createElement("script")).src = A; 
-            cal.loaded = true; 
-          } 
-          if (ar[0] === L) { 
-            const api = function () { p(api, arguments); }; 
-            const namespace = ar[1]; 
-            api.q = api.q || []; 
-            if(typeof namespace === "string"){
-              cal.ns[namespace] = cal.ns[namespace] || api;
-              p(cal.ns[namespace], ar);
-              p(cal, ["initNamespace", namespace]);
-            } else p(cal, ar); 
-            return;
-          } 
-          p(cal, ar); 
-        }; 
-      })(window, "https://app.cal.com/embed/embed.js", "init");
 
-      // Initialize all Cal.com event types
-      Cal("init", "autentica-paella-espanola-15-minutos", {origin:"https://cal.com"});
-      Cal("init", "tablas-cocktail-gourmet-15-minutos", {origin:"https://cal.com"});
-      Cal("init", "brunch-almuerzos-de-excelencia", {origin:"https://cal.com"});
-      Cal("init", "after-office-dinamico", {origin:"https://cal.com"});
-      Cal("init", "coffee-break-premium-15-minutos", {origin:"https://cal.com"});
-      Cal("init", "bar-portatil-15-minutos", {origin:"https://cal.com"});
-      Cal("init", "asesoria-15min", {origin:"https://cal.com"});
-
-      // Configure UI for each namespace
-      Cal.ns["autentica-paella-espanola-15-minutos"]("ui", {
-        "cssVarsPerTheme":{"dark":{"cal-brand":"#e5b1ae"}},
-        "hideEventTypeDetails":false,
-        "layout":"month_view"
-      });
-      Cal.ns["tablas-cocktail-gourmet-15-minutos"]("ui", {
-        "cssVarsPerTheme":{"dark":{"cal-brand":"#e5b1ae"}},
-        "hideEventTypeDetails":false,
-        "layout":"month_view"
-      });
-      Cal.ns["brunch-almuerzos-de-excelencia"]("ui", {
-        "cssVarsPerTheme":{"dark":{"cal-brand":"#e5b1ae"}},
-        "hideEventTypeDetails":false,
-        "layout":"month_view"
-      });
-      Cal.ns["after-office-dinamico"]("ui", {
-        "cssVarsPerTheme":{"dark":{"cal-brand":"#e5b1ae"}},
-        "hideEventTypeDetails":false,
-        "layout":"month_view"
-      });
-      Cal.ns["coffee-break-premium-15-minutos"]("ui", {
-        "cssVarsPerTheme":{"dark":{"cal-brand":"#e5b1ae"}},
-        "hideEventTypeDetails":false,
-        "layout":"month_view"
-      });
-      Cal.ns["bar-portatil-15-minutos"]("ui", {
-        "cssVarsPerTheme":{"dark":{"cal-brand":"#e5b1ae"}},
-        "hideEventTypeDetails":false,
-        "layout":"month_view"
-      });
-      Cal.ns["asesoria-15min"]("ui", {
-        "cssVarsPerTheme":{"dark":{"cal-brand":"#e5b1ae"}},
-        "hideEventTypeDetails":false,
-        "layout":"month_view"
-      });
-    </script>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Saltar al contenido</a>
     <div class="page-wrapper">
       <Header />
 
-      <main id="main-content">
+      <main id="main-content" tabindex="-1">
         <slot />
       </main>
 
@@ -157,7 +95,7 @@ const finalOgImage = new URL(ogImage, baseSiteUrl).toString();
       }
       main#main-content {
         flex-grow: 1;
-        padding-top: 160px; /* Ajusta este valor según la altura de tu header fijo */
+        padding-top: 125px; /* Ajusta este valor según la altura de tu header fijo */
       }
     </style>
   </body>

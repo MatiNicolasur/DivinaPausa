@@ -461,20 +461,20 @@
   let activeTab = 1; // 0: Coffee To Go, 1: Corporate, 2: Otros eventos
   function setTab(idx) {
     if (idx > 1) {
-      // Redirigir a servicios si se selecciona "Otros eventos"
-      window.location.href = "/servicios";
+      // Redirigir a servicios en la landing única
+      window.location.href = "/#servicios-estandar";
       return;
     }
     activeTab = idx;
     updateView();
   }
   function redirectToServices() {
-    window.location.href = "/servicios";
+    window.location.href = "/#servicios-estandar";
   }
   function updateView() {
     document
       .querySelectorAll(".excelence-carousel-options button")
-      .forEach((btn, idx) => {
+      .forEach((btn) => {
         btn.classList.toggle("active", idx === activeTab);
       });
     document.querySelector(".coffee-to-go").style.display =
@@ -486,17 +486,17 @@
   setTimeout(() => {
     document
       .querySelectorAll(".excelence-carousel-options button")
-      .forEach((btn, idx) => {
+      .forEach((btn) => {
         btn.onclick = () => setTab(idx);
       });
     document
       .querySelectorAll(".carousel-item-content button")
-      .forEach((btn, idx) => {
+      .forEach((btn) => {
         btn.onclick = redirectToServices;
       });
     document
       .querySelectorAll(".other-events-carousel-item-content button")
-      .forEach((btn, idx) => {
+      .forEach((btn) => {
         btn.onclick = redirectToServices;
       });
     updateView();
@@ -633,17 +633,13 @@
           tabButtons.forEach((btn) => btn.classList.remove("active"));
           button.classList.add("active");
 
-          let newlyVisibleContainer: HTMLElement | null = null;
 
           if (index === 0 && coffeeToGo && carousel && otherEvents) {
             fadeSwitch(coffeeToGo, [carousel, otherEvents]);
-            newlyVisibleContainer = coffeeToGo;
           } else if (index === 1 && carousel && coffeeToGo && otherEvents) {
             fadeSwitch(carousel, [coffeeToGo, otherEvents]);
-            newlyVisibleContainer = carousel;
           } else if (index === 2 && otherEvents && coffeeToGo && carousel) {
             fadeSwitch(otherEvents, [coffeeToGo, carousel]);
-            newlyVisibleContainer = otherEvents;
           }
         });
       });
@@ -655,7 +651,7 @@
     );
     bookingButtons.forEach((button) => {
       button.addEventListener("click", () => {
-        console.log("Cal.com booking would open here");
+        window.location.href = '/#contacto';
       });
     });
   });

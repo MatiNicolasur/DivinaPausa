@@ -1,6 +1,6 @@
 /* Reset básico */
 /* Font imports */
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&display=swap");
 
 /* PF Marlet Display Font Definitions */
 @font-face {
@@ -63,12 +63,30 @@
 /* Variables */
 :root {
   --color-primary: #e5b1ae;
+  --color-primary-dark: #a8615d;
   --color-secondary: #212121;
   --color-white: #ffffff;
   --color-light-pink: #ffe5e3;
   --color-dark: #212121;
   --color-text: #212121;
   --color-text-light: #666666;
+  --color-surface: #ffffff;
+  --color-background-offset: #f9f9f9;
+  --color-border: #eeeeee;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.16);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 48px;
+  --space-2xl: 80px;
   --font-primary: "Montserrat", sans-serif;
   --font-secondary: "Yale", serif;
   --font-display: "PF Marlet Display", sans-serif;
@@ -123,7 +141,12 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  scroll-behavior: smooth; /* Desplazamiento suave */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
@@ -317,20 +340,22 @@ img, video, svg {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 0;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
   height: 2px;
   background-color: var(--color-primary);
-  transition: width 0.3s ease;
+  transition: transform 0.2s ease;
 }
 
 .nav-link:hover::after,
 .nav-link.is-active::after {
-  width: 100%;
+  transform: scaleX(1);
 }
 
 .nav-link:hover,
 .nav-link.is-active {
-  color: #e5b1ae;
+  color: #97534f;
   text-decoration: none;
 }
 
@@ -399,13 +424,15 @@ img, video, svg {
   .main-nav {
     position: fixed;
     top: 0;
-    right: -100%; /* Oculto por defecto */
+    right: 0;
+    transform: translateX(105%);
+    visibility: hidden;
     width: 80%;
     max-width: 300px;
     height: 100vh;
     background-color: white;
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-    transition: right 0.3s ease-in-out;
+    transition: transform 0.25s ease, visibility 0.25s;
     padding: 6rem 2rem 2rem; /* Espacio para el logo y botón de cierre */
     flex-direction: column;
     align-items: flex-start; /* Alinea items a la izquierda */
@@ -418,7 +445,8 @@ img, video, svg {
   }
 
   .main-nav.is-active {
-    right: 0; /* Mostrar menú */
+    transform: translateX(0);
+    visibility: visible;
   }
   
   .nav-list {
@@ -432,7 +460,7 @@ img, video, svg {
   }
   
   .header-actions {
-    display: none; /* Ocultar botón de cotización en header en móvil, se puede añadir al menú si se desea */
+    display: flex;
   }
 
   .hero-servicios, .hero-nosotros{
@@ -458,3 +486,22 @@ img, video, svg {
 /* Ajustes para el header fijo */
 /* La altura del header puede variar, BaseLayout.astro ya maneja un padding-top para main si es necesario. */
 /* Dejar body sin padding-top global para mayor flexibilidad. */
+
+/* Navegación por teclado, anclas y movimiento accesible. */
+:where(a, button, summary, input):focus-visible { outline: 3px solid #a8615d; outline-offset: 5px; }
+[id] { scroll-margin-top: 150px; }
+.contacto-btn { min-height: 44px; display: inline-flex; align-items: center; }
+.mobile-menu-button { min-width: 44px; min-height: 44px; }
+.skip-link { position: fixed; top: 8px; left: 8px; z-index: 9999; padding: 12px 20px; background: #fff; color: #212121; transform: translateY(-200%); }
+.skip-link:focus { transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  html, html.scroll-smooth { scroll-behavior: auto !important; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+@media (max-width: 992px) {
+  .main-nav { position: absolute; top: 100%; right: 0; width: 100%; max-width: none; height: auto; max-height: calc(100dvh - 150px); overflow-y: auto; padding: 24px; transform: translateY(-8px); opacity: 0; transition: transform .2s ease, opacity .2s ease, visibility .2s; }
+  .main-nav.is-active { transform: translateY(0); opacity: 1; }
+  .nav-list a { display: block; min-height: 44px; }
+  .header__inner { gap: 12px; }
+}

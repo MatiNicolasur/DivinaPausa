@@ -1,0 +1,492 @@
+---
+// HeroSection — Composición diagonal Awwwards-style
+// Título gigante top-left + value prop bottom-right + noise grain
+// Imagen de fondo: reemplazar URL en hero-bg cuando el cliente la provea
+---
+
+<style>
+  /* ═══════════════════════════════════════════════════════════════
+     HERO SECTION — DIAGONAL COMPOSITION
+     Inspiración: Awwwards SOTD layouts 2025-2026
+     ═══════════════════════════════════════════════════════════════ */
+
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: calc(100svh - 150px);
+    background-color: #0a0a0a;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 164px 80px 28px;
+    /* Pull up under fixed header (BaseLayout padding-top: 125px) */
+    margin-top: -125px;
+    margin-bottom: 0;
+  }
+
+  /* ── Background image — fixed para parallax real ── */
+  .hero-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+    background-image: url('/images/eventos/IMG_1315.jpeg');
+    background-size: cover;
+    background-position: center 40%;
+  }
+
+  /* ── Dark overlay sobre la imagen para legibilidad ── */
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      135deg,
+      rgba(10, 10, 10, 0.89) 0%,
+      rgba(10, 10, 10, 0.55) 50%,
+      rgba(10, 10, 10, 0.81) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* ── Noise grain texture overlay ── */
+  .hero-noise {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.04;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  /* ── Background gradient vignette (ahora sobre la imagen) ── */
+  .hero-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: radial-gradient(
+      85% 70% at 30% 30%,
+      rgba(229, 177, 174, 0.10) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      60% 60% at 80% 80%,
+      rgba(255, 255, 255, 0.04) 0%,
+      transparent 50%
+    );
+    pointer-events: none;
+  }
+
+  /* ── Hero content layer (above all backgrounds) ── */
+  .hero-inner {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    min-height: 0;
+    gap: 16px;
+  }
+
+  /* ── Top section: big title ── */
+  .hero-top {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-title {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+  }
+
+  .hero-title__line {
+    font-family: var(--font-primary);
+    font-weight: 900;
+    font-size: clamp(2.8rem, 11vw, 9.5rem);
+    line-height: 0.80;
+    color: #ffffff;
+    letter-spacing: 0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 4px;
+    text-transform: uppercase;
+  }
+
+  .hero-title__line--accent {
+    font-family: var(--font-secondary);
+    font-weight: 400;
+    font-size: clamp(4rem, 15vw, 12rem);
+    line-height: 0.68;
+    color: var(--color-primary);
+    letter-spacing: -0.005em;
+    text-transform: none;
+    margin-top: -0.02em;
+    margin-bottom: -0.02em;
+    display: block;
+  }
+
+  /* ── Individual character spans (for stagger animation) ── */
+  .hero-title__char {
+    display: inline-block;
+  }
+
+  .hero-title__sub {
+    font-family: var(--font-primary);
+    font-weight: 500;
+    font-size: clamp(0.85rem, 1.2vw, 1.15rem);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 24px;
+    max-width: 500px;
+  }
+
+  /* ── Bottom-right value proposition ── */
+  .hero-bottom {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 40px;
+    margin-top: auto;
+  }
+
+  .hero-value {
+    max-width: 100%;
+    text-align: right;
+  }
+
+  .hero-value__text {
+    font-family: var(--font-primary);
+    font-weight: 400;
+    font-size: clamp(0.95rem, 1.1vw, 1.15rem);
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 16px;
+  }
+
+  .hero-value__text span { display: block; }
+  @media (min-width: 769px) {
+    .hero { padding-top: 188px; padding-bottom: 52px; }
+    .hero-value { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    .hero-value__text { margin-bottom: 0; }
+    .hero-value__text span { white-space: nowrap; }
+  }
+
+  .hero-value__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 32px;
+    border-radius: 50px;
+    background: var(--color-primary);
+    color: #0a0a0a;
+    font-family: var(--font-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    transition: background-color 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .hero-value__cta svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .hero-value__cta:hover {
+    background: #d9a19d;
+    transform: translateY(-2px);
+  }
+
+  .hero-value__cta:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* ── Scroll indicator (bottom center) ── */
+  .hero-scroll-indicator {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: var(--font-primary);
+  }
+
+  .hero-scroll-indicator__line {
+    width: 1px;
+    height: 32px;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    animation: scroll-pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes scroll-pulse {
+    0%, 100% { opacity: 1; transform: scaleY(1); }
+    50% { opacity: 0.3; transform: scaleY(0.6); }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .hero {
+      padding: 180px clamp(24px, 6vw, 44px) 36px;
+      min-height: 79svh;
+    }
+
+    .hero-inner {
+      flex: 1;
+      min-height: 0;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: clamp(48px, 8svh, 80px);
+      text-align: left;
+    }
+
+    .hero-top { align-items: flex-start; }
+    .hero-title { width: 100%; }
+    .hero-title__line {
+      font-size: clamp(2.4rem, 12.5vw, 5.7rem);
+      gap: 0;
+      justify-content: flex-start;
+      line-height: .88;
+    }
+    .hero-title__line--accent {
+      font-size: clamp(4rem, 22vw, 9rem);
+      line-height: .82;
+      margin-top: 2px;
+    }
+    .hero-title__sub {
+      font-size: .7rem;
+      line-height: 1.5;
+      margin-top: 18px;
+      margin-bottom: 0;
+      letter-spacing: .14em;
+      text-align: left;
+    }
+    .hero-bottom {
+      margin-top: auto;
+      display: block;
+    }
+    .hero-value { max-width: 38ch; text-align: left; }
+    .hero-value__text {
+      font-size: .9rem;
+      line-height: 1.65;
+      text-align: left;
+      margin-bottom: 22px;
+      text-wrap: pretty;
+    }
+    .hero-value__text span { display: inline; }
+    .hero-value__text span + span::before { content: " "; }
+    .hero-value__cta { min-height: 48px; padding-inline: 26px; }
+    .hero-scroll-indicator { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-scroll-indicator__line {
+      animation: none;
+    }
+  }
+</style>
+
+<section class="hero" aria-label="Inicio">
+  <!-- Background image — reemplazar URL en .hero-bg cuando el cliente entregue la imagen -->
+  <div class="hero-bg" aria-hidden="true"></div>
+
+  <!-- Dark overlay + vignette -->
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+
+  <!-- Noise grain texture -->
+  <div class="hero-noise" aria-hidden="true"></div>
+
+  <div class="hero-inner">
+    <!-- Top: Big title -->
+    <div class="hero-top">
+      <h1 class="hero-title" aria-label="Catering para empresas en Santiago">
+        <span class="hero-title__line" data-animate="title-line">
+          <span class="hero-title__char">C</span>
+          <span class="hero-title__char">A</span>
+          <span class="hero-title__char">T</span>
+          <span class="hero-title__char">E</span>
+          <span class="hero-title__char">R</span>
+          <span class="hero-title__char">I</span>
+          <span class="hero-title__char">N</span>
+          <span class="hero-title__char">G</span>
+        </span>
+        <span class="hero-title__line" data-animate="title-line">
+          <span class="hero-title__char">P</span>
+          <span class="hero-title__char">A</span>
+          <span class="hero-title__char">R</span>
+          <span class="hero-title__char">A</span>
+        </span>
+        <span class="hero-title__line hero-title__line--accent" data-animate="title-accent">Empresas</span>
+      </h1>
+      <p class="hero-title__sub" data-animate="title-sub">
+        Santiago, Chile
+      </p>
+    </div>
+
+    <!-- Bottom: Value prop + CTA -->
+    <div class="hero-bottom">
+      <div class="hero-value">
+        <p class="hero-value__text" data-animate="value-text">
+          <span>Coffee break, brunch y almuerzos para tu equipo.</span>
+          <span>Tú nos cuentas la ocasión; nosotros te ayudamos</span>
+          <span>a elegir el menú y coordinar el servicio.</span>
+        </p>
+        <a href="#cta-section" class="hero-value__cta" data-animate="value-cta">
+          Cotizar mi evento
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M1 8H15M15 8L8.5 1.5M15 8L8.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero-scroll-indicator" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="hero-scroll-indicator__line"></div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (prefersReducedMotion) return;
+
+    // ── Hero entrance stagger (letter by letter) ──
+    const titleLines = document.querySelectorAll<HTMLElement>(
+      "[data-animate='title-line']",
+    );
+    const titleAccent = document.querySelector<HTMLElement>(
+      "[data-animate='title-accent']",
+    );
+    const titleSub = document.querySelector<HTMLElement>(
+      "[data-animate='title-sub']",
+    );
+    const valueText = document.querySelector<HTMLElement>(
+      "[data-animate='value-text']",
+    );
+    const valueCta = document.querySelector<HTMLElement>(
+      "[data-animate='value-cta']",
+    );
+
+    // Collect character groups per line
+    const charGroups: HTMLElement[][] = Array.from(titleLines).map(
+      (line) => Array.from(line.querySelectorAll<HTMLElement>(".hero-title__char")),
+    );
+
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    // Line 1: "CATERING" — letters stagger in
+    if (charGroups[0]?.length) {
+      tl.from(charGroups[0], {
+        y: 80,
+        opacity: 0,
+        duration: 0.9,
+        stagger: 0.04,
+      });
+    }
+
+    // Line 2: "PARA" — letters stagger in (more overlap)
+    if (charGroups[1]?.length) {
+      tl.from(
+        charGroups[1],
+        {
+          y: 80,
+          opacity: 0,
+          duration: 0.9,
+          stagger: 0.03,
+        },
+        "-=0.35",
+      );
+    }
+
+    // Accent: "Empresas" in Yale — pop effect
+    if (titleAccent) {
+      tl.from(
+        titleAccent,
+        {
+          y: 60,
+          opacity: 0,
+          duration: 0.8,
+          scale: 0.95,
+        },
+        "-=0.5",
+      );
+    }
+
+    // Subtitle
+    if (titleSub) {
+      tl.from(
+        titleSub,
+        {
+          y: 20,
+          opacity: 0,
+          duration: 0.6,
+        },
+        "-=0.6",
+      );
+    }
+
+    // Value prop text
+    if (valueText) {
+      tl.from(
+        valueText,
+        {
+          y: 30,
+          opacity: 0,
+          duration: 0.7,
+        },
+        "-=0.4",
+      );
+    }
+
+    // CTA button
+    if (valueCta) {
+      tl.from(
+        valueCta,
+        {
+          y: 20,
+          opacity: 0,
+          duration: 0.6,
+        },
+        "-=0.3",
+      );
+    }
+  });
+</script>
