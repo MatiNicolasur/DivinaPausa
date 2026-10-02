@@ -1,24 +1,17 @@
-# Formulario de propuestas y Resend
+# Formulario y correo de propuestas
 
-## Estado
+El formulario recoge nombre, empresa, correo, teléfono opcional, servicio, fecha, personas, comuna y detalles opcionales. Una casilla obligatoria registra la versión de privacidad aceptada dentro del aviso que llega al equipo. No se escribe una copia en Sheets ni en otra base de datos del sitio.
 
-Formulario de tres pasos, sin fotos y sin cálculo de precios. Incluye las 52 comunas de la Región Metropolitana confirmadas por el negocio, además de «Otra / por definir». Presupuesto pospuesto. Asistentes: entero entre 1 y 10.000 (límite técnico, no compromiso de capacidad). Sin plazo de respuesta prometido.
+## Flujo con Resend
 
-## Antes de publicar
+Al enviar, el servidor valida el formulario y pide a Resend que mande:
 
-1. Copiar el contenido completo de `integrations/google-sheets/Code.gs` al proyecto Apps Script existente. Conservar las propiedades SPREADSHEET_ID y QUOTES_SCRIPT_TOKEN.
-2. Apps Script → Implementar → Gestionar implementaciones → editar la aplicación web existente → Nueva versión → Implementar. Mantener la URL actual. Guardar el archivo por sí solo no actualiza la aplicación web.
-3. El script actualizado exige autorización de privacidad y rechaza formularios antiguos que no la incluyan. Coordinar su implementación con el despliegue del formulario nuevo. La API nueva requiere confirmación de esquema versión 2 para evitar dar por guardados campos que el script anterior descartaría.
-4. No borrar ni reordenar columnas existentes. A–I se conservan; H (horas) queda vacía para solicitudes nuevas. Se agregan J Empresa, K Fecha estimada, L Sin fecha, M Comuna, N Horario, O Detalles, P Versión. Los encabezados se crean al guardar. Los reintentos con el mismo ID no duplican filas.
-5. Completar las confirmaciones operativas de privacidad antes de publicar. La autorización se valida en navegador, API y Apps Script y se guarda en Q (aceptación), R (fecha de servidor) y S (versión). La API exige que Apps Script confirme la versión de privacidad; no publicar hasta actualizarlo. El texto está en src/data/privacyConsent.js. La eliminación periódica sigue siendo una tarea operativa pendiente.
+- El detalle de la propuesta a `QUOTES_EMAIL_TO`, con Reply-To del solicitante.
+- Una confirmación breve al email del solicitante, con el resumen del evento.
 
-## Activar correo interno con Resend
+El equipo usa el buzón comercial como registro de las solicitudes. Resend también procesa los dos correos y conserva logs según las condiciones de la cuenta. No hay eliminación automática ni plazo de conservación definido. La solicitud no se puede recuperar desde una hoja: si falla el envío a Resend, la web informa que no se confirmó y permite reintentar con la misma clave de idempotencia.
 
-El destinatario y remitente previsto son contacto@divinapausa.cl. La respuesta al correo se dirige al email del solicitante mediante Reply-To. También se envía una confirmación automática al solicitante, con resumen del evento, versión HTML y texto plano. Su Reply-To es contacto@divinapausa.cl. No promete plazo de respuesta ni confirma una reserva. La plantilla está en src/server/proposalEmail.js y la muestra con datos ficticios en previews/confirmacion-propuesta.html.
-
-1. Añadir y verificar divinapausa.cl en Resend → Domains, colocando exactamente los registros DNS que indique Resend. No reemplazar registros MX del correo existente por otros sin revisar su finalidad.
-2. Crear una API key con permiso de envío para ese dominio.
-3. Configurar estas variables exclusivamente del servidor, en `.env.local` para desarrollo y en Vercel → Project → Settings → Environment Variables para producción:
+## Variables del servidor en Vercel
 
 ```dotenv
 QUOTES_EMAIL_ENABLED=true
@@ -27,24 +20,12 @@ QUOTES_EMAIL_FROM="Divina Pausa <contacto@divinapausa.cl>"
 QUOTES_EMAIL_TO=contacto@divinapausa.cl
 ```
 
-No usar el prefijo PUBLIC_, subir claves a Git ni pegarlas en el chat. Reiniciar Astro tras cambios locales y hacer un nuevo deploy para cambios en Vercel. `.env.example` mantiene el envío desactivado por defecto.
+Verifica `divinapausa.cl` en Resend y configura estos valores en Production y, cuando corresponda, Preview. Nunca usar `PUBLIC_` ni subir la API key al repositorio. Las previews no reciben solicitudes salvo que `QUOTES_ALLOW_PREVIEW_SEND=true` esté habilitada expresamente.
 
-4. Hacer una solicitud de prueba autorizada y verificar la fila en Sheets y la entrega en Resend. Las pruebas automatizadas del repositorio simulan los proveedores, no prueban credenciales reales. Las previews de Vercel rechazan envíos salvo que QUOTES_ALLOW_PREVIEW_SEND=true esté configurado en Preview al construir y ejecutar. Para una prueba controlada, activar esta variable y las variables de Google/Resend también en Preview, hacer un nuevo despliegue, usar datos ficticios y un correo propio, y mantener Deployment Protection. Eliminar la excepción al terminar.
+## Protección y límites
 
-## Comportamiento ante errores
+Se validan el origen de la petición, campos, tamaño, casilla de autorización y un campo honeypot. Al quitar el almacenamiento de Apps Script se quitó el contador persistente por sesión. El honeypot/origen no detienen bots sofisticados; configura reglas de Cloudflare para el endpoint y activa Turnstile con verificación de servidor antes de abrir las solicitudes al público. No se debe afirmar que hoy existe un límite por sesión.
 
-Primero se confirma Sheets y después se intenta el aviso por Resend. Un fallo de correo no borra la solicitud ni presenta un error de guardado al cliente. Se registra email_team_delivery_failed, email_confirmation_delivery_failed o email_not_configured sin datos personales. La confirmación de Resend significa aceptación de envío, no entrega al buzón: consultar el panel de Resend para rebotes.
+## Privacidad operativa pendiente
 
-Se usa una clave de idempotencia basada en el ID de solicitud y no se reenvía si Sheets indica duplicado. No hay cola de reintentos de correo: si falla, el equipo debe revisar Sheets y gestionar la propuesta desde allí. La hoja sigue siendo el registro principal.
-
-## Privacidad pendiente
-
-El flujo recoge nombre, empresa, email, teléfono opcional, servicio, fecha o ausencia de fecha, asistentes, comuna, horario y detalles opcionales. Google almacena la solicitud. Al activar Resend, esos datos también pasan por Resend y llegan al buzón comercial. Incluir esos proveedores, finalidades y copias de correo en la revisión de privacidad y conservación; no activar publicidad por este consentimiento.
-
-Documentación oficial: [Enviar correo con Resend](https://resend.com/docs/api-reference/emails/send-email), [idempotencia](https://resend.com/docs/dashboard/emails/idempotency-keys), [comunas de la Región Metropolitana](https://www.gobiernosantiago.cl/nuestra-region/).
-
-## Revisión previa del 2 de octubre
-
-Logo original rasterizado a PNG en public/images/logos/divina-pausa-email.png para clientes de correo; debe desplegarse antes de enviar correos. La confirmación automática no reproduce nombre, empresa ni detalles libres, para reducir exposición ante errores en el email. El resumen básico sigue enviándose al correo indicado, que no se verifica mediante enlace.
-
-No se detectaron coincidencias de secretos locales en los archivos versionados ni en dist en la revisión. Esto no acredita ausencia absoluta de filtraciones ni verifica permisos de proveedores. Las cabeceras de protección se aplican al desplegar vercel.json. Verificar ajustes de tracking en Resend antes de activar, y mantener desactivado el seguimiento de aperturas y clics si no se ha informado y justificado. El limitador de sesión no sustituye una protección antibot: se puede evadir cambiando de sesión.
+Confirmar quiénes acceden al buzón, definir cuánto tiempo se mantienen las solicitudes y atender borrado/rectificación también en correo y Resend. No incluir publicidad sin un propósito y autorización independientes. Mantener seguimiento de apertura/clic desactivado si no se informó a las personas. El borrador de política describe el flujo pero sigue pendiente de las confirmaciones operativas.

@@ -357,12 +357,7 @@ const isPreview = process.env.VERCEL_ENV === 'preview' && process.env.QUOTES_ALL
         signal: AbortSignal.timeout(35000),
       });
       const result = await response.json();
-      if (response.status === 429 && result.code === 'rate_limited') {
-        const minutes = Math.max(1, Math.ceil(Number(result.retryAfter || 900) / 60));
-        status.textContent = `Ya enviaste 3 cotizaciones en esta sesión. Puedes enviar otra en ${minutes} minuto${minutes === 1 ? '' : 's'}. Tus selecciones siguen aquí.`;
-        return;
-      }
-      if (!response.ok || result.ok !== true || result.requestId !== requestId) throw new Error('not-saved');
+            if (!response.ok || result.ok !== true || result.requestId !== requestId) throw new Error('not-saved');
       const values = {
         service: proposalServices.find(service => service.id === payload.service)!.title,
         date: formatEventDate(payload.eventDate), people: String(payload.people), commune: payload.commune,

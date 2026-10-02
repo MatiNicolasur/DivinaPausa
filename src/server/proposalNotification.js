@@ -1,13 +1,12 @@
 import { proposalConfirmation } from './proposalEmail.js';
 import { proposalServices, formatEventDate } from '../data/proposalOptions.js';
 
-// Sheets is the source of truth. Notification failures must not lose a saved lead.
-export async function notifyProposal(quote) {
-  if (process.env.QUOTES_EMAIL_ENABLED !== 'true') return 'disabled';
+// Resend is the delivery channel and mailbox the operational record.
+export async function sendProposalEmails(quote) {
   const { RESEND_API_KEY, QUOTES_EMAIL_FROM, QUOTES_EMAIL_TO } = process.env;
   if (!RESEND_API_KEY || !QUOTES_EMAIL_FROM || !QUOTES_EMAIL_TO) {
     console.error('[cotizaciones] email_not_configured');
-    return 'failed';
+    return { ok: false };
   }
   const service = proposalServices.find(item => item.id === quote.service)?.title;
   const text = [
@@ -16,6 +15,7 @@ export async function notifyProposal(quote) {
     `Servicio: ${service}`, `Fecha: ${formatEventDate(quote.eventDate)}`,
     `Asistentes: ${quote.people}`, `Comuna: ${quote.commune}`,
     `Horario: ${quote.schedule || 'Sin seleccionar'}`, `Detalles: ${quote.details || 'Sin detalles'}`,
+    `Autorización de privacidad: aceptada (${quote.privacyVersion})`, `Recibida el: ${new Date().toISOString()}`,
   ].join('\n');
   const deliver = async (kind, body) => {
     try {
@@ -26,15 +26,15 @@ export async function notifyProposal(quote) {
         signal: AbortSignal.timeout(5000),
       });
       if (!response.ok) throw new Error('email_rejected');
-      return 'sent';
+      return { ok: true };
     } catch {
       console.error(`[cotizaciones] email_${kind}_delivery_failed`);
-      return 'failed';
+      return { ok: false };
     }
   };
   const results = await Promise.all([
     deliver('team', { to: [QUOTES_EMAIL_TO], reply_to: quote.email, subject: 'Nueva solicitud de propuesta — Divina Pausa', text }),
     deliver('confirmation', { to: [quote.email], reply_to: QUOTES_EMAIL_TO, ...proposalConfirmation(quote) }),
   ]);
-  return results.every(result => result === 'sent') ? 'sent' : 'failed';
+  return { ok: results.every(result => result.ok) };
 }
