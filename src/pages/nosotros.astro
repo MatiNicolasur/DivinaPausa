@@ -17,7 +17,7 @@ const chapters = [
         <div class="hero-bottom"><p>Nos gusta lo que sucede alrededor de una mesa: la conversación, las sonrisas y ese momento en que el trabajo deja espacio para compartir.</p><a class="text-link" href="#historia">Conoce nuestra historia <span aria-hidden="true">↓</span></a></div>
       </div>
       <figure class="founder-portrait">
-        <img src={founders} alt="Los fundadores de Divina Pausa preparando juntos el catering de un evento" width="1280" height="960" fetchpriority="high" />
+        <img src={founders} alt="Los fundadores de Divina Pausa preparando juntos el catering de un evento" width="1280" height="960" fetchpriority="high" loading="eager" decoding="async" data-preload />
         <figcaption><span>Las personas detrás de la mesa</span><span aria-hidden="true">01 — DP</span></figcaption>
       </figure>
     </section>
@@ -27,13 +27,13 @@ const chapters = [
       <div class="story-layout">
         <aside class="story-visual" aria-label="Fotografías de nuestra historia">
           <div class="photo-stack">
-            {chapters.map((chapter, i) => <figure class:list={['story-photo', {active: i === 0}]} data-photo={i} aria-hidden={i !== 0 ? 'true' : 'false'}><img src={chapter.image} alt={chapter.alt} width="1280" height="960" loading="lazy" /><figcaption>{chapter.caption}</figcaption></figure>)}
+            {chapters.map((chapter, i) => <figure class:list={['story-photo', {active: i === 0}]} data-photo={i} aria-hidden={i !== 0 ? 'true' : 'false'}><img src={chapter.image} alt={chapter.alt} width="1280" height="960" loading="lazy" decoding="async" /><figcaption>{chapter.caption}</figcaption></figure>)}
           </div>
           <nav class="chapter-links" aria-label="Capítulos de nuestra historia">{chapters.map((chapter, i) => <a href={`#${chapter.id}`} data-chapter-link={i} aria-current={i === 0 ? 'step' : undefined}><span>0{i + 1}</span>{chapter.label}</a>)}</nav>
         </aside>
         <div class="chapters">
           <div class="story-track" aria-hidden="true"><span></span></div>
-          {chapters.map((chapter, i) => <article class="chapter" id={chapter.id} data-chapter={i}><span class="chapter-number">0{i + 1}</span><p class="eyebrow">{chapter.label}</p><h3>{chapter.title}</h3><p class="chapter-copy">{chapter.text}</p><figure class="mobile-photo"><img src={chapter.image} alt={chapter.alt} width="1280" height="960" loading="lazy" /><figcaption>{chapter.caption}</figcaption></figure></article>)}
+          {chapters.map((chapter, i) => <article class="chapter" id={chapter.id} data-chapter={i}><span class="chapter-number">0{i + 1}</span><p class="eyebrow">{chapter.label}</p><h3>{chapter.title}</h3><p class="chapter-copy">{chapter.text}</p><figure class="mobile-photo"><img src={chapter.image} alt={chapter.alt} width="1280" height="960" loading="lazy" decoding="async" /><figcaption>{chapter.caption}</figcaption></figure></article>)}
         </div>
       </div>
     </section>

@@ -50,7 +50,7 @@ const mobileDuration = Math.max(38, firstLane.length * 4.2);
         {[false, true].map((duplicate) => (
           <div class="logo-marquee__group" aria-hidden={duplicate ? "true" : undefined}>
             {logos.map((logo) => (
-              <figure class="logo-marquee__item" style={artworkStyle(logo.name)}><img src={logo.src} alt={duplicate ? "" : logo.name} loading="eager" decoding="async" /></figure>
+              <figure class="logo-marquee__item" style={artworkStyle(logo.name)}><img src={logo.src} alt={duplicate ? "" : logo.name} loading="lazy" decoding="async" /></figure>
             ))}
           </div>
         ))}
@@ -63,7 +63,7 @@ const mobileDuration = Math.max(38, firstLane.length * 4.2);
           {[false, true].map((duplicate) => (
             <div class="logo-marquee__group" aria-hidden={duplicate ? "true" : undefined}>
               {firstLane.map((logo) => (
-                <figure class="logo-marquee__item" style={artworkStyle(logo.name)}><img src={logo.src} alt={duplicate ? "" : logo.name} loading="eager" decoding="async" /></figure>
+                <figure class="logo-marquee__item" style={artworkStyle(logo.name)}><img src={logo.src} alt={duplicate ? "" : logo.name} loading="lazy" decoding="async" /></figure>
               ))}
             </div>
           ))}
@@ -74,7 +74,7 @@ const mobileDuration = Math.max(38, firstLane.length * 4.2);
           {[false, true].map((duplicate) => (
             <div class="logo-marquee__group" aria-hidden={duplicate ? "true" : undefined}>
               {secondLane.map((logo) => (
-                <figure class="logo-marquee__item" style={artworkStyle(logo.name)}><img src={logo.src} alt={duplicate ? "" : logo.name} loading="eager" decoding="async" /></figure>
+                <figure class="logo-marquee__item" style={artworkStyle(logo.name)}><img src={logo.src} alt={duplicate ? "" : logo.name} loading="lazy" decoding="async" /></figure>
               ))}
             </div>
           ))}

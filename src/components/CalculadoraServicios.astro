@@ -1,77 +1,64 @@
 ---
-import { quoteOptions } from '../data/quoteOptions';
-import { CALCULATOR_LIMITS } from '../data/pricingData';
-const images = ['/images/services/coffee.jpeg', '/images/services/brunch.png', '/images/services/almuerzo-gourmet-2.jpg', '/images/services/after-office.jpg', '/images/services/tablas.jpg', '/images/services/service-paella.jpg'];
-const isPreview = process.env.VERCEL_ENV === 'preview';
-const standardOptions = quoteOptions.filter(service => ['coffee-break', 'brunch', 'almuerzo'].includes(service.id));
+import { proposalServices, communeOptions, scheduleOptions } from '../data/proposalOptions';
+import { PRIVACY_CONSENT } from '../data/privacyConsent';
+const isPreview = process.env.VERCEL_ENV === 'preview' && process.env.QUOTES_ALLOW_PREVIEW_SEND !== 'true';
 ---
 <div class="quote" id="calculadora">
   <form id="quote-form" data-preview={isPreview ? "true" : undefined} novalidate>
     {isPreview && <p class="hint">Vista previa: puedes recorrer el formulario. No introduzcas datos personales; el envío está desactivado.</p>}
     <ol class="steps" aria-label="Pasos de tu cotización">
-      {['Tu servicio', 'Tu evento', 'Tus datos'].map((title, i) => <li aria-current={i === 0 ? 'step' : undefined}><button type="button" data-go-step={i} aria-label={`Paso ${i + 1}: ${title}`} aria-current={i === 0 ? 'step' : undefined}><span>0{i + 1}</span><b class="step-label">{title}</b></button></li>)}
+      {['Tu evento', 'Lugar y detalles', 'Tus datos'].map((title, i) => <li aria-current={i === 0 ? 'step' : undefined}><button type="button" data-go-step={i} aria-label={`Paso ${i + 1}: ${title}`}><span>0{i + 1}</span><b class="step-label">{title}</b></button></li>)}
     </ol>
     <div class="step-panels">
-    <fieldset data-step="0" tabindex="-1">
-      <legend>¿Qué te gustaría servir?</legend>
-      <p class="hint" id="service-hint">Elige un servicio para pasar a los detalles de tu evento.</p>
-      <div class="options">
-        {standardOptions.map((service, index) => (
-          <label class="option">
-            <img src={images[index]} alt="" loading="lazy" width="480" height="320" />
-            <input type="radio" name="services" value={service.id} aria-describedby="service-hint" />
-            <span class="option-copy"><strong>{service.title}</strong><small>{service.description}</small><i aria-hidden="true">Elegir servicio ↗</i></span>
-          </label>
-        ))}
-      </div>
-    </fieldset>
-    <fieldset data-step="1" tabindex="-1" hidden inert>
-      <legend>Démosle forma a tu evento</legend>
-      <p class="hint">Ajusta la cantidad de invitados y las horas de servicio.</p>
-      <div class="event-controls">
-        {[{name:'people', title:'Personas', min:CALCULATOR_LIMITS.minPeople, max:CALCULATOR_LIMITS.maxPeople, step:CALCULATOR_LIMITS.peopleStep, value:CALCULATOR_LIMITS.defaultPeople}, {name:'hours', title:'Horas de servicio', min:CALCULATOR_LIMITS.minHours, max:CALCULATOR_LIMITS.maxHours, step:CALCULATOR_LIMITS.hoursStep, value:CALCULATOR_LIMITS.defaultHours}].map(control => (
-          <div class="quantity">
-            <label for={`quote-${control.name}`}>{control.title}</label>
-            <div class="counter">
-              <button type="button" data-adjust={control.name} data-direction="-1" aria-label={`Reducir ${control.title.toLowerCase()}`}>−</button>
-              <output id={`${control.name}-value`} for={`quote-${control.name}`}>{control.value}</output>
-              <button type="button" data-adjust={control.name} data-direction="1" aria-label={`Aumentar ${control.title.toLowerCase()}`}>+</button>
-            </div>
-            <input id={`quote-${control.name}`} name={control.name} type="range" min={control.min} max={control.max} step={control.step} value={control.value} />
-            <div class="range-labels"><span>{control.min}</span><span>{control.max}</span></div>
-          </div>
-        ))}
-      </div>
-    </fieldset>
-    <fieldset class="details" data-step="2" tabindex="-1" hidden inert>
-      <legend>¿Cómo podemos contactarte?</legend>
-      <p class="selection-summary hint"></p>
-      <div class="fields">
-        <label>Nombre <span aria-hidden="true">*</span><input name="name" autocomplete="name" maxlength="120" required /></label>
-        <label>Correo electrónico <span aria-hidden="true">*</span><input name="email" type="email" autocomplete="email" maxlength="254" required /></label>
-        <label class="phone">Teléfono <small>(opcional)</small><input name="phone" type="tel" autocomplete="tel" maxlength="30" placeholder="+56 9" /></label>
-      </div>
-      <p class="hint">Usaremos tus datos para responder a esta solicitud de cotización.</p>
-    </fieldset>
-    <div class="navigation">
-      <button class="back" type="button" hidden>← Volver</button>
-      <button class="next submit" type="button" hidden>Continuar <span aria-hidden="true">→</span></button>
-      <button class="submit" type="submit" hidden>Enviar cotización <span aria-hidden="true">↗</span></button>
-    </div>
+      <fieldset data-step="0" tabindex="-1">
+        <legend>¿Qué estás organizando?</legend>
+        <p class="hint">Selecciona un servicio y cuéntanos la fecha y cuántas personas asistirían.</p>
+        <fieldset class="service-choices"><legend>Servicio (obligatorio)</legend><div class="options">
+          {proposalServices.map(service => <label class="option"><input type="radio" name="service" value={service.id} required /><span>{service.title}</span></label>)}
+        </div></fieldset>
+        <div class="fields">
+          <div class="date-field"><label for="quote-date">Fecha estimada (obligatorio elegir una opción)</label><input id="quote-date" type="date" name="eventDate" required /><label class="date-choice"><input type="checkbox" name="dateUnknown" />Todavía no tengo fecha</label></div>
+          <label>Personas estimadas (obligatorio)<input name="people" type="number" min="1" max="10000" step="1" inputmode="numeric" placeholder="Ej.: 250" required /><small>Si aún no tienes el número exacto, puedes indicar una estimación.</small></label>
+        </div>
+      </fieldset>
+      <fieldset data-step="1" tabindex="-1" hidden inert>
+        <legend>¿Dónde y cómo será?</legend>
+        <p class="hint">Estos detalles nos ayudan a preparar una propuesta para tu evento.</p>
+        <div class="fields">
+          <label>Comuna del evento (obligatorio)<select name="commune" required><option value="">Selecciona una opción</option>{communeOptions.map(commune => <option value={commune}>{commune}</option>)}</select></label>
+          <label>Horario o duración (opcional)<select name="schedule"><option value="">Sin seleccionar</option>{scheduleOptions.map(schedule => <option value={schedule}>{schedule}</option>)}</select></label>
+          <label class="full">Detalles para considerar (opcional)<textarea name="details" maxlength="2000" rows="3" placeholder="Restricciones alimentarias, montaje, acceso al lugar o algo que debamos saber"></textarea><small>Indica necesidades generales, sin nombres ni antecedentes médicos de asistentes.</small></label>
+        </div>
+      </fieldset>
+      <fieldset data-step="2" tabindex="-1" hidden inert>
+        <legend>¿A quién enviamos la propuesta?</legend>
+        <p class="selection-summary hint"></p>
+        <div class="fields">
+          <label>Nombre (obligatorio)<input name="name" autocomplete="name" maxlength="120" required /></label>
+          <label>Empresa (obligatorio)<input name="company" autocomplete="organization" maxlength="120" required /></label>
+          <label>Correo (obligatorio)<input name="email" type="email" autocomplete="email" maxlength="254" required /><small>Puede ser tu correo personal o de empresa.</small></label>
+          <label>Teléfono (opcional)<input name="phone" type="tel" autocomplete="tel" maxlength="30" placeholder="+56 9" /></label>
+        </div>
+        <label class="privacy-consent"><input type="checkbox" name="privacyAccepted" required /><span>{PRIVACY_CONSENT} <a href="/politicas-de-privacidad" target="_blank" rel="noopener noreferrer">Leer política de privacidad</a>.</span></label>
+      </fieldset>
+      <div class="navigation"><button class="back" type="button" hidden>← Volver</button><button class="next submit" type="button">Continuar →</button><button class="submit" type="submit" hidden>Solicitar propuesta ↗</button></div>
     </div>
     <div class="honeypot" aria-hidden="true"><label>Empresa web<input name="website" tabindex="-1" autocomplete="off" /></label></div>
     <p id="quote-status" role="status" aria-live="polite"></p>
     <noscript><p>Activa JavaScript para enviar el formulario o escríbenos a contacto@divinapausa.cl.</p></noscript>
   </form>
   <div class="success" id="quote-success" hidden inert tabindex="-1">
-    <span class="success-icon" aria-hidden="true">✓</span>
-    <h3>¡Gracias por invitarnos a tu evento!</h3>
-    <p>Recibimos tu solicitud. Te contactaremos por correo para preparar tu cotización.</p>
+    <span class="success-icon" aria-hidden="true">✓</span><h3>¡Recibimos tu solicitud!</h3>
+    <p>Te responderemos por correo a <strong data-response-email></strong> para confirmar disponibilidad y preparar una propuesta.</p>
+    <dl class="sent-summary"><div><dt>Servicio</dt><dd data-summary="service"></dd></div><div><dt>Fecha</dt><dd data-summary="date"></dd></div><div><dt>Asistentes</dt><dd data-summary="people"></dd></div><div><dt>Comuna</dt><dd data-summary="commune"></dd></div></dl>
     <button type="button" id="quote-again">Preparar otra solicitud</button>
   </div>
   <div class="confetti" aria-hidden="true"></div>
 </div>
 <style>
+  .privacy-consent { display:flex; gap:12px; align-items:flex-start; font-size:.78rem; line-height:1.6; margin-bottom:20px; color:#d5cecb; }
+  .privacy-consent input { flex-shrink:0; width:18px; height:18px; accent-color:var(--color-primary); }
+  .privacy-consent a { color:var(--color-primary); text-decoration:underline; }
   .quote { position: relative; display: grid; width: 100%; max-width: none; margin: auto; padding: clamp(20px, 3vw, 36px); border-radius: 28px; background: var(--color-dark); color: white; overflow: hidden; overflow-anchor: none; scroll-margin-top: 165px; }
   #quote-form, .success { grid-area: 1 / 1; min-width: 0; }
   .step-panels { display: grid; min-height: 290px; }
@@ -180,9 +167,34 @@ const standardOptions = quoteOptions.filter(service => ['coffee-break', 'brunch'
     legend { font-size: 1.45rem; }
     .steps { margin-bottom: 18px; }
   }
+
+  .step-panels > fieldset, .step-panels > fieldset[data-step="0"] { padding-bottom: 84px; display: block; }
+  .step-panels > fieldset[data-step="0"] .options { height: auto; grid-template-columns: repeat(4,minmax(0,1fr)); }
+  .service-choices { margin: 0 0 22px; }
+  .service-choices legend { font-family: inherit; font-size: .85rem; }
+  .option { justify-content: center; min-height: 76px; border-radius: 14px; text-align: center; }
+  .option::before,.option::after { display: none; }
+  .step-panels > fieldset[data-step="0"] .option > span { padding: 16px 12px; font-size: .9rem; }
+  .date-field > label:first-child { display: block; font-size: .85rem; margin-bottom: 8px; }
+  .date-field > input { width: 100%; color-scheme: dark; }
+  .fields .date-choice { display: flex; flex-direction: row; align-items: center; gap: 10px; font-size: .82rem; margin-top: 12px; }
+  .date-choice input { width: 18px; height: 18px; accent-color: var(--color-primary); }
+  input:disabled { opacity: .4; }
+  select,textarea { min-width: 0; width: 100%; border: 1px solid #ffffff55; border-radius: 10px; color: white; background: #292929; padding: 12px; font: inherit; min-height: 48px; }
+  select:focus-visible,textarea:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+  textarea { resize: vertical; max-height: 240px; }
+  .full { grid-column: 1 / -1; }
+  .sent-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; text-align: left; margin: 24px auto 32px; max-width: 620px; }
+  .sent-summary div { border-top: 1px solid #ffffff30; padding-top: 12px; }
+  .sent-summary dt { color: #d5cecb; font-size: .8rem; }
+  .sent-summary dd { margin: 6px 0 0; overflow-wrap: anywhere; }
+  [data-response-email] { display: inline; overflow-wrap: anywhere; }
+  @media(max-width:767px) { .step-panels > fieldset[data-step="0"] .options { grid-template-columns: 1fr 1fr; } .option { min-height: 66px; } .fields { grid-template-columns: 1fr; } }
 </style>
 <script>
+  import { PRIVACY_VERSION } from '../data/privacyConsent';
   import { gsap } from 'gsap';
+  import { proposalServices, formatEventDate } from '../data/proposalOptions';
   const form = document.querySelector<HTMLFormElement>('#quote-form')!;
   const status = document.querySelector<HTMLElement>('#quote-status')!;
   const success = document.querySelector<HTMLElement>('#quote-success')!;
@@ -206,14 +218,34 @@ const standardOptions = quoteOptions.filter(service => ['coffee-break', 'brunch'
   const back = form.querySelector<HTMLButtonElement>('.back')!;
   const next = form.querySelector<HTMLButtonElement>('.next')!;
   let furthestStep = 0;
-  const updateQuantities = () => {
-    for (const input of form.querySelectorAll<HTMLInputElement>('[type="range"]')) {
-      form.querySelector<HTMLOutputElement>(`#${input.name}-value`)!.value = input.value;
-      for (const button of form.querySelectorAll<HTMLButtonElement>(`[data-adjust="${input.name}"]`)) {
-        button.disabled = button.dataset.direction === '-1' ? +input.value <= +input.min : +input.value >= +input.max;
+  const dateInput = form.querySelector<HTMLInputElement>('[name="eventDate"]')!;
+  const noDate = form.querySelector<HTMLInputElement>('[name="dateUnknown"]')!;
+  const syncDate = () => {
+    dateInput.disabled = noDate.checked;
+    dateInput.required = !noDate.checked;
+    if (noDate.checked) dateInput.value = '';
+  };
+  noDate.addEventListener('change', syncDate);
+  syncDate();
+  const validatePanel = (index: number) => {
+    const controls = [...panels[index].querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input,select,textarea')];
+    for (const control of controls) {
+      if (control.disabled) continue;
+      if (control.required && control.type !== 'radio' && !control.value.trim()) control.setCustomValidity('Completa este campo para continuar.');
+      else control.setCustomValidity('');
+      if (!control.checkValidity()) {
+        showStep(index);
+        control.reportValidity();
+        control.focus();
+        return false;
       }
     }
+    return true;
   };
+  form.addEventListener('input', event => {
+    const target = event.target as HTMLInputElement;
+    target.setCustomValidity?.('');
+  });
   const showStep = (step: number, animate = false) => {
     if (pending) return;
     const direction = step >= currentStep ? 1 : -1;
@@ -233,17 +265,17 @@ const standardOptions = quoteOptions.filter(service => ['coffee-break', 'brunch'
       else button.removeAttribute('aria-current');
     });
     back.hidden = step === 0;
-    next.hidden = step !== 1;
+    next.hidden = step === 2;
     submit.hidden = step !== 2;
     status.textContent = '';
     const data = new FormData(form);
-    const selected = [...form.querySelectorAll<HTMLInputElement>('[name="services"]:checked')].map(input => input.closest('label')!.querySelector('strong')!.textContent);
-    const labels = [selected[0] || 'Tu servicio', step === 2 ? `${data.get('people')} personas · ${data.get('hours')} h` : 'Tu evento', 'Tus datos'];
+    const selected = proposalServices.find(service => service.id === data.get('service'))?.title;
+    const labels = [selected || 'Tu evento', step === 2 ? String(data.get('commune')) : 'Lugar y detalles', 'Tus datos'];
     form.querySelectorAll<HTMLButtonElement>('[data-go-step]').forEach((button, index) => {
       button.querySelector('.step-label')!.textContent = labels[index];
       button.setAttribute('aria-label', `Paso ${index + 1}: ${labels[index]}`);
     });
-    form.querySelector('.selection-summary')!.textContent = `${selected.join(' · ')} — ${data.get('people')} personas · ${data.get('hours')} horas`;
+    form.querySelector('.selection-summary')!.textContent = `${selected || ''} · ${data.get('people')} personas · ${formatEventDate(String(data.get('eventDate') || ''))}`;
     panels[step].focus({ preventScroll: true });
     alignIfMoved();
     panels[step].getAnimations().forEach(animation => animation.cancel());
@@ -251,10 +283,8 @@ const standardOptions = quoteOptions.filter(service => ['coffee-break', 'brunch'
   };
   const navigateTo = (step: number, animate = false) => {
     if (pending || step === currentStep) return;
-    if (step > 0 && !form.querySelector('[name="services"]:checked')) {
-      status.textContent = 'Selecciona al menos un servicio para continuar.';
-      form.querySelector<HTMLInputElement>('[name="services"]')?.focus();
-      return;
+    if (step > currentStep) {
+      for (let index = 0; index < step; index++) if (!validatePanel(index)) return;
     }
     showStep(step, animate);
   };
@@ -262,16 +292,10 @@ const standardOptions = quoteOptions.filter(service => ['coffee-break', 'brunch'
     button.disabled = Number(button.dataset.goStep) > 0;
     button.addEventListener('click', event => navigateTo(Number(button.dataset.goStep), event.detail > 0));
   });
-  form.querySelectorAll<HTMLInputElement>('[name="services"]').forEach(input => {
-    input.addEventListener('click', event => {
-      if (input.checked) navigateTo(1, event.detail > 0);
-    });
-    input.addEventListener('change', () => { if (input.checked && currentStep === 0) navigateTo(1); });
-  });
-  next.addEventListener('click', event => navigateTo(2, event.detail > 0));
+  next.addEventListener('click', event => navigateTo(currentStep + 1, event.detail > 0));
   document.querySelectorAll<HTMLAnchorElement>('[data-quote-service]').forEach(link => {
     link.addEventListener('click', event => {
-      const input = [...form.querySelectorAll<HTMLInputElement>('[name="services"]')].find(input => input.value === link.dataset.quoteService);
+      const input = [...form.querySelectorAll<HTMLInputElement>('[name="service"]')].find(input => input.value === link.dataset.quoteService);
       if (!input) return;
       event.preventDefault();
       if (pending) return;
@@ -281,18 +305,11 @@ const standardOptions = quoteOptions.filter(service => ['coffee-break', 'brunch'
       form.hidden = false;
       form.inert = false;
       anchoredScroll = null;
-      showStep(1, event.detail > 0);
+      showStep(0, event.detail > 0);
       history.replaceState(null, '', '#calculadora');
     });
   });
   back.addEventListener('click', event => showStep(Math.max(0, currentStep - 1), event.detail > 0));
-  form.querySelectorAll<HTMLInputElement>('[type="range"]').forEach(input => input.addEventListener('input', updateQuantities));
-  form.querySelectorAll<HTMLButtonElement>('[data-adjust]').forEach(button => button.addEventListener('click', () => {
-    const input = form.querySelector<HTMLInputElement>(`[name="${button.dataset.adjust}"]`)!;
-    if (button.dataset.direction === '1') input.stepUp(); else input.stepDown();
-    updateQuantities();
-  }));
-  updateQuantities();
   form.addEventListener('submit', async event => {
     event.preventDefault();
     if (currentStep < 2) { navigateTo(currentStep + 1); return; }
@@ -300,22 +317,26 @@ const standardOptions = quoteOptions.filter(service => ['coffee-break', 'brunch'
       status.textContent = 'Esta es una vista previa. No se ha enviado ni guardado ninguna cotización.';
       return;
     }
-    if (pending || !form.reportValidity()) return;
+    if (pending) return;
+    for (let index = 0; index < panels.length; index++) if (!validatePanel(index)) return;
     const data = new FormData(form);
     const payload = {
-      services: data.getAll('services'),
+      schemaVersion: 2,
+      privacyAccepted: data.get('privacyAccepted') === 'on',
+      privacyVersion: PRIVACY_VERSION,
+      service: String(data.get('service') || ''),
+      eventDate: String(data.get('eventDate') || ''),
+      dateUnknown: noDate.checked,
       people: Number(data.get('people')),
-      hours: Number(data.get('hours')),
+      commune: String(data.get('commune') || ''),
+      schedule: String(data.get('schedule') || ''),
+      details: String(data.get('details') || '').trim(),
+      company: String(data.get('company') || '').trim(),
       name: String(data.get('name') || '').trim(),
       email: String(data.get('email') || '').trim(),
       phone: String(data.get('phone') || '').trim(),
       website: String(data.get('website') || ''),
     };
-    if (!payload.services.length || !payload.name) {
-      status.textContent = !payload.services.length ? 'Selecciona al menos un servicio.' : 'Escribe tu nombre.';
-      form.querySelector<HTMLInputElement>(!payload.services.length ? '[name="services"]' : '[name="name"]')?.focus();
-      return;
-    }
     if (payload.phone && !/^[+()\d\s.-]{6,30}$/.test(payload.phone)) {
       status.textContent = 'Revisa tu teléfono: utiliza números y, si corresponde, el código de país.';
       form.querySelector<HTMLInputElement>('[name="phone"]')?.focus();
@@ -333,7 +354,7 @@ const standardOptions = quoteOptions.filter(service => ['coffee-break', 'brunch'
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...payload, requestId }),
-        signal: AbortSignal.timeout(25000),
+        signal: AbortSignal.timeout(35000),
       });
       const result = await response.json();
       if (response.status === 429 && result.code === 'rate_limited') {
@@ -342,6 +363,12 @@ const standardOptions = quoteOptions.filter(service => ['coffee-break', 'brunch'
         return;
       }
       if (!response.ok || result.ok !== true || result.requestId !== requestId) throw new Error('not-saved');
+      const values = {
+        service: proposalServices.find(service => service.id === payload.service)!.title,
+        date: formatEventDate(payload.eventDate), people: String(payload.people), commune: payload.commune,
+      };
+      for (const [key, value] of Object.entries(values)) success.querySelector(`[data-summary="${key}"]`)!.textContent = value;
+      success.querySelector('[data-response-email]')!.textContent = payload.email;
       form.hidden = true;
       form.inert = true;
       success.hidden = false;
@@ -378,7 +405,7 @@ const standardOptions = quoteOptions.filter(service => ['coffee-break', 'brunch'
     success.inert = true;
     form.hidden = false;
     form.inert = false;
-    updateQuantities();
+    syncDate();
     showStep(0);
     form.querySelector<HTMLInputElement>('input')?.focus({ preventScroll: true });
   });

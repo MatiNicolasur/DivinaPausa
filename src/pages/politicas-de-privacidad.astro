@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const sections = [
+  ['responsable', 'Quién es responsable'], ['datos', 'Qué datos recogemos'],
+  ['finalidad', 'Para qué los usamos'], ['proveedores', 'Dónde se almacenan'],
+  ['conservacion', 'Cuánto tiempo se conservan'], ['derechos', 'Tus derechos'],
+  ['cookies', 'Cookies y recursos externos'], ['normativa', 'Normativa y actualizaciones'],
+];
+---
+<BaseLayout title="Política de privacidad" description="Información sobre el tratamiento de datos personales en las cotizaciones de Divina Pausa.">
+  <meta slot="head-extra" name="robots" content="noindex, nofollow" />
+  <article class="privacy">
+    <header class="privacy-header">
+      <p class="eyebrow">DIVINA PAUSA · PRIVACIDAD</p>
+      <h1>Tus datos, <em>con claridad.</em></h1>
+      <p>Política de privacidad y tratamiento de datos personales.</p>
+      <small>Borrador del 20 de septiembre de 2026 · Versión 0.1</small>
+    </header>
+    <aside class="draft" aria-label="Estado del documento"><strong>Documento en revisión.</strong> Esta página todavía no es la política definitiva. Falta confirmar el plazo de conservación, los accesos a Google Sheets y el canal encargado de atender tus derechos.</aside>
+    <div class="privacy-layout">
+      <nav aria-label="Contenido de la política"><p>En esta página</p><ol>{sections.map(([id, title]) => <li><a href={`#${id}`}>{title}</a></li>)}</ol></nav>
+      <div class="privacy-content">
+        <section id="responsable"><h2>1. Quién es responsable</h2><p><strong>Productos DivinaPausa SPA</strong>, representada legalmente por <strong>Maureen Andrea Fuentes Hou</strong>, con domicilio comercial en Av. Blanco Encalada 1991, comuna de Santiago (Santiago Centro), Santiago, Región Metropolitana, Chile.</p><p>Correo comercial: <a href="mailto:contacto@divinapausa.cl">contacto@divinapausa.cl</a>.</p><p class="pending">Por confirmar: su uso como canal de privacidad y la persona que atenderá las solicitudes.</p></section>
+        <section id="datos"><h2>2. Qué datos recogemos</h2><p>Al cotizar pedimos nombre, empresa, correo electrónico, servicio, fecha estimada o indicación de que aún no tienes fecha, cantidad de personas y comuna. El teléfono, horario y detalles adicionales son opcionales.</p><p>Registramos la fecha del envío y los identificadores de solicitud y sesión para evitar duplicados y limitar envíos repetidos. No necesitamos nombres de asistentes ni antecedentes de salud en este formulario.</p></section>
+        <section id="finalidad"><h2>3. Para qué los usamos</h2><p>El formulario está diseñado para preparar y responder tu cotización, coordinar sus detalles y prevenir envíos abusivos. No inscribe automáticamente tus datos en una lista publicitaria.</p><p class="pending">Antes de publicar: confirmar los usos comerciales fuera del sitio. El nuevo formulario exige autorización expresa y su integración guarda fecha y versión del texto; este registro requiere actualizar Apps Script antes de publicar.</p></section>
+        <section id="proveedores"><h2>4. Dónde se almacenan</h2><p>La web está alojada en Vercel. Las cotizaciones pasan por el servidor y Google Apps Script y se guardan en Google Sheets. Resend procesa los datos necesarios para enviar el aviso al equipo y la confirmación a la dirección indicada. El buzón comercial conserva una copia de los avisos. No publiques datos de terceros ni antecedentes de salud en el campo de detalles. Estos servicios pueden implicar tratamiento fuera de Chile.</p><p class="pending">Por confirmar: modalidad de la cuenta de Google, personas con acceso, condiciones contractuales y garantías aplicables a transferencias internacionales. No se ha verificado que los datos permanezcan en Chile.</p></section>
+        <section id="conservacion"><h2>5. Cuánto tiempo se conservan</h2><p class="pending">Propuesta pendiente de confirmación: 12 meses desde el último contacto para cotizaciones no contratadas. No es un plazo impuesto por la ley ni una eliminación automática actualmente implementada.</p><p>Los documentos de servicios contratados requieren una conservación diferenciada según su finalidad y las obligaciones aplicables. También deben contemplarse las copias y respaldos.</p></section>
+        <section id="derechos"><h2>6. Tus derechos</h2><p>La Ley 19.628 reconoce derechos de información, modificación, cancelación o bloqueo en los casos que corresponda. También puedes revocar tu autorización, sin efecto retroactivo. El ejercicio de estos derechos es gratuito.</p><p>Para atender una solicitud puede ser necesario verificar tu identidad de forma proporcional. No envíes documentos de identidad ni información sensible sin que te indiquemos un canal adecuado.</p><p class="pending">Antes de publicar: confirmar el canal de atención y asignar a una persona responsable de responder y aplicar las solicitudes.</p></section>
+        <section id="cookies"><h2>7. Cookies y recursos externos</h2><p>El cotizador utiliza una cookie propia de sesión llamada <code>dp_quote_session</code> para limitar solicitudes repetidas. Contiene un identificador firmado, no tu nombre, correo ni teléfono. Ese identificador queda asociado a la cotización almacenada.</p><p>La cookie no tiene una caducidad persistente configurada; su duración depende del navegador y de la restauración de sesiones. No se utiliza en el código para publicidad.</p><p>El sitio carga tipografías desde Google Fonts. Al solicitar esos recursos, el navegador se comunica con Google. Los enlaces a WhatsApp, Instagram y LinkedIn llevan a servicios con sus propias políticas.</p><p class="pending">Antes de cerrar esta sección: verificar cookies y registros efectivos en producción, incluyendo la configuración de Cloudflare y Vercel. La revisión del código no detectó herramientas de analítica ni píxeles publicitarios.</p></section>
+        <section id="normativa"><h2>8. Normativa y actualizaciones</h2><p>Este borrador distingue la <a href="https://www.bcn.cl/leychile/navegar?i=141599" target="_blank" rel="noopener noreferrer">Ley 19.628 vigente</a> de la reforma de la <a href="https://www.bcn.cl/leychile/navegar?i=1209272" target="_blank" rel="noopener noreferrer">Ley 21.719</a>, cuya entrada en vigor figura para el 1 de diciembre de 2026 en el texto legal consultado.</p><p>La versión definitiva debe reflejar el régimen vigente al publicarse, incluyendo los derechos y vías de reclamación aplicables. La fecha y versión permitirán identificar los cambios del documento.</p></section>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+<style>
+  .privacy { background: #f7f3ee; color: #212121; padding: clamp(40px,7vw,90px) clamp(24px,6vw,90px); }
+  .privacy-header,.draft,.privacy-layout { max-width: 1150px; margin-inline: auto; }
+  .privacy-header { padding-bottom: 36px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .14em; }
+  h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.8rem,6vw,5rem); line-height: 1.08; margin: 20px 0; }
+  h1 em { color: #995751; }
+  small { display: block; color: #645650; margin-top: 18px; }
+  .draft { padding: 20px 24px; border: 1px solid #bc8f89; border-radius: 16px; background: #f0ddd8; line-height: 1.7; }
+  .privacy-layout { display: grid; grid-template-columns: 240px minmax(0,1fr); gap: 60px; margin-top: 48px; align-items: start; }
+  nav { position: sticky; top: 170px; }
+  nav p { font-weight: 600; }
+  ol { padding-left: 20px; }
+  li { margin-bottom: 14px; line-height: 1.5; }
+  a { color: #834b45; text-decoration: underline; text-underline-offset: 4px; overflow-wrap: anywhere; }
+  a:focus-visible { outline: 2px solid #834b45; outline-offset: 4px; }
+  section { scroll-margin-top: 170px; padding-bottom: 28px; margin-bottom: 28px; border-bottom: 1px solid #d6c6bc; }
+  h2 { font-family: var(--font-display); font-size: 2rem; font-weight: 400; line-height: 1.25; margin: 0 0 20px; }
+  .privacy-content p { font-size: .95rem; line-height: 1.85; text-align: left; }
+  .pending { border-left: 3px solid #a8615d; padding-left: 16px; color: #65534d; }
+  code { overflow-wrap: anywhere; }
+  @media(max-width: 760px) { .privacy-layout { grid-template-columns: 1fr; gap: 28px; } nav { position: static; } .privacy-header { text-align: left; } }
+</style>

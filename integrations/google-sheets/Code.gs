@@ -7,12 +7,24 @@ function doPost(e) {
   const secret = properties.getProperty('QUOTES_SCRIPT_TOKEN');
   if (!secret || data.token !== secret) return reply({ ok: false, code: 'invalid_token' });
   if (typeof data.sessionId !== 'string' || !/^[a-f0-9-]{36}$/.test(data.sessionId)) return reply({ ok: false });
-  const services = { 'coffee-break': 'Coffee break', brunch: 'Brunch', almuerzo: 'Almuerzo', 'after-office': 'After office', tablas: 'Tablas y cocktail', paella: 'Paella presencial' };
+  if (data.privacyAccepted !== true || data.privacyVersion !== '2026-10-02-v1') return reply({ ok: false, code: 'consent_required' });
+  const v2 = data.schemaVersion === 2;
+  if (v2) {
+    const schedules = ['', 'Mañana', 'Mediodía', 'Tarde', 'Jornada completa', 'Por definir'];
+    if (!['coffee-break', 'brunch', 'almuerzo', 'por-definir'].includes(data.service) ||
+        typeof data.dateUnknown !== 'boolean' || typeof data.eventDate !== 'string' ||
+        (data.dateUnknown ? data.eventDate !== '' : (!/^\d{4}-\d{2}-\d{2}$/.test(data.eventDate) || !Number.isFinite(Date.parse(data.eventDate)) || new Date(data.eventDate).toISOString().slice(0, 10) !== data.eventDate)) ||
+        typeof data.company !== 'string' || !data.company.trim() || data.company.length > 120 ||
+        typeof data.commune !== 'string' || !data.commune.trim() || data.commune.length > 120 ||
+        !schedules.includes(data.schedule) || typeof data.details !== 'string' || data.details.length > 2000) return reply({ ok: false });
+    data.services = [data.service];
+  }
+  const services = { 'por-definir': 'Aún no lo tengo claro', 'coffee-break': 'Coffee break', brunch: 'Brunch', almuerzo: 'Almuerzo', 'after-office': 'After office', tablas: 'Tablas y cocktail', paella: 'Paella presencial' };
   if (typeof data.requestId !== 'string' || !/^[0-9a-f-]{36}$/i.test(data.requestId) ||
       !Array.isArray(data.services) || !data.services.length || data.services.length > 6 ||
       data.services.some(id => !Object.prototype.hasOwnProperty.call(services, id)) ||
       !Number.isInteger(data.people) || data.people < 1 || data.people > 10000 ||
-      !Number.isInteger(data.hours) || data.hours < 1 || data.hours > 12 ||
+      (!v2 && (!Number.isInteger(data.hours) || data.hours < 1 || data.hours > 12)) ||
       typeof data.name !== 'string' || !data.name.trim() || data.name.length > 120 ||
       typeof data.email !== 'string' || data.email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) ||
       typeof data.phone !== 'string' || data.phone.length > 30) return reply({ ok: false });
@@ -25,7 +37,7 @@ function doPost(e) {
     if (!sheet) return reply({ ok: false, code: 'missing_sheet' });
     const last = sheet.getLastRow();
     if (last > 1 && sheet.getRange(2, 1, last - 1, 1).createTextFinder(data.requestId).matchEntireCell(true).findNext()) {
-      return reply({ ok: true, requestId: data.requestId });
+      return reply({ ok: true, requestId: data.requestId, schemaVersion: v2 ? 2 : 1, privacyVersion: data.privacyVersion, duplicate: true });
     }
     // Persistent shared limit, checked inside the lock; retries above are free.
     const now = Date.now();
@@ -36,15 +48,19 @@ function doPost(e) {
       .filter(time => time > now - windowMs).sort((a, b) => a - b) : [];
     if (recent.length >= 3) return reply({ ok: false, code: 'rate_limited', retryAfter: Math.ceil((recent[recent.length - 3] + windowMs - now) / 1000) });
     sheet.getRange(1, 9).setValue('Sesión');
+    ['Empresa', 'Fecha estimada', 'Sin fecha', 'Comuna', 'Horario', 'Detalles', 'Versión', 'Autorización', 'Fecha autorización', 'Versión privacidad'].forEach((title, index) => sheet.getRange(1, 10 + index).setValue(title));
     // Prefix text to prevent user input from executing as a spreadsheet formula.
     const safeText = value => "'" + String(value);
     sheet.appendRow([
       data.requestId, new Date().toISOString(), safeText(data.name.trim()),
       safeText(data.email.trim()), safeText(data.phone.trim()),
-      data.services.map(id => services[id]).join(', '), data.people, data.hours, data.sessionId
+      data.services.map(id => services[id]).join(', '), data.people, v2 ? '' : data.hours, data.sessionId,
+      safeText(v2 ? data.company.trim() : ''), v2 ? data.eventDate : '',
+      v2 ? data.dateUnknown : '', safeText(v2 ? data.commune : ''),
+      safeText(v2 ? data.schedule : ''), safeText(v2 ? data.details.trim() : ''), v2 ? 2 : 1, true, new Date().toISOString(), data.privacyVersion
     ]);
     SpreadsheetApp.flush();
-    return reply({ ok: true, requestId: data.requestId });
+    return reply({ ok: true, requestId: data.requestId, schemaVersion: v2 ? 2 : 1, privacyVersion: data.privacyVersion, duplicate: false });
   } catch (_) { return reply({ ok: false, code: 'sheet_write_failed' }); }
   finally { lock.releaseLock(); }
 }

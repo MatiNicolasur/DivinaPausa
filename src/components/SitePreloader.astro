@@ -1,0 +1,53 @@
+<div id="site-preloader" hidden role="status" aria-label="Cargando Divina Pausa">
+  <span class="preloader-name">Divina<br /><em>Pausa.</em></span>
+  <span class="preloader-track" aria-hidden="true"><span></span></span>
+</div>
+
+<script is:inline>
+  (() => {
+    const loader = document.getElementById('site-preloader');
+    if (!loader) return;
+    const controller = new AbortController();
+    let finished = false;
+    let deadline;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      clearTimeout(deadline);
+      controller.abort();
+      loader.classList.add('is-ready');
+      window.setTimeout(() => { loader.hidden = true; }, 200);
+    };
+    loader.hidden = false;
+    // Never wait for below-the-fold lazy images, fonts or third-party requests.
+    deadline = window.setTimeout(finish, 2500);
+    const waitForHero = () => {
+      if (finished) return;
+      const images = [...document.querySelectorAll('img[data-preload]')];
+      Promise.all(images.map(img => new Promise(resolve => {
+        const decoded = () => img.decode().catch(() => {}).then(resolve);
+        if (img.complete) return decoded();
+        img.addEventListener('load', decoded, { once: true, signal: controller.signal });
+        img.addEventListener('error', resolve, { once: true, signal: controller.signal });
+      }))).then(finish);
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', waitForHero, { once: true, signal: controller.signal });
+    } else waitForHero();
+    // Do not conceal content on keyboard interaction or history restoration.
+    window.addEventListener('keydown', finish, { once: true, signal: controller.signal });
+    window.addEventListener('pageshow', event => { if (event.persisted) finish(); }, { signal: controller.signal });
+  })();
+</script>
+
+<style>
+  #site-preloader { position: fixed; inset: 0; z-index: 10000; display: grid; place-content: center; gap: 24px; background: #212121; color: #e5b1ae; text-align: center; pointer-events: none; transition: opacity 180ms ease-out; animation: preloader-failsafe 0s 3s forwards; }
+  #site-preloader[hidden] { display: none; }
+  #site-preloader.is-ready { opacity: 0; }
+  .preloader-name { font-family: var(--font-display), Georgia, serif; font-size: 3rem; line-height: .9; }
+  .preloader-track { width: 100px; height: 2px; overflow: hidden; background: #ffffff20; justify-self: center; }
+  .preloader-track span { display: block; width: 100%; height: 100%; background: #e5b1ae; animation: preloader-pulse 1s ease-in-out infinite; }
+  @keyframes preloader-pulse { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+  @keyframes preloader-failsafe { to { visibility: hidden; } }
+  @media (prefers-reduced-motion: reduce) { #site-preloader { transition: none; } .preloader-track span { animation: none; } }
+</style>

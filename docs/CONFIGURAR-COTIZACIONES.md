@@ -1,3 +1,5 @@
+> Actualización de octubre de 2026: el formulario de tres pasos usa el esquema v2. Seguir primero [FORMULARIO-PROPUESTAS.md](./FORMULARIO-PROPUESTAS.md) para actualizar Apps Script y configurar Resend.
+
 # Activar las cotizaciones
 
 Hoja creada: [cotizaciones divinapausa](https://docs.google.com/spreadsheets/d/1D78jwI4qbREWRIwJ1g2GEM-mIr2BXEmMs_4HOuaXIj4/edit).

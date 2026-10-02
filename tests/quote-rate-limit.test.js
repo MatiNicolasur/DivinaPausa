@@ -32,7 +32,7 @@ test('shared store limits fourth quote, allows retries and expires the window', 
     SpreadsheetApp:{openById: () => ({getSheetByName: () => sheet}),flush(){}},
   });
   vm.runInContext(readFileSync(new URL('../integrations/google-sheets/Code.gs', import.meta.url),'utf8'), context);
-  const send = n => context.doPost({postData:{contents:JSON.stringify({token:'secret',sessionId:'11111111-1111-4111-8111-111111111111',requestId:`00000000-0000-4000-8000-${String(n).padStart(12,'0')}`,services:['brunch'],people:50,hours:2,name:'Test',email:'test@example.com',phone:''})}});
+  const send = (n, patch = {}) => context.doPost({postData:{contents:JSON.stringify({privacyAccepted:true,privacyVersion:'2026-10-02-v1',token:'secret',sessionId:'11111111-1111-4111-8111-111111111111',requestId:`00000000-0000-4000-8000-${String(n).padStart(12,'0')}`,services:['brunch'],people:50,hours:2,name:'Test',email:'test@example.com',phone:'',...patch})}});
   for (let i=1;i<=3;i++) assert.equal(send(i).ok,true);
   assert.equal(send(4).code,'rate_limited');
   assert.equal(send(1).ok,true);
@@ -40,4 +40,14 @@ test('shared store limits fourth quote, allows retries and expires the window', 
   rows[0][1] = new Date(Date.now()-901000).toISOString();
   assert.equal(send(4).ok,true);
   assert.equal(rows.length,4);
+  rows.forEach(row => { row[1] = new Date(Date.now()-901000).toISOString(); });
+  const proposal = {schemaVersion:2,service:'por-definir',eventDate:'',dateUnknown:true,company:'=malicious()',commune:'Santiago',schedule:'Mañana',details:'+formula',people:350};
+  assert.equal(send(5,proposal).schemaVersion,2);
+  assert.equal(rows[4][6],350);
+  assert.equal(rows[4][7],'');
+  assert.equal(rows[4][9],"'=malicious()");
+  assert.equal(rows[4][14],"'+formula");
+  assert.equal(send(5,proposal).duplicate,true);
+  assert.equal(rows.length,5);
+  assert.equal(send(6,{...proposal,eventDate:'2026-02-30',dateUnknown:false}).ok,false);
 });

@@ -11,7 +11,7 @@ Contacto para consultas y solicitudes sobre datos personales: [PENDIENTE: confir
 
 ## Cotizaciones
 
-El formulario solicita nombre y correo electrónico, y permite agregar un teléfono opcional. También recoge el servicio elegido, cantidad de personas y horas de servicio. Al enviar una solicitud se registran su fecha, un identificador de solicitud y un identificador de sesión utilizado para limitar envíos repetidos.
+El formulario actualizado solicita nombre, empresa y correo electrónico, y permite agregar un teléfono opcional. También recoge servicio, fecha estimada o ausencia de fecha, cantidad de asistentes y comuna, además de horario y detalles opcionales. Al enviar una solicitud se registran su fecha, un identificador de solicitud y un identificador de sesión utilizado para limitar envíos repetidos.
 
 Utilizamos esta información para preparar y responder la cotización y prevenir envíos abusivos. El teléfono es opcional y omitirlo no impide solicitar una cotización. El formulario no solicita datos de salud ni información de asistentes individuales.
 
@@ -54,7 +54,7 @@ En el código revisado no se encontraron herramientas de analítica ni píxeles 
 - Crear la página y sus enlaces cuando estén completos los datos del responsable y el texto.
 - Añadir una casilla sin marcar en el paso de contacto: «Autorizo el uso de mis datos para gestionar y responder esta cotización, según la Política de Privacidad».
 - Validar la aceptación en navegador, API y Apps Script; no basta con una casilla visual.
-- Añadir columnas después de A:I, conservando las existentes: aceptación, fecha del servidor y versión de la política/texto. Guardar cada versión del texto para poder demostrar qué se aceptó.
+- Añadir columnas desde Q, conservando A:P: aceptación, fecha del servidor y versión de la política/texto. Guardar cada versión del texto para poder demostrar qué se aceptó.
 - No marcar retrospectivamente como consentidas las cotizaciones existentes.
 - Actualizar Apps Script y verificar persistencia antes de activar la nueva versión del formulario. Mantener reintentos sin duplicados y probar rechazo sin consentimiento.
 - Confirmar acceso restringido a Sheets, autenticación en dos pasos y procedimiento de atención y eliminación. No afirmar medidas que no estén verificadas.
@@ -66,3 +66,17 @@ En el código revisado no se encontraron herramientas de analítica ni píxeles 
 - [Ley 21.719: reforma aplicable desde el 1 de diciembre de 2026; transparencia y transferencias internacionales](https://www.bcn.cl/leychile/navegar?i=1209272).
 
 Este borrador necesita completar los hechos del negocio y validar jurídicamente la versión final; no acredita por sí solo cumplimiento.
+
+## Avance del 20 de septiembre de 2026
+
+Se creó `src/pages/politicas-de-privacidad.astro` con índice, secciones, datos confirmados y avisos de borrador. Se enlazó desde el pie de página local. Incluye `noindex, nofollow` y no se añadió al sitemap; esto no protege el acceso ni evita que se publique al desplegar. No desplegar este borrador como política definitiva.
+
+La casilla y su registro en API/Apps Script aún no están implementados. Continúan pendientes las respuestas sobre cuenta, accesos, conservación, usos comerciales y canal de derechos. La existencia de la página no acredita cumplimiento.
+
+Actualización normativa consultada:
+- El [Ministerio de Economía anunció una propuesta de aplazamiento a diciembre de 2027](https://www.economia.gob.cl/2026/09/01/gobierno-propone-ampliar-plazo-para-implementar-nueva-ley-de-proteccion-de-datos-y-institucionalidad.htm). No tratar el anuncio como una modificación legal vigente; contrastar nuevamente al publicar.
+- El [Decreto 662](https://www.bcn.cl/leychile/navegar?idNorma=1227971) regula modelos voluntarios de prevención de infracciones. No equivale a exigir que toda web adopte un modelo certificado ni determina por sí solo un banner de cookies.
+
+## Integración preparada el 2 de octubre de 2026
+
+Resend queda desactivado por defecto. Al activarlo, recibirá los datos de la solicitud para enviar un aviso a contacto@divinapausa.cl. Incluir a Resend y las copias del buzón en la revisión de proveedores, conservación y eliminación antes de publicar. Consultar FORMULARIO-PROPUESTAS.md. Las columnas J:P ahora contienen los campos nuevos; las futuras columnas de consentimiento deben agregarse desde Q.

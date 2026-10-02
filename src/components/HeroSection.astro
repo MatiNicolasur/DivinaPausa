@@ -33,9 +33,8 @@
     width: 100%;
     height: 100vh;
     z-index: 0;
-    background-image: url('/images/eventos/IMG_1315.jpeg');
-    background-size: cover;
-    background-position: center 40%;
+    object-fit: cover;
+    object-position: center 40%;
   }
 
   /* ── Dark overlay sobre la imagen para legibilidad ── */
@@ -295,12 +294,19 @@
       margin-top: auto;
       display: block;
     }
-    .hero-value { max-width: 38ch; text-align: left; }
+    .hero-value {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      max-width: 38ch;
+      text-align: left;
+    }
     .hero-value__text {
       font-size: .9rem;
       line-height: 1.65;
       text-align: left;
-      margin-bottom: 22px;
+      margin: 0;
       text-wrap: pretty;
     }
     .hero-value__text span { display: inline; }
@@ -317,7 +323,7 @@
 
 <section class="hero" aria-label="Inicio">
   <!-- Background image — reemplazar URL en .hero-bg cuando el cliente entregue la imagen -->
-  <div class="hero-bg" aria-hidden="true"></div>
+  <img class="hero-bg" src="/images/eventos/IMG_1315.jpeg" alt="" aria-hidden="true" loading="eager" fetchpriority="high" decoding="async" data-preload />
 
   <!-- Dark overlay + vignette -->
   <div class="hero-overlay" aria-hidden="true"></div>
