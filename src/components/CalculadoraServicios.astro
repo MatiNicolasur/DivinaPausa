@@ -2,6 +2,7 @@
 import { proposalServices, communeOptions, scheduleOptions } from '../data/proposalOptions';
 import { PRIVACY_CONSENT } from '../data/privacyConsent';
 const isPreview = process.env.VERCEL_ENV === 'preview' && process.env.QUOTES_ALLOW_PREVIEW_SEND !== 'true';
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
 ---
 <div class="quote" id="calculadora">
   <form id="quote-form" data-preview={isPreview ? "true" : undefined} novalidate>
@@ -40,6 +41,7 @@ const isPreview = process.env.VERCEL_ENV === 'preview' && process.env.QUOTES_ALL
           <label>Teléfono (opcional)<input name="phone" type="tel" autocomplete="tel" maxlength="30" placeholder="+56 9" /></label>
         </div>
         <label class="privacy-consent"><input type="checkbox" name="privacyAccepted" required /><span>{PRIVACY_CONSENT} <a href="/politicas-de-privacidad" target="_blank" rel="noopener noreferrer">Leer política de privacidad</a>.</span></label>
+        {turnstileSiteKey ? <div class="turnstile-wrap"><div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-action="quote_submit" data-theme="dark" data-language="es"></div><small>Verificación de seguridad protegida por Cloudflare.</small></div> : <p class="hint">La verificación de seguridad aún no está configurada; por ahora no se pueden enviar solicitudes.</p>}
       </fieldset>
       <div class="navigation"><button class="back" type="button" hidden>← Volver</button><button class="next submit" type="button">Continuar →</button><button class="submit" type="submit" hidden>Solicitar propuesta ↗</button></div>
     </div>
@@ -47,6 +49,7 @@ const isPreview = process.env.VERCEL_ENV === 'preview' && process.env.QUOTES_ALL
     <p id="quote-status" role="status" aria-live="polite"></p>
     <noscript><p>Activa JavaScript para enviar el formulario o escríbenos a contacto@divinapausa.cl.</p></noscript>
   </form>
+  {turnstileSiteKey && <script is:inline async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>}
   <div class="success" id="quote-success" hidden inert tabindex="-1">
     <span class="success-icon" aria-hidden="true">✓</span><h3>¡Recibimos tu solicitud!</h3>
     <p>Te responderemos por correo a <strong data-response-email></strong> para confirmar disponibilidad y preparar una propuesta.</p>
@@ -56,6 +59,8 @@ const isPreview = process.env.VERCEL_ENV === 'preview' && process.env.QUOTES_ALL
   <div class="confetti" aria-hidden="true"></div>
 </div>
 <style>
+  .turnstile-wrap { margin: 10px 0 20px; }
+  .turnstile-wrap small { display:block; margin-top:8px; color:#d5cecb; font-size:.72rem; }
   .privacy-consent { display:flex; gap:12px; align-items:flex-start; font-size:.78rem; line-height:1.6; margin-bottom:20px; color:#d5cecb; }
   .privacy-consent input { flex-shrink:0; width:18px; height:18px; accent-color:var(--color-primary); }
   .privacy-consent a { color:var(--color-primary); text-decoration:underline; }
@@ -192,6 +197,7 @@ const isPreview = process.env.VERCEL_ENV === 'preview' && process.env.QUOTES_ALL
   @media(max-width:767px) { .step-panels > fieldset[data-step="0"] .options { grid-template-columns: 1fr 1fr; } .option { min-height: 66px; } .fields { grid-template-columns: 1fr; } }
 </style>
 <script>
+  declare global { interface Window { turnstile?: { reset: () => void } } }
   import { PRIVACY_VERSION } from '../data/privacyConsent';
   import { gsap } from 'gsap';
   import { proposalServices, formatEventDate } from '../data/proposalOptions';
@@ -324,6 +330,7 @@ const isPreview = process.env.VERCEL_ENV === 'preview' && process.env.QUOTES_ALL
       schemaVersion: 2,
       privacyAccepted: data.get('privacyAccepted') === 'on',
       privacyVersion: PRIVACY_VERSION,
+      turnstileToken: String(data.get('cf-turnstile-response') || ''),
       service: String(data.get('service') || ''),
       eventDate: String(data.get('eventDate') || ''),
       dateUnknown: noDate.checked,
@@ -337,6 +344,10 @@ const isPreview = process.env.VERCEL_ENV === 'preview' && process.env.QUOTES_ALL
       phone: String(data.get('phone') || '').trim(),
       website: String(data.get('website') || ''),
     };
+    if (!payload.turnstileToken) {
+      status.textContent = 'Completa la verificación de seguridad antes de enviar.';
+      return;
+    }
     if (payload.phone && !/^[+()\d\s.-]{6,30}$/.test(payload.phone)) {
       status.textContent = 'Revisa tu teléfono: utiliza números y, si corresponde, el código de país.';
       form.querySelector<HTMLInputElement>('[name="phone"]')?.focus();
@@ -348,7 +359,7 @@ const isPreview = process.env.VERCEL_ENV === 'preview' && process.env.QUOTES_ALL
     pending = true;
     submit.disabled = true;
     form.setAttribute('aria-busy', 'true');
-    status.textContent = 'Guardando tu solicitud…';
+    status.textContent = 'Enviando tu solicitud…';
     try {
       const response = await fetch('/api/cotizaciones', {
         method: 'POST',
@@ -357,7 +368,21 @@ const isPreview = process.env.VERCEL_ENV === 'preview' && process.env.QUOTES_ALL
         signal: AbortSignal.timeout(35000),
       });
       const result = await response.json();
-            if (!response.ok || result.ok !== true || result.requestId !== requestId) throw new Error('not-saved');
+      if (result.code === 'turnstile_failed') {
+        status.textContent = 'La verificación venció o no se completó. Vuelve a intentarlo.';
+        window.turnstile?.reset();
+        return;
+      }
+      if (result.code === 'turnstile_unavailable') {
+        status.textContent = 'La verificación de seguridad no está disponible temporalmente. Vuelve a intentarlo en un momento.';
+        window.turnstile?.reset();
+        return;
+      }
+      if (result.code === 'turnstile_not_configured') {
+        status.textContent = 'La verificación de seguridad no está disponible. Avísanos a contacto@divinapausa.cl.';
+        return;
+      }
+      if (!response.ok || result.ok !== true || result.requestId !== requestId) throw new Error('not-sent');
       const values = {
         service: proposalServices.find(service => service.id === payload.service)!.title,
         date: formatEventDate(payload.eventDate), people: String(payload.people), commune: payload.commune,
@@ -383,7 +408,8 @@ const isPreview = process.env.VERCEL_ENV === 'preview' && process.env.QUOTES_ALL
         }
       }
     } catch {
-      status.textContent = 'No pudimos confirmar el guardado. Tus datos siguen aquí: vuelve a intentarlo o escríbenos a contacto@divinapausa.cl.';
+      status.textContent = 'No pudimos confirmar el envío. Tus datos siguen aquí: vuelve a intentarlo o escríbenos a contacto@divinapausa.cl.';
+      window.turnstile?.reset();
     } finally {
       pending = false;
       submit.disabled = false;
@@ -401,6 +427,7 @@ const isPreview = process.env.VERCEL_ENV === 'preview' && process.env.QUOTES_ALL
     form.hidden = false;
     form.inert = false;
     syncDate();
+    window.turnstile?.reset();
     showStep(0);
     form.querySelector<HTMLInputElement>('input')?.focus({ preventScroll: true });
   });

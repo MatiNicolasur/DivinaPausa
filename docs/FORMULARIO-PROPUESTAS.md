@@ -18,13 +18,17 @@ QUOTES_EMAIL_ENABLED=true
 RESEND_API_KEY=clave_privada
 QUOTES_EMAIL_FROM="Divina Pausa <contacto@divinapausa.cl>"
 QUOTES_EMAIL_TO=contacto@divinapausa.cl
+PUBLIC_TURNSTILE_SITE_KEY=clave_publica_del_widget
+TURNSTILE_SECRET_KEY=clave_privada_del_widget
 ```
 
-Verifica `divinapausa.cl` en Resend y configura estos valores en Production y, cuando corresponda, Preview. Nunca usar `PUBLIC_` ni subir la API key al repositorio. Las previews no reciben solicitudes salvo que `QUOTES_ALLOW_PREVIEW_SEND=true` esté habilitada expresamente.
+Verifica `divinapausa.cl` en Resend y configura estos valores en Production y, cuando corresponda, Preview. Nunca uses el prefijo `PUBLIC_` para secretos ni subas claves al repositorio. `PUBLIC_TURNSTILE_SITE_KEY` es pública y se incluye en la página; `TURNSTILE_SECRET_KEY` debe permanecer privada en Vercel. En Cloudflare, registra los hostnames permitidos para el widget (`divinapausa.cl`, `www.divinapausa.cl` y los hostnames de prueba que realmente uses). Las previews no reciben solicitudes salvo que `QUOTES_ALLOW_PREVIEW_SEND=true` esté habilitada expresamente. Después de cambiar variables de entorno, vuelve a desplegar.
 
 ## Protección y límites
 
-Se validan el origen de la petición, campos, tamaño, casilla de autorización y un campo honeypot. Al quitar el almacenamiento de Apps Script se quitó el contador persistente por sesión. El honeypot/origen no detienen bots sofisticados; configura reglas de Cloudflare para el endpoint y activa Turnstile con verificación de servidor antes de abrir las solicitudes al público. No se debe afirmar que hoy existe un límite por sesión.
+El endpoint exige el mismo host en `Origin` y `Host`, valida campos y tamaño, comprueba la casilla de autorización, rechaza el campo honeypot rellenado y verifica en servidor el token de Turnstile, su acción (`quote_submit`) y el hostname. Si falta la clave o Cloudflare no confirma el token, el envío falla cerrado y no se llama a Resend. Las validaciones de origen ayudan contra solicitudes web cruzadas; el honeypot filtra bots básicos. Turnstile añade una verificación anti-bot, pero no reemplaza un límite de frecuencia. Configura además una regla de Cloudflare Rate Limiting para `POST /api/cotizaciones` y ajústala con pruebas reales. No hay hoy un límite persistente por sesión.
+
+Para desarrollo local y Preview puedes usar las claves de prueba oficiales de Turnstile. En estos entornos se acepta su respuesta simulada (`action: test`, `hostname: localhost`); en Production solo se acepta `action: quote_submit` con el hostname real de la petición. Prueba envío aceptado, rechazo del token, servicio de verificación inaccesible y ausencia de variables. Comprueba que solo el envío validado produce correos en Resend. No uses datos personales reales en Preview.
 
 ## Privacidad operativa pendiente
 
