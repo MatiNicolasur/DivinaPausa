@@ -13,14 +13,14 @@ export function proposalConfirmation(quote) {
   const text = `Hola:\n\nGracias por pensar en Divina Pausa. Ya recibimos tu solicitud. Revisaremos los detalles y te responderemos a ${quote.email} para confirmar disponibilidad y preparar una propuesta.\n\n${rows.map(([label, value]) => `${label}: ${value}`).join('\n')}\n\nEsta confirmación no constituye una reserva ni una cotización definitiva.\n\n¿Quieres agregar o cambiar algo? Responde a este correo y lo tendremos en cuenta.\n\nUn abrazo,\nEl equipo de Divina Pausa\ncontacto@divinapausa.cl\nhttps://divinapausa.cl\n\nReferencia: ${quote.requestId}`;
   const html = `<!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><title>${subject}</title>
-<style>@media only screen and (max-width:620px){.outer{padding:16px 8px!important}.pad{padding-left:24px!important;padding-right:24px!important}.title{font-size:34px!important}.summary-label{width:42%!important}}</style></head>
+<style>@media only screen and (max-width:620px){.outer{padding:16px 8px!important}.email-card{width:100%!important;max-width:100%!important;border-radius:18px!important}.pad{padding-left:20px!important;padding-right:20px!important}.brand-logo{width:144px!important}.title{font-size:34px!important}.summary-label{width:42%!important}}</style></head>
 <body style="margin:0;padding:0;background:#f4f0ed;color:#292725;font-family:Arial,Helvetica,sans-serif;-webkit-text-size-adjust:100%">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;mso-hide:all">Tu próxima pausa comienza aquí. Estos son los detalles que recibimos.</div>
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f4f0ed"><tr><td class="outer" align="center" style="padding:40px 16px">
-<!--[if mso]><table role="presentation" width="600"><tr><td><![endif]-->
-<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:600px;background:#fffdfb;border:1px solid #e5ddd7;border-radius:24px;overflow:hidden">
+<!--[if mso]><table role="presentation" align="center" width="560" cellspacing="0" cellpadding="0" border="0"><tr><td><![endif]-->
+<table class="email-card" role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;max-width:560px;margin:0 auto;background:#fffdfb;border:1px solid #e5ddd7;border-radius:24px;overflow:hidden">
 <tr><td class="pad" style="padding:30px 40px;background:#242323;color:#f8f3ed;border-bottom:4px solid #e5b1ae">
-<a href="https://divinapausa.cl" style="text-decoration:none"><img src="https://divinapausa.cl/images/logos/divina-pausa-email.png" width="210" height="102" alt="Divina Pausa" style="display:block;width:210px;max-width:100%;height:auto;border:0;background:#fffdfb;border-radius:8px"></a>
+<a href="https://divinapausa.cl" style="display:inline-block;text-decoration:none"><img class="brand-logo" src="https://divinapausa.cl/images/logos/divina-pausa-email-white.svg" width="160" height="78" alt="Divina Pausa" style="display:block;width:160px;max-width:100%;height:auto;border:0;background:transparent"></a>
 <p style="margin:10px 0 0;font-size:10px;line-height:1.5;letter-spacing:2px;color:#e5b1ae">CATERING · ENCUENTROS · BUENOS MOMENTOS</p></td></tr>
 <tr><td class="pad" style="padding:38px 40px 24px">
 <p style="margin:0 0 16px;font-size:11px;font-weight:bold;letter-spacing:1.5px;color:#83534f">SOLICITUD RECIBIDA</p>

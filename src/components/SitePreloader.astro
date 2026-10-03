@@ -1,5 +1,5 @@
 <div id="site-preloader" hidden role="status" aria-label="Cargando Divina Pausa">
-  <span class="preloader-name">Divina<br /><em>Pausa.</em></span>
+  <img class="preloader-logo" src="/images/logos/Mesa de trabajo 6.svg" alt="" width="210" height="102" loading="eager" fetchpriority="high" decoding="async" />
   <span class="preloader-track" aria-hidden="true"><span></span></span>
 </div>
 
@@ -41,12 +41,12 @@
 </script>
 
 <style>
-  #site-preloader { position: fixed; inset: 0; z-index: 10000; display: grid; place-content: center; gap: 24px; background: #212121; color: #e5b1ae; text-align: center; pointer-events: none; transition: opacity 180ms ease-out; animation: preloader-failsafe 0s 3s forwards; }
+  #site-preloader { position: fixed; inset: 0; z-index: 10000; display: grid; place-content: center; gap: 24px; background: #fff; color: #212121; text-align: center; pointer-events: none; transition: opacity 180ms ease-out; animation: preloader-failsafe 0s 3s forwards; }
   #site-preloader[hidden] { display: none; }
   #site-preloader.is-ready { opacity: 0; }
-  .preloader-name { font-family: var(--font-display), Georgia, serif; font-size: 3rem; line-height: .9; }
-  .preloader-track { width: 100px; height: 2px; overflow: hidden; background: #ffffff20; justify-self: center; }
-  .preloader-track span { display: block; width: 100%; height: 100%; background: #e5b1ae; animation: preloader-pulse 1s ease-in-out infinite; }
+  .preloader-logo { display: block; width: min(180px, 60vw); height: auto; margin: 0 auto; filter: brightness(0) saturate(100%); opacity: .87; }
+  .preloader-track { width: min(140px, 46vw); height: 3px; overflow: hidden; border-radius: 999px; background: #f5e3e1; justify-self: center; }
+  .preloader-track span { display: block; width: 100%; height: 100%; border-radius: inherit; background: #e5b1ae; animation: preloader-pulse 1s ease-in-out infinite; }
   @keyframes preloader-pulse { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
   @keyframes preloader-failsafe { to { visibility: hidden; } }
   @media (prefers-reduced-motion: reduce) { #site-preloader { transition: none; } .preloader-track span { animation: none; } }
