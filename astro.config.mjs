@@ -5,8 +5,8 @@ import quoteHandler from './api/cotizaciones.js';
 
 /** @param {import('vite').ViteDevServer} server */
 const attachQuoteApi = (server) => {
-  const env = loadEnv(server.config.mode, process.cwd(), ['QUOTES_', 'RESEND_']);
-  for (const key of ['QUOTES_EMAIL_ENABLED', 'QUOTES_EMAIL_FROM', 'QUOTES_EMAIL_TO', 'RESEND_API_KEY']) {
+  const env = loadEnv(server.config.mode, process.cwd(), ['QUOTES_', 'RESEND_', 'TURNSTILE_']);
+  for (const key of ['QUOTES_EMAIL_ENABLED', 'QUOTES_EMAIL_FROM', 'QUOTES_EMAIL_TO', 'RESEND_API_KEY', 'TURNSTILE_SECRET_KEY']) {
     if (env[key]) process.env[key] = env[key];
   }
   server.middlewares.use('/api/cotizaciones', (req, res) => {

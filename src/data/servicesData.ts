@@ -97,6 +97,15 @@ export const standardServices = ['coffee-break', 'brunch', 'almuerzo'].map(id =>
   const titles: Record<string, string> = { 'coffee-break': 'Coffee Break', brunch: 'Brunch', almuerzo: 'Almuerzo' };
   return { ...service, title: titles[id], description: descriptions[id], whatsappMessage: whatsappLink(`Hola Divina Pausa, me gustaría cotizar ${titles[id]} para un evento.`) };
 });
+standardServices.push({
+  title: 'Barra móvil',
+  description: 'Una estación de bebidas para acompañar tu evento, con una propuesta coordinada según el formato y la cantidad de asistentes.',
+  imgSrc: '/images/services/service-bar.jpg',
+  imgAlt: 'Cocteles preparados y presentados para un evento',
+  category: 'standard',
+  pricingId: 'barra-movil',
+  whatsappMessage: whatsappLink('Hola Divina Pausa, me gustaría cotizar una barra móvil para un evento.'),
+});
 export const premiumServices = services.filter(s => s.category === 'premium');
 
 export const benefits: Benefit[] = [

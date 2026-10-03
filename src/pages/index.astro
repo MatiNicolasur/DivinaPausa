@@ -58,9 +58,9 @@ import "../styles/page-index.css";
 </style>
 
 <BaseLayout
-  title="Catering en Santiago: coffee break, brunch y almuerzos"
-  description="Coffee break, brunch y almuerzos corporativos en Santiago. Conoce nuestros servicios de catering y cuéntanos qué necesitas para cotizar tu evento."
-  keywords="catering, empresas, eventos, celebraciones, comida gourmet, bebidas frescas, servicio, santiago, chile"
+  title="Catering en Santiago: coffee break, brunch y barra móvil"
+  description="Coffee break, brunch, almuerzos corporativos y barra móvil en Santiago. Cuéntanos qué estás organizando y recibe una propuesta para tu evento."
+  keywords="catering, barra móvil, coffee break, brunch, almuerzos corporativos, eventos, empresas, santiago, chile"
 >
   <!-- ════════════════════════════════════════════
        1. HERO — Diagonal composition Awwwards-style
@@ -118,7 +118,7 @@ import "../styles/page-index.css";
     <div class="servicios__intro-inner">
       <span class="servicios__intro-label">Catálogo</span>
       <h2 class="servicios__intro-title">Propuestas Gastronómicas</h2>
-      <p class="servicios__intro-desc">Coffee break para una reunión, brunch para compartir o un almuerzo para todo el equipo. Cuéntanos la ocasión y preparamos una propuesta para ti.</p>
+      <p class="servicios__intro-desc">Coffee break para una reunión, brunch para compartir, almuerzos para tu equipo o una barra móvil para acompañar el evento. Cuéntanos la ocasión y preparamos una propuesta para ti.</p>
     </div>
   </section>
 
@@ -134,7 +134,7 @@ import "../styles/page-index.css";
               <div class="servicios__standard-card-body">
                 <h3 class="servicios__standard-card-title">{s.title}</h3>
                 <p class="servicios__standard-card-description">{s.description}</p>
-                <div class="service-detail">{s.pricingId === 'coffee-break' ? 'Para reuniones, capacitaciones y pausas de trabajo.' : s.pricingId === 'brunch' ? 'Para encuentros de equipo y celebraciones a media mañana.' : 'Para jornadas corporativas y encuentros alrededor de la mesa.'}</div>
+                <div class="service-detail">{s.pricingId === 'coffee-break' ? 'Para reuniones, capacitaciones y pausas de trabajo.' : s.pricingId === 'brunch' ? 'Para encuentros de equipo y celebraciones a media mañana.' : s.pricingId === 'barra-movil' ? 'Una estación de bebidas para sumar un punto de encuentro.' : 'Para jornadas corporativas y encuentros alrededor de la mesa.'}</div>
               </div>
               <div class="servicios__standard-card-footer">
                 <a class="servicios__standard-card-btn" href="#calculadora" aria-label={`Cotizar ${s.title}`} data-quote-service={s.pricingId} data-cta="servicio">

@@ -1,2 +1,2 @@
-export const PRIVACY_VERSION = '2026-10-02-v3';
-export const PRIVACY_CONSENT = 'Autorizo a Productos DivinaPausa SPA a tratar mis datos para gestionar y responder esta solicitud. Resend enviará los datos al equipo de Divina Pausa y una confirmación a la dirección que indiqué. Cloudflare Turnstile realizará una verificación de seguridad para prevenir envíos automatizados. Esta autorización no incluye publicidad. Revisa la Política de Privacidad para más información.';
+export const PRIVACY_VERSION = '2026-10-03-v4';
+export const PRIVACY_CONSENT = 'Autorizo a Productos DivinaPausa SPA a tratar mis datos para gestionar y responder esta solicitud. Resend entregará la solicitud al equipo y una confirmación a mi correo. Cloudflare Turnstile procesará señales técnicas para prevenir envíos automatizados. No recibiré publicidad por esta autorización. Revisa la Política de Privacidad para más información.';

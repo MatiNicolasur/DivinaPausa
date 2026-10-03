@@ -704,7 +704,7 @@
   .servicios__premium-card { transition: none; }
 }
 
-/* Focused three-service collection: photograph, title, detail and action. */
+/* Focused service collection: photograph, title, detail and action. */
 .servicios__standard { padding-inline: clamp(28px, 5vw, 80px); }
 .servicios__standard-grid { gap: 22px; }
 .servicios__standard-card { min-height: 420px; border: 1px solid #e5b1ae70; border-radius: 28px; background: #212121; box-shadow: 0 8px 28px #21212112; }
@@ -723,5 +723,6 @@
   .servicios__standard-card:hover .servicios__standard-card-img { transform: scale(1.035); }
 }
 @media (min-width: 768px) and (max-width: 991px) { .servicios__standard-grid { grid-template-columns: repeat(3,minmax(0,1fr)); } .servicios__standard-card:last-child { grid-column: auto; } .servicios__standard-card-body, .servicios__standard-card-footer { padding-inline: 18px; } }
+@media (min-width: 768px) { .servicios__standard-card:last-child:nth-child(4) { grid-column: 2; } }
 @media (max-width: 767px) { .servicios__standard-card { min-height: 390px; } }
 @media (prefers-reduced-motion: reduce) { .service-detail { transition: none; transform: none; } .servicios__standard-card:hover .servicios__standard-card-img { transform: none; } }

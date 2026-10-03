@@ -2,12 +2,13 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import handler, { validateQuote } from '../api/cotizaciones.js';
 
-const quote = { privacyAccepted:true, privacyVersion:'2026-10-02-v3', requestId:'12345678-1234-4234-8234-123456789012', schemaVersion:2, service:'brunch', people:250, eventDate:'2026-12-01', dateUnknown:false, commune:'Santiago', schedule:'', details:'', company:'Empresa', name:' Ana ', email:'ana@example.com', phone:'', turnstileToken:'valid-turnstile-token' };
+const quote = { privacyAccepted:true, privacyVersion:'2026-10-03-v4', requestId:'12345678-1234-4234-8234-123456789012', schemaVersion:2, service:'brunch', people:250, eventDate:'2026-12-01', dateUnknown:false, commune:'Santiago', schedule:'', details:'', company:'Empresa', name:' Ana ', email:'ana@example.com', phone:'', turnstileToken:'valid-turnstile-token' };
 
 test('validates required choices and contact while phone and schedule are optional', () => {
   assert.equal(validateQuote(quote).name, 'Ana');
   assert.equal(validateQuote(quote).people, 250);
   assert.equal(validateQuote({...quote, eventDate:'', dateUnknown:true}).dateUnknown, true);
+  assert.equal(validateQuote({...quote, service:'barra-movil'}).service, 'barra-movil');
   for (const patch of [{privacyAccepted:false}, {privacyVersion:'old'}, {name:' '}, {email:'wrong'}, {service:''}, {service:'unknown'}, {company:''}, {commune:''}, {eventDate:'2026-02-30'}, {eventDate:''}, {dateUnknown:true}, {schedule:'unknown'}, {schemaVersion:1}, {people:0}, {people:1.5}, {website:'bot'}, {phone:'letters'}, {turnstileToken:''}]) {
     assert.throws(() => validateQuote({...quote, ...patch}));
   }
@@ -53,6 +54,7 @@ test('sends the request and confirmation through Resend, without calling another
     assert.equal((await run()).statusCode,403);
     assert.equal(calls.length,1);
     process.env.VERCEL_ENV = 'preview';
+    process.env.QUOTES_ALLOW_PREVIEW_SEND = 'true';
     globalThis.fetch=async (url,options) => { calls.push({url,options}); if (url.includes('siteverify')) return {ok:true,json:async()=>({success:true,hostname:'localhost',action:'test'})}; return {ok:true}; };
     calls.length=0;
     assert.equal((await run()).statusCode,200);
