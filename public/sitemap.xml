@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://divinapausa.cl/</loc></url>
-  <url><loc>https://divinapausa.cl/nosotros</loc></url>
+  <url><loc>https://divinapausa.cl/nosotros/</loc></url>
+  <url><loc>https://divinapausa.cl/politicas-de-privacidad/</loc></url>
+  <url><loc>https://divinapausa.cl/servicios/coffee-break-empresas/</loc></url>
+  <url><loc>https://divinapausa.cl/servicios/brunch-empresarial/</loc></url>
+  <url><loc>https://divinapausa.cl/servicios/almuerzos-corporativos/</loc></url>
+  <url><loc>https://divinapausa.cl/servicios/barra-movil-eventos/</loc></url>
 </urlset>

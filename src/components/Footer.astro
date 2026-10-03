@@ -1,21 +1,6 @@
 ---
 const currentYear = new Date().getFullYear();
 
-// FAQ data with questions and answers
-const faqs = [
-  {
-    question: "¿Qué es un evento de catering?",
-    answer: "¡Es una experiencia culinaria sin estrés! Nuestro servicio de catering premium se encarga de todo el proceso: desde el diseño de un menú personalizado según tus gustos y necesidades, pasando por la compra de ingredientes frescos y de primera calidad, hasta la preparación profesional, presentación impecable y servicio experto durante tu evento. Incluimos todo el equipamiento necesario (vajilla, cristalería, mantelería) y personal capacitado para que tú y tus invitados solo tengan que disfrutar de una experiencia gastronómica excepcional. ¡Nos encargamos de cada detalle para que tu evento sea inolvidable!"
-  },
-  {
-    question: "¿Puedo tener un menú con restricciones?",
-    answer: "¡Por supuesto! Nos especializamos en adaptarnos a todas las necesidades. Ya sea vegetariano, vegano, sin gluten, sin lácteos o cualquier otra restricción, crearemos un menú delicioso que todos puedan disfrutar. ¡La variedad es la sal de la vida!"
-  },
-  {
-    question: "¿Qué servicios ofrecen?",
-    answer: "Ofrecemos Coffee Break, Almuerzo, Brunch y Barra móvil para empresas y eventos en Santiago. Cuéntanos cuántas personas asistirán y qué estás organizando para preparar una propuesta y coordinar los detalles."
-  }
-];
 ---
 
 <footer class="footer-section">
@@ -40,24 +25,6 @@ const faqs = [
       </ul>
     </div>
 
-    <div class="footer-resources">
-      <!--<h4>Recursos</h4>
-      <ul>
-        <li><a href="/blog">Blog</a></li>
-        <li><a href="/politicas-de-privacidad">Políticas de privacidad</a></li>
-        <li><a href="/terminos-y-condiciones">Términos y condiciones</a></li>
-        <li><a href="/faq">FAQ</a></li>
-      </ul>-->
-    </div>
-
-    <div class="footer-faq">
-      {faqs.map(faq => (
-        <details class="faq-item">
-          <summary class="faq-question">{faq.question}</summary>
-          <p class="faq-answer">{faq.answer}</p>
-        </details>
-      ))}
-    </div>
   </div>
 
   <div class="footer-bottom">
@@ -68,10 +35,6 @@ const faqs = [
 
 <style>
 
-  .faq-question::after { content: '+'; margin-left: 12px; font-size: 1.3rem; }
-  details[open] > .faq-question::after { content: '−'; }
-  .faq-question { cursor: pointer; color: #fff; font-size: .95rem; min-height: 48px; }
-  .faq-answer { padding: 0 15px 18px; color: #e0d8d4; line-height: 1.7; font-size: .9rem; }
   .footer-bottom p { color: #c6bfbb; }
   /* Footer Styles */
   .footer-section {
@@ -85,7 +48,7 @@ const faqs = [
 
   .footer-grid {
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 2fr;
+    grid-template-columns: 1.5fr 1fr;
     gap: 30px;
     max-width: 1200px;
     margin: 0 auto;
@@ -127,7 +90,7 @@ const faqs = [
     transform: translateY(-3px);
   }
 
-  .footer-menu h2, .footer-resources h4 {
+  .footer-menu h2 {
     font-family: var(--font-primary);
     font-size: 1rem;
     margin-bottom: 20px;
@@ -137,140 +100,28 @@ const faqs = [
     letter-spacing: 0.5px;
   }
 
-  .footer-menu ul, .footer-resources ul {
+  .footer-menu ul {
     list-style: none;
     padding: 0;
     margin: 0;
   }
 
-  .footer-menu li, .footer-resources li {
+  .footer-menu li {
     margin-bottom: 10px;
   }
 
-  .footer-menu a, .footer-resources a {
+  .footer-menu a {
     color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
     transition: color 0.3s ease;
     font-size: 0.85rem;
   }
 
-  .footer-menu a:hover, .footer-resources a:hover {
+  .footer-menu a:hover {
     color: var(--color-primary);
   }
 
-  .footer-faq {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .faq-item {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 6px;
-    overflow: hidden;
-    transition: background-color 0.3s ease;
-  }
-
-  .faq-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-
-  .faq-item {
-    cursor: pointer;
-  }
-
-  .faq-question {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 15px;
-    text-decoration: none;
-  }
-
-  .faq-item h5 {
-    font-family: var(--font-primary);
-    font-size: 0.9rem;
-    color: var(--color-white);
-    font-weight: 500;
-    margin: 0;
-  }
-
-  .faq-item i {
-    color: var(--color-primary);
-    transition: transform 0.3s ease;
-    font-size: 0.8rem;
-  }
-
-  .faq-item:hover i {
-    transform: translateX(5px);
-  }
-
-    /* FAQ Modal Styles */
-  .faq-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .faq-modal.show {
-    display: flex;
-    opacity: 1;
-  }
-
-  .faq-modal-content {
-    background-color: var(--color-dark);
-    padding: 30px;
-    border-radius: 10px;
-    max-width: 500px;
-    width: 90%;
-    position: relative;
-    color: white;
-    animation: modalFadeIn 0.3s ease-out;
-  }
-
-  @keyframes modalFadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .faq-close {
-    position: absolute;
-    top: 15px;
-    right: 25px;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    color: var(--color-primary);
-    transition: color 0.3s ease;
-  }
-
-  .faq-close:hover {
-    color: white;
-  }
-
-  .faq-modal h3 {
-    color: var(--color-primary);
-    margin-top: 0;
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-  }
-
-  .faq-modal p {
-    line-height: 1.6;
-    margin-bottom: 0;
-    color: var(--color-light-pink);
-  }
-
-.footer-bottom {
+  .footer-bottom {
     text-align: center;
     padding-top: 30px;
     margin-top: 30px;
@@ -324,12 +175,8 @@ const faqs = [
 
   @media (max-width: 992px) {
     .footer-grid {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.2fr 1fr;
       gap: 30px;
-    }
-
-    .footer-logo {
-      grid-column: 1 / 3;
     }
   }
 
@@ -343,20 +190,16 @@ const faqs = [
     }
 
     .footer-logo,
-    .footer-menu,
-    .footer-resources,
-    .footer-faq {
+    .footer-menu {
       grid-column: 1 / 2;
     }
 
-    .footer-menu,
-    .footer-resources {
+    .footer-menu {
       display: flex;
       flex-direction: column;
     }
 
-    .footer-menu h2,
-    .footer-resources h4 {
+    .footer-menu h2 {
       margin-bottom: 15px;
     }
   }

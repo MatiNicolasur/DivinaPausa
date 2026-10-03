@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { serviceLandingPages } from '../../data/serviceLandingPages';
+
+export function getStaticPaths() {
+  return serviceLandingPages.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const relatedServices = serviceLandingPages.filter((item) => item.id !== service.id);
+---
+
+<BaseLayout title={service.title} description={service.description} ogImage={service.image}>
+  <article class="service-landing">
+    <section class="service-hero" aria-labelledby="service-title">
+      <div class="service-hero__copy">
+        <p class="service-eyebrow">{service.eyebrow} <span>·</span> Catering para empresas en Santiago</p>
+        <h1 id="service-title">{service.title}</h1>
+        <p class="service-lead">{service.intro}</p>
+        <p class="service-coverage">Atendemos eventos en Santiago y las comunas de la Región Metropolitana.</p>
+        <a class="service-cta" href={`/?servicio=${service.id}#calculadora`}>
+          Cotizar {service.name}
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+      <figure class="service-hero__image">
+        <img src={service.image} alt={service.imageAlt} width="1200" height="900" fetchpriority="high" decoding="async" />
+        <figcaption>Una propuesta de Divina Pausa para compartir en equipo.</figcaption>
+      </figure>
+    </section>
+
+    <section class="service-details" aria-labelledby="service-details-title">
+      <header class="service-section-heading">
+        <p>El servicio</p>
+        <h2 id="service-details-title">Una propuesta para el encuentro que estás organizando.</h2>
+      </header>
+      <div class="service-details__grid">
+        {service.sections.map((section, index) => (
+          <article class="service-detail-card">
+            <span aria-hidden="true">0{index + 1}</span>
+            <h3>{section.title}</h3>
+            <p>{section.body}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="service-occasions" aria-labelledby="occasions-title">
+      <div>
+        <p class="service-eyebrow">¿Para qué ocasión?</p>
+        <h2 id="occasions-title">{service.name} para momentos de trabajo y encuentro.</h2>
+      </div>
+      <ul>
+        {service.occasions.map((occasion) => <li>{occasion}</li>)}
+      </ul>
+    </section>
+
+    <section class="service-request" aria-labelledby="request-title">
+      <p class="service-eyebrow">Santiago y Región Metropolitana</p>
+      <h2 id="request-title">Cuéntanos lo esencial de tu evento.</h2>
+      <p>Indica una fecha estimada, la cantidad de asistentes y la comuna. Revisaremos disponibilidad y te contactaremos para conversar sobre una propuesta.</p>
+      <a class="service-cta" href={`/?servicio=${service.id}#calculadora`}>
+        Solicitar propuesta
+        <span aria-hidden="true">↗</span>
+      </a>
+    </section>
+
+    <nav class="service-related" aria-label="Otros servicios de catering">
+      <p>También ofrecemos</p>
+      <div>
+        {relatedServices.map((item) => <a href={`/servicios/${item.slug}`}>{item.name}<span aria-hidden="true">↗</span></a>)}
+      </div>
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  .service-landing { --service-ink: #212121; --service-pink: #e5b1ae; background: #fff; color: var(--service-ink); }
+  .service-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, .9fr); align-items: center; gap: clamp(32px, 7vw, 96px); max-width: 1440px; margin: 0 auto; padding: clamp(52px, 8vw, 104px) clamp(24px, 7vw, 104px); }
+  .service-hero__copy { max-width: 660px; }
+  .service-eyebrow, .service-section-heading > p, .service-related > p { margin: 0 0 18px; color: #8b5f5a; font-size: .74rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+  .service-eyebrow span { padding-inline: 4px; }
+  .service-hero h1 { margin: 0; font-family: var(--font-display); font-size: clamp(2.7rem, 6vw, 5.6rem); font-weight: 400; line-height: .98; letter-spacing: -.035em; }
+  .service-lead { max-width: 580px; margin: 28px 0 0; color: #514b48; font-size: clamp(1rem, 1.4vw, 1.16rem); line-height: 1.8; }
+  .service-coverage { margin: 18px 0 0; color: #6e6763; font-size: .9rem; line-height: 1.65; }
+  .service-hero__image { position: relative; margin: 0; }
+  .service-hero__image img { display: block; width: 100%; height: clamp(350px, 40vw, 560px); border-radius: 28px; object-fit: cover; }
+  .service-hero__image figcaption { margin: 12px 4px 0; color: #746d68; font-size: .75rem; }
+  .service-cta { display: inline-flex; align-items: center; justify-content: space-between; gap: 32px; min-height: 54px; margin-top: 28px; padding: 0 22px; border: 1px solid #d9a29e; border-radius: 999px; background: var(--service-ink); color: #fff; font-size: .88rem; font-weight: 500; text-decoration: none; transition: transform .25s ease, background .25s ease; }
+  .service-cta span { color: var(--service-pink); font-size: 1.15rem; }
+  .service-cta:hover { transform: translateY(-2px); background: #333; }
+  .service-details { padding: clamp(56px, 8vw, 100px) clamp(24px, 7vw, 104px); background: #f6f3f1; }
+  .service-section-heading { max-width: 800px; margin: 0 auto 40px; text-align: center; }
+  .service-section-heading h2, .service-occasions h2, .service-request h2 { margin: 0; font-family: var(--font-display); font-size: clamp(2rem, 4.6vw, 3.8rem); font-weight: 400; line-height: 1.08; }
+  .service-details__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; max-width: 1100px; margin: 0 auto; }
+  .service-detail-card { min-height: 230px; padding: clamp(24px, 4vw, 44px); border: 1px solid #ead6d3; border-radius: 24px; background: #fff; }
+  .service-detail-card > span { color: #9b6c67; font-size: .7rem; letter-spacing: .12em; }
+  .service-detail-card h3 { margin: 26px 0 12px; font-family: var(--font-display); font-size: clamp(1.35rem, 2vw, 1.8rem); font-weight: 400; line-height: 1.2; }
+  .service-detail-card p { margin: 0; color: #5c5652; font-size: .94rem; line-height: 1.75; }
+  .service-occasions { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 40px; max-width: 1200px; margin: 0 auto; padding: clamp(64px, 9vw, 112px) clamp(24px, 7vw, 80px); }
+  .service-occasions ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+  .service-occasions li { padding: 18px 0; border-bottom: 1px solid #e4deda; font-family: var(--font-display); font-size: clamp(1.25rem, 2vw, 1.7rem); }
+  .service-request { padding: clamp(64px, 9vw, 112px) 24px; background: var(--service-ink); color: #fff; text-align: center; }
+  .service-request .service-eyebrow { color: var(--service-pink); }
+  .service-request h2 { max-width: 780px; margin-inline: auto; color: #fff; }
+  .service-request > p:not(.service-eyebrow) { max-width: 620px; margin: 22px auto 0; color: #ddd5d1; font-size: .95rem; line-height: 1.75; }
+  .service-request .service-cta { background: var(--service-pink); color: var(--service-ink); }
+  .service-request .service-cta span { color: inherit; }
+  .service-related { max-width: 1200px; margin: 0 auto; padding: 52px 24px 64px; text-align: center; }
+  .service-related > p { margin-bottom: 22px; }
+  .service-related > div { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+  .service-related a { display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 16px; border: 1px solid #ead6d3; border-radius: 14px; color: var(--service-ink); font-size: .84rem; text-decoration: none; }
+  .service-related a span { color: #8b5f5a; }
+  .service-related a:hover { border-color: #cf9c97; }
+  @media (max-width: 800px) {
+    .service-hero { grid-template-columns: 1fr; gap: 32px; }
+    .service-hero__image { max-width: 700px; width: 100%; }
+    .service-hero__image img { height: clamp(280px, 65vw, 480px); }
+    .service-occasions { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .service-hero { padding: 42px 20px 52px; }
+    .service-details__grid { grid-template-columns: 1fr; }
+    .service-detail-card { min-height: 0; }
+    .service-cta { width: 100%; max-width: 340px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .service-cta { transition: none; } }
+</style>

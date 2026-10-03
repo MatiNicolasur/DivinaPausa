@@ -3,7 +3,6 @@ export const proposalServices = [
   { id: 'brunch', title: 'Brunch' },
   { id: 'almuerzo', title: 'Almuerzo' },
   { id: 'barra-movil', title: 'Barra móvil' },
-  { id: 'por-definir', title: 'Aún no lo tengo claro' },
 ];
 // Coverage confirmed by Divina Pausa: all 52 communes in the Metropolitan Region.
 export const servedCommunes = [

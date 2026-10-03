@@ -64,7 +64,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
   .privacy-consent { display:flex; gap:12px; align-items:flex-start; font-size:.78rem; line-height:1.6; margin-bottom:20px; color:#d5cecb; }
   .privacy-consent input { flex-shrink:0; width:18px; height:18px; accent-color:var(--color-primary); }
   .privacy-consent a { color:var(--color-primary); text-decoration:underline; }
-  .quote { position: relative; display: grid; width: 100%; max-width: none; margin: auto; padding: clamp(20px, 3vw, 36px); border-radius: 28px; background: var(--color-dark); color: white; overflow: hidden; overflow-anchor: none; scroll-margin-top: 165px; }
+  .quote { position: relative; display: grid; width: 100%; max-width: 1120px; margin: 0 auto; padding: clamp(20px, 3vw, 36px); border-radius: 28px; background: var(--color-dark); color: white; overflow: hidden; overflow-anchor: none; scroll-margin-top: 165px; }
   #quote-form, .success { grid-area: 1 / 1; min-width: 0; }
   .step-panels { display: grid; min-height: 290px; }
   .step-panels > fieldset { grid-area: 1 / 1; align-self: center; width: 100%; }
@@ -194,7 +194,12 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
   .sent-summary dt { color: #d5cecb; font-size: .8rem; }
   .sent-summary dd { margin: 6px 0 0; overflow-wrap: anywhere; }
   [data-response-email] { display: inline; overflow-wrap: anywhere; }
-  @media(max-width:767px) { .step-panels > fieldset[data-step="0"] .options { grid-template-columns: 1fr 1fr; } .option { min-height: 66px; } .fields { grid-template-columns: 1fr; } }
+  @media(max-width:767px) {
+    .quote { padding: 16px; border-radius: 22px; }
+    .step-panels > fieldset[data-step="0"] .options { grid-template-columns: 1fr 1fr; }
+    .option { min-height: 66px; }
+    .fields { grid-template-columns: 1fr; }
+  }
 </style>
 <script>
   declare global { interface Window { turnstile?: { reset: () => void } } }
@@ -315,6 +320,12 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
       history.replaceState(null, '', '#calculadora');
     });
   });
+  const requestedService = new URLSearchParams(window.location.search).get('servicio');
+  if (requestedService) {
+    const requestedOption = [...form.querySelectorAll<HTMLInputElement>('[name="service"]')]
+      .find(input => input.value === requestedService);
+    if (requestedOption) requestedOption.checked = true;
+  }
   back.addEventListener('click', event => showStep(Math.max(0, currentStep - 1), event.detail > 0));
   form.addEventListener('submit', async event => {
     event.preventDefault();
@@ -383,6 +394,13 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
         return;
       }
       if (!response.ok || result.ok !== true || result.requestId !== requestId) throw new Error('not-sent');
+      try {
+        if (localStorage.getItem('dp-meta-pixel-consent-v1') === 'accepted') {
+          window.fbq?.('track', 'Lead', { content_name: 'cotizador_eventos' });
+        }
+      } catch {
+        // El envío de la cotización no debe depender del almacenamiento de preferencias.
+      }
       const values = {
         service: proposalServices.find(service => service.id === payload.service)!.title,
         date: formatEventDate(payload.eventDate), people: String(payload.people), commune: payload.commune,

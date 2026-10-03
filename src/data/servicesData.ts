@@ -130,21 +130,21 @@ export const processSteps: ProcessStep[] = [
   {
     number: "01",
     title: "Consulta Inicial",
-    description: "Nos cuentas tu visión y analizamos tus necesidades, el tipo de evento y presupuesto para crear una propuesta a medida."
+    description: "Nos cuentas qué organizas, cuándo y dónde. Revisamos disponibilidad y necesidades del evento."
   },
   {
     number: "02",
-    title: "Diseño del Menú",
-    description: "Nuestros chefs diseñan un menú exclusivo que refleja tu marca, con sabores únicos y presentaciones impecables."
+    title: "Definimos la propuesta",
+    description: "Te proponemos un menú y servicio según el formato, horario y preferencias de tu equipo."
   },
   {
     number: "03",
-    title: "Preparación",
-    description: "Seleccionamos cada ingrediente y preparamos artesanalmente con altos estándares de calidad y atención al detalle."
+    title: "Coordinamos los detalles",
+    description: "Confirmamos cantidades, horarios y detalles del lugar para organizar el servicio."
   },
   {
     number: "04",
-    title: "El Evento",
-    description: "Montaje impecable, servicio profesional y atención al detalle para que disfrutes y sorprendas a tus invitados."
+    title: "Acompañamos tu evento",
+    description: "Realizamos el servicio acordado y cuidamos cada detalle del encuentro."
   }
 ];

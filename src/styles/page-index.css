@@ -726,3 +726,15 @@
 @media (min-width: 768px) { .servicios__standard-card:last-child:nth-child(4) { grid-column: 2; } }
 @media (max-width: 767px) { .servicios__standard-card { min-height: 390px; } }
 @media (prefers-reduced-motion: reduce) { .service-detail { transition: none; transform: none; } .servicios__standard-card:hover .servicios__standard-card-img { transform: none; } }
+
+/* Four core services: two columns on tablet/desktop, one on narrow screens. */
+.servicios__standard-grid { grid-template-columns: minmax(0, 1fr); }
+.servicios__standard-card { min-height: 390px; }
+@media (min-width: 768px) {
+  .servicios__standard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .servicios__standard-grid > .servicios__standard-card:last-child:nth-child(4) { grid-column: auto; }
+  .servicios__standard-card { min-height: 360px; }
+}
+@media (min-width: 992px) {
+  .servicios__standard-card { min-height: 340px; }
+}

@@ -12,11 +12,12 @@ import { contact } from '../data/contactData';
   <p class="contact-alternative">También puedes escribirnos a <a href={`mailto:${contact.email}`}>{contact.email}</a></p>
 </section>
 <style>
-  .cta { padding: clamp(48px, 7vw, 88px) clamp(28px, 5vw, 80px); background: var(--color-white); position: relative; }
+  .cta { padding: clamp(48px, 7vw, 88px) clamp(20px, 5vw, 80px); background: var(--color-white); position: relative; }
   header { text-align: center; margin: 0 auto 36px; max-width: 850px; }
   header p { color: var(--color-primary-dark); font-size: .8rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
   header .intro { font-size: .95rem; font-weight: 400; letter-spacing: normal; text-transform: none; color: #5f5955; line-height: 1.7; }
   h2 { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.5rem); line-height: 1.15; margin: 12px 0; }
   .contact-alternative { text-align: center; font-size: .85rem; line-height: 1.7; margin: 24px 0 0; overflow-wrap: anywhere; }
   a { color: var(--color-primary-dark); text-decoration: underline; }
+  @media (max-width: 767px) { .cta { padding-inline: 12px; } }
 </style>

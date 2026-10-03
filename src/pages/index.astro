@@ -6,8 +6,13 @@ import EventGallery from "../components/EventGallery.astro";
 import CTASection from "../components/CTASection.astro";
 
 import { standardServices, processSteps } from "../data/servicesData";
+import { serviceLandingPages } from "../data/serviceLandingPages";
 
 import "../styles/page-index.css";
+
+const servicePageHref: Record<string, string> = Object.fromEntries(
+  serviceLandingPages.map(({ id, slug }) => [id, `/servicios/${slug}`]),
+);
 
 ---
 
@@ -58,8 +63,8 @@ import "../styles/page-index.css";
 </style>
 
 <BaseLayout
-  title="Catering en Santiago: coffee break, brunch y barra móvil"
-  description="Coffee break, brunch, almuerzos corporativos y barra móvil en Santiago. Cuéntanos qué estás organizando y recibe una propuesta para tu evento."
+  title="Catering para empresas en Santiago"
+  description="Catering corporativo en Santiago y la Región Metropolitana: coffee breaks, brunch, almuerzos y barra móvil. Solicita una propuesta para tu evento."
   keywords="catering, barra móvil, coffee break, brunch, almuerzos corporativos, eventos, empresas, santiago, chile"
 >
   <!-- ════════════════════════════════════════════
@@ -118,7 +123,7 @@ import "../styles/page-index.css";
     <div class="servicios__intro-inner">
       <span class="servicios__intro-label">Catálogo</span>
       <h2 class="servicios__intro-title">Propuestas Gastronómicas</h2>
-      <p class="servicios__intro-desc">Coffee break para una reunión, brunch para compartir, almuerzos para tu equipo o una barra móvil para acompañar el evento. Cuéntanos la ocasión y preparamos una propuesta para ti.</p>
+      <p class="servicios__intro-desc">Coffee break para una reunión, brunch para compartir, almuerzos para tu equipo o una barra móvil para acompañar el evento. Atendemos eventos en Santiago y las comunas de la Región Metropolitana.</p>
     </div>
   </section>
 
@@ -137,8 +142,8 @@ import "../styles/page-index.css";
                 <div class="service-detail">{s.pricingId === 'coffee-break' ? 'Para reuniones, capacitaciones y pausas de trabajo.' : s.pricingId === 'brunch' ? 'Para encuentros de equipo y celebraciones a media mañana.' : s.pricingId === 'barra-movil' ? 'Una estación de bebidas para sumar un punto de encuentro.' : 'Para jornadas corporativas y encuentros alrededor de la mesa.'}</div>
               </div>
               <div class="servicios__standard-card-footer">
-                <a class="servicios__standard-card-btn" href="#calculadora" aria-label={`Cotizar ${s.title}`} data-quote-service={s.pricingId} data-cta="servicio">
-                  <span>Cotizar</span>
+                <a class="servicios__standard-card-btn" href={servicePageHref[s.pricingId ?? '']} aria-label={`Más información sobre ${s.title}`}>
+                  <span>Más información</span>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
                   </svg>
