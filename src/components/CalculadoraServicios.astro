@@ -394,13 +394,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
         return;
       }
       if (!response.ok || result.ok !== true || result.requestId !== requestId) throw new Error('not-sent');
-      try {
-        if (localStorage.getItem('dp-meta-pixel-consent-v1') === 'accepted') {
-          window.fbq?.('track', 'Lead', { content_name: 'cotizador_eventos' });
-        }
-      } catch {
-        // El envío de la cotización no debe depender del almacenamiento de preferencias.
-      }
+      window.fbq?.('track', 'Lead', { content_name: 'cotizador_eventos' });
       const values = {
         service: proposalServices.find(service => service.id === payload.service)!.title,
         date: formatEventDate(payload.eventDate), people: String(payload.people), commune: payload.commune,

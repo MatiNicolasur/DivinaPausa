@@ -116,19 +116,6 @@ const business = {
 
       <Footer />
     </div>
-    {pixelId && (
-      <aside class="tracking-consent" id="tracking-consent" role="region" aria-label="Preferencias de medición" hidden>
-        <div class="tracking-consent__content">
-          <p class="tracking-consent__title">Tu privacidad importa</p>
-          <p>Con tu permiso, Meta Pixel medirá visitas y solicitudes para evaluar nuestras campañas. No enviaremos a Meta el contenido ni los datos de contacto de tu cotización.</p>
-          <a href="/politicas-de-privacidad/#cookies">Conoce cómo funciona</a>
-          <div class="tracking-consent__actions">
-            <button type="button" data-consent-reject>Solo necesarias</button>
-            <button type="button" data-consent-accept>Aceptar medición</button>
-          </div>
-        </div>
-      </aside>
-    )}
     <style is:global>
       .page-wrapper {
         display: flex;
@@ -139,85 +126,27 @@ const business = {
         flex-grow: 1;
         padding-top: 125px; /* Ajusta este valor según la altura de tu header fijo */
       }
-      .tracking-consent[hidden] { display: none; }
-      .tracking-consent {
-        position: fixed;
-        z-index: 10000;
-        right: max(20px, env(safe-area-inset-right));
-        bottom: max(20px, env(safe-area-inset-bottom));
-        left: max(20px, env(safe-area-inset-left));
-        max-width: 620px;
-        margin-left: auto;
-        padding: 22px 24px;
-        border: 1px solid #ffffff2a;
-        border-radius: 20px;
-        background: #171717;
-        color: #fff;
-        box-shadow: 0 18px 70px #0006;
-        font: 400 .85rem/1.6 Poppins, sans-serif;
-      }
-      .tracking-consent__title { margin: 0 0 6px; font-family: 'Playfair Display', serif; font-size: 1.35rem; }
-      .tracking-consent__content > p:not(.tracking-consent__title) { margin: 0; color: #e0d9d6; }
-      .tracking-consent__content > a { display: inline-block; margin-top: 8px; color: #f0c3c0; text-underline-offset: 3px; }
-      .tracking-consent__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-top: 16px; }
-      .tracking-consent__actions button { min-height: 42px; padding: 9px 16px; border: 1px solid #e5b1ae; border-radius: 999px; background: transparent; color: #fff; font: inherit; cursor: pointer; }
-      .tracking-consent__actions button[data-consent-accept] { background: #e5b1ae; color: #212121; font-weight: 600; }
-      .tracking-consent__actions button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
-      @media (max-width: 560px) {
-        .tracking-consent { right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); left: 12px; padding: 18px; border-radius: 17px; }
-        .tracking-consent__actions { display: grid; grid-template-columns: 1fr 1fr; }
-        .tracking-consent__actions button { padding-inline: 8px; font-size: .77rem; }
-      }
     </style>
     {pixelId && (
       <script define:vars={{ pixelId }}>
-        (() => {
-          const consentKey = 'dp-meta-pixel-consent-v1';
-          const banner = document.getElementById('tracking-consent');
-          if (!/^\d+$/.test(pixelId) || !banner) return;
-
-          let choice = null;
-          try { choice = localStorage.getItem(consentKey); } catch {}
-
-          const loadPixel = () => {
-            if (choice !== 'accepted' || typeof window.fbq === 'function') return;
-            (function(f,b,e,v,n,t,s) {
-              if (f.fbq) return;
-              n = f.fbq = function() { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
-              if (!f._fbq) f._fbq = n;
-              n.push = n;
-              n.loaded = true;
-              n.version = '2.0';
-              n.queue = [];
-              t = b.createElement(e);
-              t.async = true;
-              t.src = v;
-              s = b.getElementsByTagName(e)[0];
-              s.parentNode.insertBefore(t, s);
-            })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-            window.fbq('init', pixelId);
-            window.fbq('track', 'PageView');
-          };
-
-          const saveChoice = (nextChoice) => {
-            choice = nextChoice;
-            try { localStorage.setItem(consentKey, choice); } catch {}
-            banner.hidden = true;
-            if (choice === 'accepted') loadPixel();
-          };
-
-          banner.querySelector('[data-consent-accept]')?.addEventListener('click', () => saveChoice('accepted'));
-          banner.querySelector('[data-consent-reject]')?.addEventListener('click', () => saveChoice('rejected'));
-          document.addEventListener('click', (event) => {
-            const trigger = event.target instanceof Element ? event.target.closest('[data-open-cookie-preferences]') : null;
-            if (!trigger) return;
-            event.preventDefault();
-            banner.hidden = false;
-            banner.querySelector('[data-consent-accept]')?.focus();
-          });
-          if (choice === 'accepted') loadPixel();
-          else if (choice !== 'rejected') banner.hidden = false;
-        })();
+        if (/^\d+$/.test(pixelId) && typeof window.fbq !== 'function') {
+          (function(f,b,e,v,n,t,s) {
+            if (f.fbq) return;
+            n = f.fbq = function() { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = true;
+            n.version = '2.0';
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = true;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s);
+          })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+          window.fbq('init', pixelId);
+          window.fbq('track', 'PageView');
+        }
       </script>
     )}
   </body>
