@@ -53,7 +53,7 @@ export const serviceLandingPages: ServiceLandingPage[] = [
       },
       {
         title: 'La propuesta parte por tu evento',
-        body: 'Para cotizar, indícanos la fecha estimada —o si aún no la tienes—, el número aproximado de asistentes y la comuna. Con esos datos podremos conversar sobre el encuentro y confirmar disponibilidad.',
+        body: 'Para cotizar, indícanos al menos el mes estimado del evento, el número aproximado de asistentes (desde 20 personas) y la comuna. Con esos datos podremos conversar sobre el encuentro y confirmar disponibilidad.',
       },
     ],
   },

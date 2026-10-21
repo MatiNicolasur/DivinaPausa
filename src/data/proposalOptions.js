@@ -18,7 +18,8 @@ export const servedCommunes = [
 export const communeOptions = [...servedCommunes, 'Otra / por definir'];
 export const scheduleOptions = ['Mañana', 'Mediodía', 'Tarde', 'Jornada completa', 'Por definir'];
 export function formatEventDate(value) {
-  if (!value) return 'Todavía no tengo fecha';
+  if (!value) return 'Fecha no indicada';
   const [year, month, day] = value.split('-');
+  if (!day) return `Mes estimado: ${month}/${year}`;
   return `${day}/${month}/${year}`;
 }

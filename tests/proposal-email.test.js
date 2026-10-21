@@ -8,7 +8,7 @@ test('confirmation includes event summary and plain text without claiming a rese
     assert.ok(mail.html.includes(value));
     assert.ok(mail.text.includes(value));
   }
-  assert.match(proposalConfirmation({...quote,eventDate:''}).html,/Todavía no tengo fecha/);
+  assert.match(proposalConfirmation({...quote,eventDate:'2026-12'}).html,/Mes estimado: 12\/2026/);
 });
 test('does not echo name, company or free details into automatic customer email', () => {
   const mail = proposalConfirmation({...quote,name:'PRIVATE_NAME',company:'PRIVATE_COMPANY',details:'PRIVATE_DETAILS'});
@@ -16,5 +16,5 @@ test('does not echo name, company or free details into automatic customer email'
     assert.ok(!mail.html.includes(value));
     assert.ok(!mail.text.includes(value));
   }
-  assert.match(mail.html,/divina-pausa-email\.png/);
+  assert.match(mail.html,/divina-pausa-email-white\.svg/);
 });

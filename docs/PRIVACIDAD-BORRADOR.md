@@ -10,7 +10,7 @@ Correo indicado para contacto: contacto@divinapausa.cl. Falta confirmar que esta
 
 ## Datos y propósito
 
-El formulario pide nombre, empresa, email, servicio, fecha estimada o que aún no está definida, personas y comuna. Teléfono, horario y detalles son opcionales. La casilla de autorización es obligatoria para enviar. La web usa los datos para atender la solicitud comercial concreta, no para agregarlos a publicidad.
+El formulario pide nombre, empresa, email, servicio, al menos el mes estimado del evento, personas (mínimo 20) y comuna. Teléfono, horario y detalles son opcionales. La casilla de autorización es obligatoria para enviar. La web usa los datos para atender la solicitud comercial concreta, no para agregarlos a publicidad.
 
 El sistema envía al equipo la cotización, la versión de la autorización y el instante de recepción. También manda una confirmación resumida a la dirección escrita por la persona. No se envía el nombre ni los detalles libres en la confirmación; el equipo recibe los detalles en el correo interno. La casilla y su texto/version se registran en ese mismo mensaje al equipo.
 

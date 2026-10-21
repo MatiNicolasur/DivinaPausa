@@ -18,8 +18,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
           {proposalServices.map(service => <label class="option"><input type="radio" name="service" value={service.id} required /><span>{service.title}</span></label>)}
         </div></fieldset>
         <div class="fields">
-          <div class="date-field"><label for="quote-date">Fecha estimada (obligatorio elegir una opción)</label><input id="quote-date" type="date" name="eventDate" required /><label class="date-choice"><input type="checkbox" name="dateUnknown" />Todavía no tengo fecha</label></div>
-          <label>Personas estimadas (obligatorio)<input name="people" type="number" min="1" max="10000" step="1" inputmode="numeric" placeholder="Ej.: 250" required /><small>Si aún no tienes el número exacto, puedes indicar una estimación.</small></label>
+          <div class="date-field"><label for="quote-date-type">Fecha del evento (obligatoria; al menos el mes)</label><select id="quote-date-type" aria-label="Precisión de la fecha"><option value="month">Solo sé el mes</option><option value="day">Sé el día exacto</option></select><input id="quote-month" type="month" name="eventDate" aria-label="Mes estimado del evento" required /><input id="quote-day" type="date" name="eventDate" aria-label="Día exacto del evento" hidden disabled /></div>
+          <label>Personas estimadas (mínimo 20)<input name="people" type="number" min="20" max="10000" step="1" inputmode="numeric" placeholder="Ej.: 250" required /><small>Si aún no tienes el número exacto, puedes indicar una estimación desde 20 personas.</small></label>
         </div>
       </fieldset>
       <fieldset data-step="1" tabindex="-1" hidden inert>
@@ -38,7 +38,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
           <label>Nombre (obligatorio)<input name="name" autocomplete="name" maxlength="120" required /></label>
           <label>Empresa (obligatorio)<input name="company" autocomplete="organization" maxlength="120" required /></label>
           <label>Correo (obligatorio)<input name="email" type="email" autocomplete="email" maxlength="254" required /><small>Puede ser tu correo personal o de empresa.</small></label>
-          <label>Teléfono (opcional)<input name="phone" type="tel" autocomplete="tel" maxlength="30" placeholder="+56 9" /></label>
+          <label>Teléfono<input name="phone" type="tel" autocomplete="tel" maxlength="30" placeholder="+56 9" /></label>
         </div>
         <label class="privacy-consent"><input type="checkbox" name="privacyAccepted" required /><span>{PRIVACY_CONSENT} <a href="/politicas-de-privacidad" target="_blank" rel="noopener noreferrer">Leer política de privacidad</a>.</span></label>
         {turnstileSiteKey ? <div class="turnstile-wrap"><div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-action="quote_submit" data-theme="dark" data-language="es"></div><small>Verificación de seguridad protegida por Cloudflare.</small></div> : <p class="hint">La verificación de seguridad aún no está configurada; por ahora no se pueden enviar solicitudes.</p>}
@@ -182,8 +182,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
   .step-panels > fieldset[data-step="0"] .option > span { padding: 16px 12px; font-size: .9rem; }
   .date-field > label:first-child { display: block; font-size: .85rem; margin-bottom: 8px; }
   .date-field > input { width: 100%; color-scheme: dark; }
-  .fields .date-choice { display: flex; flex-direction: row; align-items: center; gap: 10px; font-size: .82rem; margin-top: 12px; }
-  .date-choice input { width: 18px; height: 18px; accent-color: var(--color-primary); }
+  .date-field > select { margin-bottom: 10px; }
   input:disabled { opacity: .4; }
   select,textarea { min-width: 0; width: 100%; border: 1px solid #ffffff55; border-radius: 10px; color: white; background: #292929; padding: 12px; font: inherit; min-height: 48px; }
   select:focus-visible,textarea:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
@@ -229,14 +228,19 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
   const back = form.querySelector<HTMLButtonElement>('.back')!;
   const next = form.querySelector<HTMLButtonElement>('.next')!;
   let furthestStep = 0;
-  const dateInput = form.querySelector<HTMLInputElement>('[name="eventDate"]')!;
-  const noDate = form.querySelector<HTMLInputElement>('[name="dateUnknown"]')!;
+  const dateType = form.querySelector<HTMLSelectElement>('#quote-date-type')!;
+  const monthInput = form.querySelector<HTMLInputElement>('#quote-month')!;
+  const dayInput = form.querySelector<HTMLInputElement>('#quote-day')!;
   const syncDate = () => {
-    dateInput.disabled = noDate.checked;
-    dateInput.required = !noDate.checked;
-    if (noDate.checked) dateInput.value = '';
+    const exactDay = dateType.value === 'day';
+    monthInput.hidden = exactDay;
+    monthInput.disabled = exactDay;
+    monthInput.required = !exactDay;
+    dayInput.hidden = !exactDay;
+    dayInput.disabled = !exactDay;
+    dayInput.required = exactDay;
   };
-  noDate.addEventListener('change', syncDate);
+  dateType.addEventListener('change', syncDate);
   syncDate();
   const validatePanel = (index: number) => {
     const controls = [...panels[index].querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input,select,textarea')];
@@ -344,7 +348,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
       turnstileToken: String(data.get('cf-turnstile-response') || ''),
       service: String(data.get('service') || ''),
       eventDate: String(data.get('eventDate') || ''),
-      dateUnknown: noDate.checked,
+      dateUnknown: false,
       people: Number(data.get('people')),
       commune: String(data.get('commune') || ''),
       schedule: String(data.get('schedule') || ''),

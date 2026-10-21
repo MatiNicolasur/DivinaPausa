@@ -1,15 +1,17 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import handler, { validateQuote } from '../api/cotizaciones.js';
+import { PRIVACY_VERSION } from '../src/data/privacyConsent.js';
 
-const quote = { privacyAccepted:true, privacyVersion:'2026-10-03-v4', requestId:'12345678-1234-4234-8234-123456789012', schemaVersion:2, service:'brunch', people:250, eventDate:'2026-12-01', dateUnknown:false, commune:'Santiago', schedule:'', details:'', company:'Empresa', name:' Ana ', email:'ana@example.com', phone:'', turnstileToken:'valid-turnstile-token' };
+const quote = { privacyAccepted:true, privacyVersion:PRIVACY_VERSION, requestId:'12345678-1234-4234-8234-123456789012', schemaVersion:2, service:'brunch', people:250, eventDate:'2026-12-01', dateUnknown:false, commune:'Santiago', schedule:'', details:'', company:'Empresa', name:' Ana ', email:'ana@example.com', phone:'', turnstileToken:'valid-turnstile-token' };
 
 test('validates required choices and contact while phone and schedule are optional', () => {
   assert.equal(validateQuote(quote).name, 'Ana');
   assert.equal(validateQuote(quote).people, 250);
-  assert.equal(validateQuote({...quote, eventDate:'', dateUnknown:true}).dateUnknown, true);
+  assert.equal(validateQuote({...quote, people:20, eventDate:'2026-12'}).eventDate, '2026-12');
+  assert.equal(validateQuote({...quote, phone:''}).phone, '');
   assert.equal(validateQuote({...quote, service:'barra-movil'}).service, 'barra-movil');
-  for (const patch of [{privacyAccepted:false}, {privacyVersion:'old'}, {name:' '}, {email:'wrong'}, {service:''}, {service:'unknown'}, {company:''}, {commune:''}, {eventDate:'2026-02-30'}, {eventDate:''}, {dateUnknown:true}, {schedule:'unknown'}, {schemaVersion:1}, {people:0}, {people:1.5}, {website:'bot'}, {phone:'letters'}, {turnstileToken:''}]) {
+  for (const patch of [{privacyAccepted:false}, {privacyVersion:'old'}, {name:' '}, {email:'wrong'}, {service:''}, {service:'unknown'}, {company:''}, {commune:''}, {eventDate:'2026-02-30'}, {eventDate:'2026-00'}, {eventDate:'2026-13'}, {eventDate:''}, {dateUnknown:true}, {schedule:'unknown'}, {schemaVersion:1}, {people:0}, {people:19}, {people:19.5}, {website:'bot'}, {phone:'letters'}, {turnstileToken:''}]) {
     assert.throws(() => validateQuote({...quote, ...patch}));
   }
 });
@@ -70,6 +72,8 @@ test('sends the request and confirmation through Resend, without calling another
     assert.equal(unavailable.body.code,'turnstile_unavailable');
     assert.equal(calls.length,1);
     assert.equal((await run({body:{...quote,people:0}})).statusCode,400);
+    assert.equal((await run({body:{...quote,people:19}})).statusCode,400);
+    assert.equal((await run({body:{...quote,eventDate:''}})).statusCode,400);
     assert.equal((await run({method:'GET'})).statusCode,405);
     assert.equal((await run({headers:{'content-type':'application/json',host:'localhost',origin:'https://other.example'}})).statusCode,403);
     assert.equal((await run({headers:{'content-type':'application/json',host:'divinapausa.cl',origin:'http://divinapausa.cl'}})).statusCode,403);

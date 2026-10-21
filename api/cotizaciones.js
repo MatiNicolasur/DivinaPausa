@@ -11,9 +11,11 @@ export function validateQuote(data) {
   if (schemaVersion !== 2 || typeof requestId !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(requestId)) invalid();
   if (!proposalServices.some(option => option.id === service)) invalid();
   if (typeof data.turnstileToken !== 'string' || data.turnstileToken.length < 1 || data.turnstileToken.length > 2048) invalid();
-  if (typeof dateUnknown !== 'boolean' || typeof eventDate !== 'string') invalid();
-  if (dateUnknown ? eventDate !== '' : (!/^\d{4}-\d{2}-\d{2}$/.test(eventDate) || !Number.isFinite(Date.parse(eventDate)) || new Date(eventDate).toISOString().slice(0, 10) !== eventDate)) invalid();
-  if (!Number.isInteger(people) || people < 1 || people > 10000) invalid();
+  if (dateUnknown !== false || typeof eventDate !== 'string') invalid();
+  const validMonth = /^\d{4}-(0[1-9]|1[0-2])$/.test(eventDate);
+  const validDay = /^\d{4}-\d{2}-\d{2}$/.test(eventDate) && Number.isFinite(Date.parse(eventDate)) && new Date(eventDate).toISOString().slice(0, 10) === eventDate;
+  if (!validMonth && !validDay) invalid();
+  if (!Number.isInteger(people) || people < 20 || people > 10000) invalid();
   if (!communeOptions.includes(commune) || (schedule !== '' && !scheduleOptions.includes(schedule))) invalid();
   if (typeof details !== 'string' || details.length > 2000) invalid();
   for (const value of [name, company]) if (typeof value !== 'string' || !value.trim() || value.length > 120) invalid();

@@ -1,6 +1,6 @@
 # Formulario y correo de propuestas
 
-El formulario recoge nombre, empresa, correo, teléfono opcional, servicio, fecha, personas, comuna y detalles opcionales. Una casilla obligatoria registra la versión de privacidad aceptada dentro del aviso que llega al equipo. No se escribe una copia en Sheets ni en otra base de datos del sitio.
+El formulario recoge nombre, empresa, correo, teléfono opcional, servicio, fecha estimada (mes o día exacto), personas (mínimo 20), comuna y detalles opcionales. La fecha es obligatoria. Una casilla obligatoria registra la versión de privacidad aceptada dentro del aviso que llega al equipo. No se escribe una copia en Sheets ni en otra base de datos del sitio.
 
 ## Flujo con Resend
 
